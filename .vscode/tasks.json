@@ -1,0 +1,383 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "flutter:pub:get",
+      "detail": "Get dependencies for the project",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "cloud-download"
+      },
+      "dependsOn": [],
+      "type": "shell",
+      "command": [
+        "flutter pub get"
+      ],
+      "args": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "dart:build_runner:all",
+      "detail": "Generate code for the project",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "code"
+      },
+      "type": "shell",
+      "command": [
+        "dart run build_runner build --delete-conflicting-outputs",
+        "&& dart format --fix -l 120 lib test"
+      ],
+      "dependsOn": [
+        "flutter:pub:get"
+      ],
+      "args": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "dart:build_runner:dir",
+      "detail": "Generate code for the directory",
+      "type": "shell",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "code"
+      },
+      "command": [
+        "dart run build_runner build --build-filter '${fileDirname}/*.dart'",
+        "&& dart format --fix -l 120 '${fileDirname}'"
+      ],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "dependsOn": [
+        "flutter:pub:get"
+      ],
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "dart:build_runner:watch",
+      "detail": "Watch for changes in the project",
+      "type": "shell",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "code"
+      },
+      "command": [
+        "dart run build_runner watch --build-filter \"${input:directory}/**/*.dart\""
+      ],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "dependsOn": [
+        "flutter:pub:get"
+      ],
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "dart:pubspec_generator:generate",
+      "detail": "Generate pubspec file",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "file-text"
+      },
+      "type": "shell",
+      "command": [
+        "fvm dart pub global activate pubspec_generator",
+        "&& fvm dart pub global run pubspec_generator:generate -o lib/src/common/constant/pubspec.yaml.g.dart",
+      ],
+      "dependsOn": [
+        "flutter:pub:get"
+      ],
+      "options": {},
+      "problemMatcher": []
+    },
+    {
+      "label": "dart:sheety_localization:generate",
+      "detail": "Generate localization files from Google Sheets",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "file-code"
+      },
+      "type": "shell",
+      "command": [
+        "fvm dart pub global activate sheety_localization",
+        "&& fvm dart pub global run sheety_localization:generate --credentials=credentials.json",
+        "--sheet=...",
+        "--lib=lib",
+        "--arb=src/l10n",
+        "--gen=src/generated",
+        "--prefix=app",
+        "--author='Author Name <example@gmail.com>'",
+        "--comment='Generated from Google Sheets'",
+        "--context='From Google Sheets'",
+        "--format"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/packages/localization"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "dart:format",
+      "detail": "Format all files in the project",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "lightbulb-autofix"
+      },
+      "type": "shell",
+      "command": [
+        "find lib test ",
+        "-path '*/generated/*' -prune -o ",
+        "-type f -name '*.dart' ",
+        "! -name '*.*.dart' ",
+        "! -name 'messages_.*.dart' ",
+        "! -name 'l10n.dart' ",
+        "-print0 | xargs -0 dart format --set-exit-if-changed --line-length 120"
+      ],
+      "dependsOn": [],
+      "args": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "dart:format:package:ui",
+      "detail": "Format all files in the project",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "lightbulb-autofix"
+      },
+      "type": "shell",
+      "command": [
+        "find lib test ",
+        "-path '*/generated/*' -prune -o ",
+        "-type f -name '*.dart' ",
+        "! -name '*.*.dart' ",
+        "! -name 'messages_.*.dart' ",
+        "! -name 'l10n.dart' ",
+        "-print0 | xargs -0 dart format --set-exit-if-changed --line-length 120"
+      ],
+      "dependsOn": [],
+      "args": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/packages/ui"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "flutter:pub:outdated",
+      "detail": "Check for outdated dependencies",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "lightbulb-autofix"
+      },
+      "type": "shell",
+      "command": [
+        "flutter pub outdated --show-all --dev-dependencies --dependency-overrides --transitive --no-prereleases"
+      ],
+      "dependsOn": [],
+      "args": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "flutter:pub:upgrade",
+      "detail": "Upgrade dependencies",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "lightbulb-autofix"
+      },
+      "type": "shell",
+      "command": [
+        "flutter pub upgrade"
+      ],
+      "dependsOn": [],
+      "args": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "flutter:test:all",
+      "detail": "Run all tests",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "bug",
+      },
+      "dependsOn": [
+        "flutter:pub:get"
+      ],
+      "type": "shell",
+      "command": [
+        "flutter test --color --coverage --concurrency=50 --platform=tester --reporter=expanded --timeout=30s test/unit_test.dart test/widget_test.dart"
+      ],
+      "args": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "flutter:test:feature",
+      "detail": "Run tests for a specific feature",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "bug",
+      },
+      "dependsOn": [
+        "flutter:pub:get"
+      ],
+      "type": "shell",
+      "command": [
+        "flutter test --color --coverage --concurrency=50 --platform=tester --reporter=expanded --timeout=30s --tags=\"${input:featureName}\" test/unit_test.dart test/widget_test.dart"
+      ],
+      "args": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "featureName",
+      "type": "promptString",
+      "description": "Enter the feature name (e.g., 'audo_course'):",
+      "default": "audo_course"
+    }
+  ]
+}
