@@ -1,60 +1,171 @@
 {
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run DEV App (Debug)",
-      "type": "dart",
-      "program": "lib/main.dart",
-      "request": "launch",
+      "name": "debug:dev",
       "cwd": "${workspaceFolder}",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "program": "lib/main.dart",
       "args": [
         "--dart-define-from-file=config/development.json",
+        "--flavor=dev"
       ],
-      "env": {}
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+      /* "preLaunchTask": "dart:build_runner:pubspec", */
+      /* "toolArgs": ["${env:HOME}/.pub-cache/bin/fvm", "flutter"], */
     },
     {
-      "name": "Run DEV App (Debug, Drop database)",
-      "type": "dart",
-      "program": "lib/main.dart",
-      "request": "launch",
+      "name": "debug:fake",
       "cwd": "${workspaceFolder}",
-      "args": [
-        "--dart-define-from-file=config/development.json",
-        "--dart-define=DROP_DATABASE=true"
-      ],
-      "env": {}
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "program": "lib/main.dart",
+      "args": ["--dart-define-from-file=config/fake.json", "--flavor", "dev"],
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+      /* "preLaunchTask": "dart:build_runner:pubspec", */
+      /* "toolArgs": ["${env:HOME}/.pub-cache/bin/fvm", "flutter"], */
     },
     {
-      "name": "Run DEV App (Debug, Memmory database)",
-      "type": "dart",
-      "program": "lib/main.dart",
-      "request": "launch",
+      "name": "debug:dev:web_server",
       "cwd": "${workspaceFolder}",
-      "args": [
-        "--dart-define-from-file=config/development.json",
-        "--dart-define=IN_MEMORY_DATABASE=true"
-      ],
-      "env": {}
-    },
-    {
-      "name": "Run DEV Web Server (Debug)",
       "type": "dart",
-      "program": "lib/main.dart",
       "request": "launch",
-      "cwd": "${workspaceFolder}",
+      "flutterMode": "debug",
+      "program": "lib/main.dart",
       "args": [
         "--dart-define-from-file=config/development.json",
         "--device-id=web-server",
+        "--flavor=dev"
       ],
-      "env": {}
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
     },
     {
-      "name": "Run UI Example (Debug)",
+      "name": "debug:dev:drop_database",
+      "cwd": "${workspaceFolder}",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define-from-file=config/development.json",
+        "--dart-define=DROP_DATABASE=true",
+        "--flavor=dev"
+      ],
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+    },
+    {
+      "name": "debug:dev:integration_test",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "program": "integration_test/app_test.dart",
+      "args": [
+        "--dart-define-from-file=config/development.json",
+        "--flavor=dev"
+      ],
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+    },
+    {
+      "name": "debug:dev:in_memory_database",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "--dart-define-from-file=config/development.json",
+        "--dart-define=IN_MEMORY_DATABASE=true",
+        "--flavor=dev"
+      ],
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+    },
+    {
+      "name": "debug:stage",
+      "cwd": "${workspaceFolder}",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      // "program": "lib/main_stage.dart",
+      "args": [
+        "--dart-define-from-file=config/staging.json",
+        "--flavor=dev"
+        // "--target", "lib/main_stage.dart",
+      ],
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+    },
+    {
+      "name": "profile:dev",
+      "cwd": "${workspaceFolder}",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "profile",
+      "args": [
+        "--dart-define-from-file=config/development.json",
+        "--flavor=dev"
+      ],
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+    },
+    {
+      "name": "release:dev",
+      "cwd": "${workspaceFolder}",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "release",
+      "args": [
+        "--dart-define-from-file=config/development.json",
+        "--flavor",
+        "dev"
+      ],
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+    },
+    {
+      "name": "release:prod",
+      "cwd": "${workspaceFolder}",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "release",
+      "args": [
+        "--dart-define-from-file=config/production.json",
+        "--flavor",
+        "prod"
+      ],
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+    },
+    {
+      "name": "package:ui:debug",
       "flutterMode": "debug",
       "request": "launch",
       "type": "dart",
       "program": "packages/ui/example/lib/main.dart",
-      "env": {},
-    },
-  ]
+      "env": {
+        "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+      }
+    }
+  ],
+  "compounds": []
 }

@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:ui/ui.dart';
 
 /// {@template radial_progress_indicator}
 /// RadialProgressIndicator widget
@@ -44,7 +44,7 @@ class _RadialProgressIndicatorState extends State<RadialProgressIndicator> with 
         child: CustomPaint(
           painter: _RadialProgressIndicatorPainter(
             animation: _curvedAnimation,
-            color: Theme.of(context).indicatorColor,
+            color: Theme.of(context).tabBarTheme.indicatorColor ?? Theme.of(context).uiTheme.color.accent,
           ),
           child: Center(child: widget.child),
         ),

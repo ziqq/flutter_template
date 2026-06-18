@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_template_name/src/common/constant/config.dart';
+import 'package:flutter_template_name/src/common/util/token_util.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/sign_in_data.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,11 +16,14 @@ abstract interface class IAuthenticationRepository {
   Future<void> signOut();
 }
 
-class AuthenticationRepositoryImpl implements IAuthenticationRepository {
-  AuthenticationRepositoryImpl({required SharedPreferences sharedPreferences}) : _sharedPreferences = sharedPreferences;
+class AuthenticationRepository implements IAuthenticationRepository {
+  AuthenticationRepository({required SharedPreferencesAsync sharedPreferences})
+    : _sharedPreferences = sharedPreferences;
 
-  static const String _sessionKey = 'authentication.session';
-  final SharedPreferences _sharedPreferences;
+  static const String _sessionKey = '${Config.storageNamespace}.authentication.session';
+
+  final SharedPreferencesAsync _sharedPreferences;
+
   final StreamController<User> _userController = StreamController<User>.broadcast();
   User _user = const User.unauthenticated();
 
@@ -30,7 +35,7 @@ class AuthenticationRepositoryImpl implements IAuthenticationRepository {
 
   @override
   Future<User> signIn(SignInData data) => Future<User>.delayed(const Duration(seconds: 1), () {
-    final user = User.authenticated(id: data.username);
+    final user = User.authenticated(id: data.username, token: TokenUtil.generate());
     _sharedPreferences.setString(_sessionKey, jsonEncode(user.toJson())).ignore();
     _userController.add(_user = user);
     return user;
@@ -38,7 +43,7 @@ class AuthenticationRepositoryImpl implements IAuthenticationRepository {
 
   @override
   Future<User?> restore() async {
-    final session = _sharedPreferences.getString(_sessionKey);
+    final session = await _sharedPreferences.getString(_sessionKey);
     if (session == null) return null;
     final json = jsonDecode(session);
     if (json case Map<String, Object?> jsonMap) {
@@ -57,11 +62,12 @@ class AuthenticationRepositoryImpl implements IAuthenticationRepository {
 }
 
 @visibleForTesting
-class AuthenticationRepositoryFake implements IAuthenticationRepository {
-  AuthenticationRepositoryFake({Map<String, Object?>? store}) : _store = store ?? <String, Object?>{};
+class AuthenticationRepository$Fake implements IAuthenticationRepository {
+  AuthenticationRepository$Fake({Map<String, Object?>? store}) : _store = store ?? <String, Object?>{};
 
-  static const String _sessionKey = 'authentication.session';
+  static const String _sessionKey = '${Config.storageNamespace}.authentication.session';
   final Map<String, Object?> _store;
+
   final StreamController<User> _userController = StreamController<User>.broadcast();
   User _user = const User.unauthenticated();
 
@@ -73,7 +79,7 @@ class AuthenticationRepositoryFake implements IAuthenticationRepository {
 
   @override
   Future<User> signIn(SignInData data) => Future<User>.delayed(const Duration(seconds: 1), () {
-    final user = User.authenticated(id: data.username);
+    final user = User.authenticated(id: data.username, token: TokenUtil.generate());
     _store[_sessionKey] = jsonEncode(user.toJson());
     _userController.add(_user = user);
     return user;

@@ -1,9 +1,51 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
+
+    id "com.google.gms.google-services" apply false
+    id "com.huawei.agconnect" apply false
 }
+
+// ./gradlew help --no-daemon
+/* android.applicationVariants.all { variant ->
+    def flavorName = variant.flavorName
+    if (flavorName == "stage" ||
+        flavorName == "prod" ||
+        flavorName == "dev" ||
+        flavorName == "gms") {
+        plugins.apply("com.google.gms.google-services")
+    }
+
+    // Add the AppGallery Connect plugin configuration. Please refer to AppGallery Connect Plugin Dependency to select a proper plugin version. https://developer.huawei.com/consumer/en/doc/development/AppGallery-connect-Guides/agc-sdk-changenotes-0000001058732550#section7117746172220
+    if (flavorName == "hms") {
+        plugins.apply("com.huawei.agconnect")
+    }
+} */
+
+
+def taskNames = gradle.startParameter.taskNames.collect { it.toLowerCase() }
+def applyHuaweiPlugin = taskNames.any { it.contains("hms") }
+def applyGoogleServicesPlugin = taskNames.any {
+    it.contains("stage") ||
+    it.contains("prod") ||
+    it.contains("dev") ||
+    it.contains("gms")
+}
+
+if (applyGoogleServicesPlugin) {
+    pluginManager.apply("com.google.gms.google-services")
+}
+
+if (applyHuaweiPlugin) {
+    pluginManager.apply("com.huawei.agconnect")
+}
+
+/* def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} */
 
 android {
     namespace = "dev.flutter.template.flutter_template_name"
@@ -11,23 +53,32 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        sourceCompatibility             = JavaVersion.VERSION_17
+        targetCompatibility             = JavaVersion.VERSION_17
+        // coreLibraryDesugaringEnabled = true
     }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "dev.flutter.template.flutter_template_name"
+
+        // multiDexEnabled = true
+
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        minSdk           = flutter.minSdkVersion
+        targetSdk        = flutter.targetSdkVersion
+        versionCode      = flutter.versionCode
+        versionName      = flutter.versionName
+    }
+
+    signingConfigs {
+        /* release {
+            keyAlias      = keystoreProperties["keyAlias"]
+            keyPassword   = keystoreProperties["keyPassword"]
+            storePassword = keystoreProperties["storePassword"]
+            storeFile     = keystoreProperties["storeFile"] ? file(keystoreProperties["storeFile"]) : null
+        } */
     }
 
     buildTypes {
@@ -35,7 +86,71 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
+            /* ndk {
+                debugSymbolLevel = "SYMBOL_TABLE"
+            } */
         }
+    }
+
+    // Specifies the flavor dimensions you want to use. The order in which you
+    // list each dimension determines its priority, from highest to lowest,
+    // when Gradle merges variant sources and configurations. You must assign
+    // each product flavor you configure to one of the flavor dimensions.
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            dimension "default"
+            manifestPlaceholders += [
+                appname: "[DEV] Template",
+                applink: "template-stage.com"
+            ]
+        }
+        stage {
+            applicationIdSuffix ".stg"
+            dimension "default"
+            manifestPlaceholders += [
+                appname: "[STG] Template",
+                applink: "template-stage.com"
+            ]
+        }
+        // Build `prod` default
+        prod {
+            applicationIdSuffix ""
+            dimension "default"
+            manifestPlaceholders += [
+                appname: "Template",
+                applink: "template.com"
+            ]
+        }
+        // Build `prod` with GMS Services
+        gms {
+            applicationIdSuffix ""
+            dimension "default"
+            manifestPlaceholders += [
+                appname: "Template",
+                applink: "template.com"
+            ]
+        }
+        // Build `prod` with HSM Services
+        hms {
+            applicationIdSuffix ".hms"
+            dimension "default"
+            manifestPlaceholders += [
+                appname: "Template",
+                applink: "template.com"
+            ]
+        }
+    }
+}
+
+/* dependencies {
+    coreLibraryDesugaring(libs.desugarJDKLibs)
+} */
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 

@@ -1,402 +1,413 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'dart:async';
+
+import 'package:control/control.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
 import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
-import 'package:flutter_template_name/src/common/widget/scaffold_padding.dart';
-import 'package:flutter_template_name/src/feature/developer/widget/logs_dialog.dart';
-import 'package:octopus/octopus.dart';
-import 'package:url_launcher/url_launcher_string.dart' as url_launcher;
+import 'package:flutter_template_name/src/common/router/app_navigator.dart';
+import 'package:flutter_template_name/src/common/util/context_extension.dart';
+import 'package:flutter_template_name/src/common/widget/common_back_button.dart';
+import 'package:flutter_template_name/src/common/widget/common_bottom_spacer.dart';
+import 'package:flutter_template_name/src/common/widget/common_padding.dart';
+import 'package:flutter_template_name/src/feature/authentication/widget/authentication_scope.dart';
+import 'package:flutter_template_name/src/feature/bug_report/bug_report_util.dart';
+import 'package:flutter_template_name/src/feature/settings/controller/settings_controller.dart';
+import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';
+import 'package:ui/ui.dart';
 
 /// {@template developer_screen}
-/// DeveloperScreen widget.
+/// DeveloperScreen widget
 /// {@endtemplate}
-class DeveloperScreen extends StatelessWidget {
+class DeveloperScreen extends StatefulWidget {
   /// {@macro developer_screen}
   const DeveloperScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: CustomScrollView(
-      slivers: <Widget>[
-        // --- App bar --- //
-        SliverAppBar(title: Text(Localization.of(context).developer), pinned: true, floating: true, snap: true),
-
-        // --- Authentication --- //
-        _GroupSeparator(title: Localization.of(context).authentication),
-        const _OpenUriTile(title: 'Profile', description: 'Information about current user'),
-        const _OpenUriTile(title: 'Refresh session', description: 'Refresh current user\'s session'),
-        const _OpenUriTile(title: 'Logout', description: 'Logout current user'),
-        SliverPadding(
-          padding: ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),
-          sliver: const SliverToBoxAdapter(child: SizedBox(height: 48, child: Placeholder())),
-        ),
-
-        // --- Application information --- //
-        _GroupSeparator(title: Localization.of(context).application),
-        const _ShowApplicationInfoTile(),
-        const _ShowLicensePageTile(),
-        const _ShowApplicationDependenciesTile(),
-        const _ShowApplicationDevDependenciesTile(),
-        const _ShowLogsScreenTile(),
-
-        // --- Navigation --- //
-        _GroupSeparator(title: Localization.of(context).navigation),
-        const _ResetNavigationTile(),
-
-        // --- Database --- //
-        _GroupSeparator(title: Localization.of(context).database),
-        /* const _ViewDatabaseTile(), */
-        const _ClearDatabaseTile(),
-
-        // --- Useful links --- //
-        _GroupSeparator(title: Localization.of(context).usefulLinks),
-        const _OpenUriTile(title: 'Flutter', description: 'Flutter website', uri: 'https://flutter.dev'),
-        const _OpenUriTile(title: 'Flutter API', description: 'Framework API', uri: 'https://api.flutter.dev'),
-        const _OpenUriTile(title: 'Portal', description: 'User portal'),
-        const _OpenUriTile(title: 'Tasks', description: 'Tasks tracker'),
-        const _OpenUriTile(title: 'Repository', description: 'Project repository'),
-        const _OpenUriTile(title: 'Pull requests', description: 'Pull requests list'),
-        const _OpenUriTile(title: 'Jenkins', description: 'CI/CD pipeline'),
-        const _OpenUriTile(title: 'Figma', description: 'Designs system'),
-        const _OpenUriTile(title: 'Firebase', description: 'Firebase console'),
-        const _OpenUriTile(title: 'Sentry', description: 'Sentry console'),
-
-        /* SliverPadding(
-              padding: ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),
-              sliver: SliverList.list(
-                children: const <Widget>[],
-              ),
-            ), */
-        const SliverToBoxAdapter(child: SizedBox(height: 24)),
-      ],
-    ),
-  );
+  State<DeveloperScreen> createState() => _DebugScreenState();
 }
 
-class _GroupSeparator extends StatelessWidget {
-  const _GroupSeparator({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: ScaffoldPadding.of(context),
-    sliver: SliverToBoxAdapter(
-      child: SizedBox(
-        height: 48,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            const SizedBox(width: 48, child: Divider(indent: 16, endIndent: 16)),
-            Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1),
-            ),
-            const Expanded(child: Divider(indent: 16, endIndent: 16)),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-class _CopyTile extends StatelessWidget {
-  const _CopyTile({required this.title, this.subtitle, this.content});
-
-  final String title;
-  final String? subtitle;
-  final String? content;
+/// State for widget [DeveloperScreen].
+class _DebugScreenState extends State<DeveloperScreen> {
+  late final SettingsController _controller;
 
   @override
-  Widget build(BuildContext context) => ListTile(
-    title: Text(title),
-    // Add QR code generation
-    subtitle: subtitle != null ? Text(subtitle!, maxLines: 1, overflow: TextOverflow.ellipsis) : null,
-    onTap: () {
-      Clipboard.setData(ClipboardData(text: content ?? (subtitle == null ? title : '$title: $subtitle')));
-      ScaffoldMessenger.of(context)
-        ..clearSnackBars()
-        ..showSnackBar(SnackBar(content: Text(Localization.of(context).copied), duration: const Duration(seconds: 3)));
-    },
-  );
-}
+  void initState() {
+    super.initState();
+    _controller = SettingsScope.of(context);
+  }
 
-class _ShowApplicationInfoTile extends StatelessWidget {
-  const _ShowApplicationInfoTile();
+  /// Send logs action
+  void _onSendLogs() {
+    final dependencies = Dependencies.of(context);
+    // final l10n = DeveloperLocalization.of(context);
+    final user = dependencies.authenticationController.state.user;
+    final message = BugReportUtil.generateErrorMessage(
+      user: user,
+      route: 'DeveloperScreen',
+      stackTrace: StackTrace.current,
+      error: Exception('User #${user.id} initiated log sending'),
+      message: 'User #${user.id} requested to send application logs.',
+    );
+    BugReportUtil.instance
+        .sendReport(
+          transport: .sentry,
+          user: user,
+          message: message,
+          metadata: dependencies.metadata,
+          // onError: () => AnimatedCheckIcon.error(context, message: l10n.sendLogsMessageError),
+          // onSuccess: () => AnimatedCheckIcon.succeeded(context, message: l10n.sendLogsMessageSuccess),
+          // onProcess: () => AnimatedCheckIcon.processing(context, message: '${l10n.sendLogsMessage}...'),
+        )
+        .ignore();
+  }
 
-  @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: ScaffoldPadding.of(context),
-    sliver: SliverToBoxAdapter(
-      child: ListTile(
-        title: const Text('Application information'),
-        subtitle: const Text('Show information about the application.', maxLines: 1, overflow: TextOverflow.ellipsis),
-        onTap: () => Octopus.of(context).showDialog<void>(
-          (context) => AboutDialog(
-            /* applicationName: pubspec.name, */
-            applicationVersion: Pubspec.version.representation,
-            applicationIcon: const SizedBox.square(dimension: 64, child: Icon(Icons.apps, size: 64)),
-            children: <Widget>[
-              const _CopyTile(title: 'Name', subtitle: Pubspec.name, content: Pubspec.name),
-              _CopyTile(
-                title: 'Version',
-                subtitle: Pubspec.version.representation,
-                content: Pubspec.version.representation,
-              ),
-              const _CopyTile(title: 'Description', subtitle: Pubspec.description, content: Pubspec.description),
-              const _CopyTile(title: 'Homepage', subtitle: Pubspec.homepage, content: Pubspec.homepage),
-              const _CopyTile(title: 'Repository', subtitle: Pubspec.repository, content: Pubspec.repository),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-class _ShowLicensePageTile extends StatelessWidget {
-  const _ShowLicensePageTile();
-
-  @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: ScaffoldPadding.of(context),
-    sliver: SliverToBoxAdapter(
-      child: ListTile(
-        title: Text(MaterialLocalizations.of(context).viewLicensesButtonLabel),
-        subtitle: Text(
-          MaterialLocalizations.of(context).licensesPageTitle,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        onTap: () => showLicensePage(
+  /// Clear key-value storage action
+  void _onKVStorageClear() {
+    final dependencies = Dependencies.of(context);
+    final user = dependencies.authenticationController.state.user;
+    final key = '${Config.storageNamespace}.${user.id}.whats_app_notifications.promo_code';
+    dependencies.database.removeAll();
+    dependencies.sharedPreferences.remove(key);
+    UI
+        .showSnackBar(
           context: context,
-          applicationName: Pubspec.name,
-          applicationVersion: Pubspec.version.representation,
-          applicationIcon: const SizedBox.square(dimension: 64, child: Icon(Icons.apps, size: 64)),
-          useRootNavigator: true,
-        ),
-      ),
-    ),
-  );
-}
-
-class _ShowApplicationDependenciesTile extends StatelessWidget {
-  const _ShowApplicationDependenciesTile();
+          type: UISnackBarType.success,
+          useHapticFeedback: context.ext.settings.useHapticFeedback(listen: false),
+          message: Localization.of(context).clearKeyValueStorageSuccessMessage,
+        )
+        .ignore();
+  }
 
   @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: ScaffoldPadding.of(context),
-    sliver: SliverToBoxAdapter(
-      child: ListTile(
-        title: const Text('Dependencies'),
-        subtitle: const Text('Show dependencies.', maxLines: 1, overflow: TextOverflow.ellipsis),
-        onTap: () => Octopus.of(context).showDialog<void>(
-          (context) => Dialog(
-            insetPadding: const EdgeInsets.all(64),
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: SizedBox(
-                width: 480,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const Text('Dependencies', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 16),
-                    Wrap(
+  Widget build(BuildContext context) {
+    final l10n = Localization.of(context);
+    final theme = Theme.of(context);
+    final backgroundColor = theme.uiTheme.color.secondaryBackground;
+    final spacer = SliverToBoxAdapter(child: SizedBox(height: theme.uiTheme.size.offset.regular));
+    return UIAnnotateRegion.secondary(
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: CupertinoNavigationBar(
+          padding: .zero,
+          border: const Border(),
+          backgroundColor: backgroundColor,
+          leading: const CommonBackButton(),
+          middle: UIText.titleMedium(l10n.developer),
+        ),
+        body: StateConsumer<SettingsController, SettingsState>(
+          controller: _controller,
+          buildWhen: (p, c) => p.preferences != c.preferences || p.settings != c.settings,
+          builder: (context, state, _) => CupertinoScrollbar(
+            child: CustomScrollView(
+              slivers: <Widget>[
+                spacer,
+
+                // --- App section --- //
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: CommonPadding.of(context),
+                    child: UIListSection.secodary(
                       children: <Widget>[
-                        for (final dependency in Pubspec.dependencies.entries)
-                          Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: Chip(label: Text('${dependency.key}: ${dependency.value}')),
+                        CupertinoListTile(
+                          padding: CommonPadding.of(context),
+                          title: Text(l10n.appVersion, style: theme.textTheme.bodyLarge),
+                          additionalInfo: Text(
+                            Pubspec.version.canonical,
+                            style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.textSecondary),
                           ),
+                        ),
+                        /* UICupertinoFormRowSelect(
+                          title: /* l10n.showLogsButton */ 'Show logs',
+                          showSuffix: false,
+                          onTap: () => LogsScreen.show(context),
+                        ), */
                       ],
                     ),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-class _ShowApplicationDevDependenciesTile extends StatelessWidget {
-  const _ShowApplicationDevDependenciesTile();
-
-  @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: ScaffoldPadding.of(context),
-    sliver: SliverToBoxAdapter(
-      child: ListTile(
-        title: const Text('Dev Dependencies'),
-        subtitle: const Text('Show developers dependencies.', maxLines: 1, overflow: TextOverflow.ellipsis),
-        onTap: () => Octopus.of(context).showDialog<void>(
-          (context) => Dialog(
-            insetPadding: const EdgeInsets.all(64),
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: SizedBox(
-                width: 480,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const Text('Dev Dependencies', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 16),
-                    Wrap(
-                      children: <Widget>[
-                        for (final dependency in Pubspec.devDependencies.entries)
-                          Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: Chip(label: Text('${dependency.key}: ${dependency.value}')),
-                          ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-class _ShowLogsScreenTile extends StatelessWidget {
-  const _ShowLogsScreenTile();
-
-  @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: ScaffoldPadding.of(context),
-    sliver: SliverToBoxAdapter(
-      child: ListTile(
-        title: const Text('Logs'),
-        subtitle: const Text('Show logs.', maxLines: 1, overflow: TextOverflow.ellipsis),
-        onTap: () => LogsDialog.show(context).ignore(),
-      ),
-    ),
-  );
-}
-
-class _ResetNavigationTile extends StatelessWidget {
-  const _ResetNavigationTile();
-
-  @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: ScaffoldPadding.of(context),
-    sliver: SliverToBoxAdapter(
-      child: ListTile(
-        title: const Text('Reset navigation'),
-        subtitle: const Text('Reset navigation stack.', maxLines: 1, overflow: TextOverflow.ellipsis),
-        onTap: () => Octopus.of(context).popAll(),
-      ),
-    ),
-  );
-}
-
-/* class _ViewDatabaseTile extends StatelessWidget {
-  const _ViewDatabaseTile();
-
-  @override
-  Widget build(BuildContext context) => SliverPadding(
-        padding: ScaffoldPadding.of(context),
-        sliver: SliverToBoxAdapter(
-          child: ListTile(
-            title: const Text('View database'),
-            subtitle: const Text(
-              'View database content.',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            onTap: () => Octopus.of(context).showDialog<void>(
-              (_) => Dialog(
-                child: DriftDbViewer(Dependencies.of(context).database),
-              ),
-            ),
-          ),
-        ),
-      );
-} */
-
-class _ClearDatabaseTile extends StatelessWidget {
-  const _ClearDatabaseTile();
-
-  @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: ScaffoldPadding.of(context),
-    sliver: SliverToBoxAdapter(
-      child: ListTile(
-        title: const Text('Drop database'),
-        subtitle: const Text('Clear database content.', maxLines: 1, overflow: TextOverflow.ellipsis),
-        onTap: () {
-          final db = Dependencies.of(context).database;
-          final messenger = ScaffoldMessenger.maybeOf(context);
-          Future<void>(() async {
-            try {
-              await db.customStatement('PRAGMA foreign_keys = OFF');
-              try {
-                await db.batch((batch) {
-                  // ignore: prefer_foreach
-                  for (final table in db.allTables) batch.deleteAll(table);
-                });
-              } finally {
-                await db.customStatement('PRAGMA foreign_keys = ON');
-              }
-              messenger
-                ?..clearSnackBars()
-                ..showSnackBar(const SnackBar(content: Text('Database cleared'), duration: Duration(seconds: 3)));
-            } on Object catch (error) {
-              messenger
-                ?..clearSnackBars()
-                ..showSnackBar(
-                  SnackBar(
-                    content: Text('Database clear failed: $error'),
-                    backgroundColor: Colors.red,
-                    duration: const Duration(seconds: 3),
                   ),
-                );
-            }
-          });
-        },
-      ),
-    ),
-  );
-}
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: theme.uiTheme.size.offset.large)),
 
-class _OpenUriTile extends StatelessWidget {
-  const _OpenUriTile({
-    required this.title,
-    required this.description,
-    this.uri,
-    super.key, // ignore: unused_element_parameter
-  });
+                // --- Developer section --- //
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: CommonPadding.of(context),
+                    child: UIListSection.secodary(
+                      textFooter: l10n.advancedOptionsDescription,
+                      children: <Widget>[
+                        /* UICupertinoFormRow.withSwitch(
+                          title: /* l10n.advancedOptionsUseDebug */ 'Use debug features',
+                          value: state.preferences.useDebug,
+                          onChanged: _controller.setUseDebug,
+                        ), */
+                        CupertinoListTile(
+                          title: Text(l10n.useDebugFeatures),
+                          additionalInfo: UISwitch(
+                            value: state.preferences.useDebug,
+                            onChanged: _controller.setUseDebug,
+                          ),
+                        ),
+                        /* UICupertinoFormRow.withSwitch(
+                          title: /* l10n.advancedOptionsUseDeveloperMode */ 'Use developer mode',
+                          value: state.preferences.useDevelopment,
+                          onChanged: _controller.setUseDevelompent,
+                        ), */
+                        CupertinoListTile(
+                          title: Text(l10n.useDeveloperMode),
+                          additionalInfo: UISwitch(
+                            value: state.preferences.useDevelopment,
+                            onChanged: _controller.setUseDevelompent,
+                          ),
+                        ),
+                        if (state.preferences.useDevelopment) ...[
+                          /* UICupertinoFormRowSelect(
+                            title: /* l10n.developerInfoButton */ 'Developer info',
+                            showSuffix: false,
+                            onTap: () => context.ext.navigator.push(const DeveloperInfoPage()),
+                          ), */
+                          CupertinoListTile(
+                            title: Text(l10n.developerInfoButton),
+                            additionalInfo: CupertinoButton(
+                              padding: .zero,
+                              onPressed: () => context.ext.navigator.push(const DeveloperInfoPage()),
+                              child: const Icon(CupertinoIcons.forward, size: 16),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+                spacer,
 
-  final String title;
-  final String description;
-  final String? uri;
+                // --- Experimental features section --- //
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: CommonPadding.of(context),
+                    child: UIListSection.secodary(
+                      textFooter: l10n.experimentalFeaturesDescription,
+                      children: <Widget>[
+                        /* UICupertinoFormRow.withSwitch(
+                          title: /* l10n.advancedOptionsUseBeta */ 'Use beta features',
+                          onChanged: _controller.setUseBeta,
+                          value: state.preferences.useBeta,
+                        ), */
+                        CupertinoListTile(
+                          title: Text(l10n.useBetaFeatures),
+                          additionalInfo: UISwitch(value: state.preferences.useBeta, onChanged: _controller.setUseBeta),
+                        ),
+                        /* UICupertinoFormRow.withSwitch(
+                          title: /* l10n.advancedOptionsUseExperemental */ 'Use experimental features',
+                          onChanged: _controller.setUseExpiremental,
+                          value: state.preferences.useExpiremental,
+                        ), */
+                        CupertinoListTile(
+                          title: Text(l10n.useExperimentalFeatures),
+                          additionalInfo: UISwitch(
+                            value: state.preferences.useExpiremental,
+                            onChanged: _controller.setUseExpiremental,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                spacer,
 
-  @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: ScaffoldPadding.of(context),
-    sliver: SliverToBoxAdapter(
-      child: Opacity(
-        opacity: uri == null ? 0.5 : 1,
-        child: ListTile(
-          title: Text(title),
-          subtitle: Text(description, maxLines: 1, overflow: TextOverflow.ellipsis),
-          onTap: uri == null ? null : () => url_launcher.launchUrlString(uri!).ignore(),
+                // --- App functionality section --- //
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: CommonPadding.of(context),
+                    child: UIListSection.secodary(
+                      textFooter: l10n.hapticFeedbackDescription,
+                      children: <Widget>[
+                        /* UICupertinoFormRow.withSwitch(
+                          title: /* l10n.advancedOptionsUseHapticFeedback */ 'Use haptic feedback',
+                          onChanged: _controller.setUseHapticFeedback,
+                          value: state.preferences.useHapticFeedback,
+                        ), */
+                        CupertinoListTile(
+                          title: Text(l10n.useHapticFeedback),
+                          additionalInfo: UISwitch(
+                            value: state.preferences.useHapticFeedback,
+                            onChanged: _controller.setUseHapticFeedback,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                spacer,
+
+                // --- Clear key value storage section --- //
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: CommonPadding.of(context),
+                    child: UIListSection.secodary(
+                      textFooter: l10n.clearKeyValueStorageDescription,
+                      children: <Widget>[
+                        SizedBox(
+                          width: double.infinity,
+                          child: CupertinoButton(
+                            onPressed: _onKVStorageClear,
+                            alignment: Alignment.centerLeft,
+                            padding: CommonPadding.of(context),
+                            borderRadius: UIBorderRadius.regular(context),
+                            child: Text(
+                              l10n.clearKeyValueStorageButton,
+                              style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                spacer,
+
+                // --- Refresh FCM token button --- //
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: CommonPadding.of(context),
+                    child: UIListSection.secodary(
+                      textFooter: l10n.refreshFcmTokenDescription,
+                      children: <Widget>[
+                        SizedBox(
+                          width: double.infinity,
+                          child: CupertinoButton(
+                            onPressed: () async {
+                              /* try {
+                                final id = context.ext.dependencies.authenticationController.state.user.id;
+                                await context.ext.dependencies.authenticationRepository.reSubscribeToNotifications(
+                                  skipCheckTimestamp: true,
+                                  id: id,
+                                );
+                              } on Object catch (e, _) {
+                                if (!context.mounted) return;
+                                UI
+                                    .showSnackBar(
+                                      context: context,
+                                      message: e.toString(),
+                                      type: UISnackBarType.error,
+                                      useHapticFeedback: context
+                                          .ext
+                                          .dependencies
+                                          .settingsController
+                                          .state
+                                          .preferences
+                                          .useHapticFeedback,
+                                    )
+                                    .ignore();
+                              } */
+                            },
+                            alignment: Alignment.centerLeft,
+                            padding: CommonPadding.of(context),
+                            borderRadius: UIBorderRadius.regular(context),
+                            child: Text(
+                              l10n.refreshFcmTokenButton,
+                              style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                spacer,
+
+                // --- Send logs button --- //
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: CommonPadding.of(context),
+                    child: UIListSection.secodary(
+                      textFooter: l10n.shareApplicationLogsDescription,
+                      children: <Widget>[
+                        SizedBox(
+                          width: double.infinity,
+                          child: CupertinoButton(
+                            onPressed: _onSendLogs,
+                            alignment: Alignment.centerLeft,
+                            padding: CommonPadding.of(context),
+                            borderRadius: UIBorderRadius.regular(context),
+                            child: Text(
+                              l10n.sendLogsButton,
+                              style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                spacer,
+
+                // --- Logout all button --- //
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: CommonPadding.of(context),
+                    child: UIListSection.secodary(
+                      textFooter: l10n.logoutAllDevicesDescription,
+                      children: <Widget>[
+                        SizedBox(
+                          width: double.infinity,
+                          child: CupertinoButton(
+                            onPressed: () => UI
+                                .showCupertinoModal<void>(
+                                  context: context,
+                                  useRootNavigator: false,
+                                  title: Text(l10n.logoutAllDevicesConfirmation),
+                                  cancelButtonText: l10n.cancelButton,
+                                  actions: [
+                                    CupertinoActionSheetAction(
+                                      isDestructiveAction: true,
+                                      onPressed: () {
+                                        // context.ext.dependencies.authenticationRepository.logoutFromAllDevices();
+                                        Navigator.of(context).pop<void>();
+                                        AuthenticationScope.signOut(
+                                          context,
+                                          // fromAllDevices: true,
+                                          // useLogoutDialog: kDebugMode,
+                                          // onProcessing: () => AnimatedCheckIcon.processing(
+                                          //   context,
+                                          //   message: '${l10n.logoutStatusLabel}...',
+                                          // ),
+                                          // onError: (error) => AnimatedCheckIcon.error(
+                                          //   context,
+                                          //   message: ErrorUtil.errorToString(context, error),
+                                          // ),
+                                          // onDone: AnimatedCheckIcon.dismiss,
+                                          // onSucceeded: () {
+                                          //   AnimatedCheckIcon.succeeded(context, message: l10n.logoutMessageSuccess);
+                                          // },
+                                        );
+                                      },
+                                      child: Text(l10n.logOutButton),
+                                    ),
+                                  ],
+                                )
+                                .ignore(),
+                            alignment: Alignment.centerLeft,
+                            padding: CommonPadding.of(context),
+                            borderRadius: UIBorderRadius.regular(context),
+                            child: Text(
+                              l10n.logoutAllDevicesButton,
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: CupertinoDynamicColor.resolve(CupertinoColors.systemRed, context),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const CommonBottomSpacer.sliver(),
+              ],
+            ),
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

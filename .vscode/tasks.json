@@ -10,8 +10,37 @@
       },
       "dependsOn": [],
       "type": "shell",
+      "command": ["fvm dart run tool/dart/ci.dart get"],
+      "args": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
+    },
+    {
+      "label": "flutter:pub:upgrade:ios",
+      "detail": "Upgrade iOS dependencies",
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "cloud-download"
+      },
+      "dependsOn": [],
+      "type": "shell",
       "command": [
-        "flutter pub get"
+        "rm -rf build && rm -rf ios/Podfile.lock && fvm flutter clean && fvm flutter pub get && cd ios && pod install --repo-update"
       ],
       "args": [],
       "group": {
@@ -40,13 +69,8 @@
         "id": "code"
       },
       "type": "shell",
-      "command": [
-        "dart run build_runner build --delete-conflicting-outputs",
-        "&& dart format --fix -l 120 lib test"
-      ],
-      "dependsOn": [
-        "flutter:pub:get"
-      ],
+      "command": ["fvm dart run tool/dart/ci.dart build-runner"],
+      "dependsOn": [],
       "args": [],
       "group": {
         "kind": "none",
@@ -75,17 +99,15 @@
         "id": "code"
       },
       "command": [
-        "dart run build_runner build --build-filter '${fileDirname}/*.dart'",
-        "&& dart format --fix -l 120 '${fileDirname}'"
+        "fvm dart run build_runner build --build-filter '${fileDirname}/*.dart'",
+        "&& fvm dart format --fix -l 120 '${fileDirname}'"
       ],
       "group": {
         "kind": "none",
         "isDefault": true
       },
       "problemMatcher": [],
-      "dependsOn": [
-        "flutter:pub:get"
-      ],
+      "dependsOn": ["flutter:pub:get"],
       "isBackground": false,
       "presentation": {
         "reveal": "silent",
@@ -105,16 +127,14 @@
         "id": "code"
       },
       "command": [
-        "dart run build_runner watch --build-filter \"${input:directory}/**/*.dart\""
+        "fvm dart run build_runner watch --build-filter \"${input:directory}/**/*.dart\""
       ],
       "group": {
         "kind": "none",
         "isDefault": true
       },
       "problemMatcher": [],
-      "dependsOn": [
-        "flutter:pub:get"
-      ],
+      "dependsOn": ["flutter:pub:get"],
       "isBackground": false,
       "presentation": {
         "reveal": "silent",
@@ -133,41 +153,40 @@
         "id": "file-text"
       },
       "type": "shell",
-      "command": [
-        "fvm dart pub global activate pubspec_generator",
-        "&& fvm dart pub global run pubspec_generator:generate -o lib/src/common/constant/pubspec.yaml.g.dart",
-      ],
-      "dependsOn": [
-        "flutter:pub:get"
-      ],
-      "options": {},
+      "command": ["fvm dart run tool/dart/ci.dart pubspec-generator"],
+      "dependsOn": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": []
     },
     {
       "label": "dart:sheety_localization:generate",
-      "detail": "Generate localization files from Google Sheets",
+      "detail": "Localization from Google Sheets",
       "icon": {
         "color": "terminal.ansiGreen",
-        "id": "file-code"
+        "id": "comment-discussion"
       },
       "type": "shell",
-      "command": [
-        "fvm dart pub global activate sheety_localization",
-        "&& fvm dart pub global run sheety_localization:generate --credentials=credentials.json",
-        "--sheet=...",
-        "--lib=lib",
-        "--arb=src/l10n",
-        "--gen=src/generated",
-        "--prefix=app",
-        "--author='Author Name <example@gmail.com>'",
-        "--comment='Generated from Google Sheets'",
-        "--context='From Google Sheets'",
-        "--format"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}/packages/localization"
+      "command": ["fvm dart run tool/dart/ci.dart sheety-localization"],
+      "args": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "dart"
+      }
     },
     {
       "label": "dart:format",
@@ -184,7 +203,7 @@
         "! -name '*.*.dart' ",
         "! -name 'messages_.*.dart' ",
         "! -name 'l10n.dart' ",
-        "-print0 | xargs -0 dart format --set-exit-if-changed --line-length 120"
+        "-print0 | xargs -0 fvm dart format --set-exit-if-changed --line-length 120"
       ],
       "dependsOn": [],
       "args": [],
@@ -221,7 +240,7 @@
         "! -name '*.*.dart' ",
         "! -name 'messages_.*.dart' ",
         "! -name 'l10n.dart' ",
-        "-print0 | xargs -0 dart format --set-exit-if-changed --line-length 120"
+        "-print0 | xargs -0 fvm dart format --set-exit-if-changed --line-length 120"
       ],
       "dependsOn": [],
       "args": [],
@@ -244,20 +263,18 @@
       }
     },
     {
-      "label": "flutter:pub:outdated",
-      "detail": "Check for outdated dependencies",
+      "label": "flutter:test:app",
+      "detail": "Run app tests",
       "icon": {
         "color": "terminal.ansiGreen",
-        "id": "lightbulb-autofix"
+        "id": "bug"
       },
-      "type": "shell",
-      "command": [
-        "flutter pub outdated --show-all --dev-dependencies --dependency-overrides --transitive --no-prereleases"
-      ],
       "dependsOn": [],
+      "type": "shell",
+      "command": ["fvm dart run tool/dart/ci.dart test-app"],
       "args": [],
       "group": {
-        "kind": "none",
+        "kind": "test",
         "isDefault": true
       },
       "problemMatcher": [],
@@ -266,38 +283,7 @@
       },
       "isBackground": false,
       "presentation": {
-        "reveal": "silent",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "dart"
-      }
-    },
-    {
-      "label": "flutter:pub:upgrade",
-      "detail": "Upgrade dependencies",
-      "icon": {
-        "color": "terminal.ansiGreen",
-        "id": "lightbulb-autofix"
-      },
-      "type": "shell",
-      "command": [
-        "flutter pub upgrade"
-      ],
-      "dependsOn": [],
-      "args": [],
-      "group": {
-        "kind": "none",
-        "isDefault": true
-      },
-      "problemMatcher": [],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "isBackground": false,
-      "presentation": {
-        "reveal": "silent",
+        "reveal": "always",
         "focus": false,
         "panel": "shared",
         "showReuseMessage": false,
@@ -310,15 +296,11 @@
       "detail": "Run all tests",
       "icon": {
         "color": "terminal.ansiGreen",
-        "id": "bug",
+        "id": "bug"
       },
-      "dependsOn": [
-        "flutter:pub:get"
-      ],
+      "dependsOn": [],
       "type": "shell",
-      "command": [
-        "flutter test --color --coverage --concurrency=50 --platform=tester --reporter=expanded --timeout=30s test/unit_test.dart test/widget_test.dart"
-      ],
+      "command": "fvm dart run tool/dart/ci.dart test",
       "args": [],
       "group": {
         "kind": "test",
@@ -343,14 +325,12 @@
       "detail": "Run tests for a specific feature",
       "icon": {
         "color": "terminal.ansiGreen",
-        "id": "bug",
+        "id": "bug"
       },
-      "dependsOn": [
-        "flutter:pub:get"
-      ],
+      "dependsOn": ["flutter:pub:get"],
       "type": "shell",
       "command": [
-        "flutter test --color --coverage --concurrency=50 --platform=tester --reporter=expanded --timeout=30s --tags=\"${input:featureName}\" test/unit_test.dart test/widget_test.dart"
+        "fvm flutter test --color --coverage --concurrency=50 --platform=tester --reporter=expanded --timeout=30s --tags=\"${input:featureName}\" test/unit_test.dart test/widget_test.dart"
       ],
       "args": [],
       "group": {

@@ -35,8 +35,8 @@ class UIExampleApp extends StatelessWidget {
     valueListenable: themeModeSwitcher,
     builder: (context, themeMode, _) => MaterialApp(
       title: 'UI KIT',
-      theme: AppThemeData.light(),
-      darkTheme: AppThemeData.dark(),
+      theme: UIThemeData.light(),
+      darkTheme: UIThemeData.dark(),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalCupertinoLocalizations.delegate,

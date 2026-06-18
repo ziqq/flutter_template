@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 /// User id type.
-typedef UserId = String;
+typedef UserID = String;
 
 /// {@template user}
 /// The user entry model.
@@ -16,17 +16,27 @@ sealed class User with _UserPatternMatching, _UserShortcuts {
   const factory User.unauthenticated() = UnauthenticatedUser;
 
   /// {@macro user}
-  const factory User.authenticated({required UserId id}) = AuthenticatedUser;
+  const factory User.authenticated({required UserID id, required String token}) = AuthenticatedUser;
 
   /// {@macro user}
   factory User.fromJson(Map<String, Object?> json) => switch (json['id']) {
-    UserId id => AuthenticatedUser(id: id),
+    UserID id => AuthenticatedUser(
+      id: id,
+      token: switch (json['token']) {
+        String token when token.isNotEmpty => token,
+        _ => '',
+      },
+    ),
     _ => const UnauthenticatedUser(),
   };
 
   /// The user's id.
-  abstract final UserId? id;
+  abstract final UserID? id;
 
+  /// The user's access token.
+  abstract final String? token;
+
+  /// Convert user to `JSON`.
   Map<String, Object?> toJson();
 }
 
@@ -42,7 +52,10 @@ class UnauthenticatedUser extends User {
   factory UnauthenticatedUser.fromJson(Map<String, Object?> json) => const UnauthenticatedUser();
 
   @override
-  UserId? get id => null;
+  UserID? get id => null;
+
+  @override
+  String? get token => null;
 
   @override
   bool get isAuthenticated => false;
@@ -50,9 +63,10 @@ class UnauthenticatedUser extends User {
   @override
   Map<String, Object?> toJson() => <String, Object?>{
     'type': 'user',
-    'status': 'unauthenticated',
     'authenticated': false,
+    'status': 'unauthenticated',
     'id': null,
+    'token': null,
   };
 
   @override
@@ -62,13 +76,15 @@ class UnauthenticatedUser extends User {
   }) => unauthenticated(this);
 
   @override
-  User copyWith({UserId? id}) => id != null ? AuthenticatedUser(id: id) : const UnauthenticatedUser();
+  User copyWith({UserID? id, String? token}) =>
+      id != null ? AuthenticatedUser(id: id, token: token ?? '') : const UnauthenticatedUser();
 
   @override
   int get hashCode => -1;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is UnauthenticatedUser && id == other.id;
+  bool operator ==(Object other) =>
+      identical(this, other) || other is UnauthenticatedUser && id == other.id && token == other.token;
 
   @override
   String toString() => 'UnauthenticatedUser{}';
@@ -77,18 +93,30 @@ class UnauthenticatedUser extends User {
 /// {@macro user}
 final class AuthenticatedUser extends User {
   /// {@macro user}
-  const AuthenticatedUser({required this.id}) : super._();
+  const AuthenticatedUser({required this.id, required this.token}) : super._();
 
   /// {@macro user}
   factory AuthenticatedUser.fromJson(Map<String, Object?> json) {
-    if (json.isEmpty) throw FormatException('Json is empty', json);
-    if (json case <String, Object?>{'id': UserId id}) return AuthenticatedUser(id: id);
-    throw FormatException('Invalid json format', json);
+    if (json.isEmpty) throw FormatException('AuthenticatedUser.fromJson | JSON is empty', json);
+    if (json case <String, Object?>{'id': UserID id}) {
+      return AuthenticatedUser(
+        id: id,
+        token: switch (json['token']) {
+          String token when token.isNotEmpty => token,
+          _ => '',
+        },
+      );
+    }
+    throw FormatException('AuthenticatedUser.fromJson | JSON is invalid', json);
   }
 
   @override
   @nonVirtual
-  final UserId id;
+  final UserID id;
+
+  @override
+  @nonVirtual
+  final String token;
 
   @override
   @nonVirtual
@@ -97,9 +125,10 @@ final class AuthenticatedUser extends User {
   @override
   Map<String, Object?> toJson() => <String, Object?>{
     'type': 'user',
-    'status': 'authenticated',
     'authenticated': true,
+    'status': 'authenticated',
     'id': id,
+    'token': token,
   };
 
   @override
@@ -108,17 +137,20 @@ final class AuthenticatedUser extends User {
     required T Function(AuthenticatedUser user) authenticated,
   }) => authenticated(this);
 
+  @useResult
   @override
-  AuthenticatedUser copyWith({UserId? id}) => AuthenticatedUser(id: id ?? this.id);
+  AuthenticatedUser copyWith({UserID? id, String? token}) =>
+      AuthenticatedUser(id: id ?? this.id, token: token ?? this.token);
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => Object.hash(id, token);
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is AuthenticatedUser && id == other.id;
+  bool operator ==(Object other) =>
+      identical(this, other) || other is AuthenticatedUser && id == other.id && token == other.token;
 
   @override
-  String toString() => 'AuthenticatedUser{id: $id}';
+  String toString() => 'AuthenticatedUser.$id{id: $id, token: $token}';
 }
 
 mixin _UserPatternMatching {
@@ -156,5 +188,5 @@ mixin _UserShortcuts on _UserPatternMatching {
   bool get isNotAuthenticated => !isAuthenticated;
 
   /// Copy with new values.
-  User copyWith({UserId? id});
+  User copyWith({UserID? id, String? token});
 }

@@ -1,35 +1,78 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
-import 'package:flutter_template_name/src/common/util/app_zone.dart';
-import 'package:flutter_template_name/src/common/util/error_util.dart';
-import 'package:flutter_template_name/src/common/widget/app.dart';
-import 'package:flutter_template_name/src/common/widget/app_error.dart' deferred as app_error;
-import 'package:flutter_template_name/src/feature/initialization/data/initialization.dart' deferred as initialization;
-import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';
-import 'package:octopus/octopus.dart';
-import 'package:platform_info/platform_info.dart';
+import 'package:flutter_template_name/src/common/constant/config.dart';
+import 'package:flutter_template_name/src/feature/initialization/data/initialization.dart' as initialization;
+import 'package:l/l.dart';
 
-void main() => appZone(() async {
-  // Splash screen
-  final initializationProgress = ValueNotifier<({int progress, String message})>((progress: 0, message: ''));
-  /* runApp(SplashScreen(progress: initializationProgress)); */
-  await initialization.loadLibrary();
-  initialization
-      .$initializeApp(
-        onProgress: (progress, message) => initializationProgress.value = (progress: progress, message: message),
-        onSuccess: (dependencies) async => runApp(
-          dependencies.inject(
-            child: SettingsScope(
-              child: NoAnimationScope(noAnimation: platform.js || platform.desktop, child: const App()),
-            ),
-          ),
-        ),
-        onError: (error, stackTrace) async {
-          await app_error.loadLibrary();
-          runApp(app_error.AppError(error: error));
-          ErrorUtil.logError(error, stackTrace).ignore();
-        },
-      )
-      .ignore();
-});
+void main() {
+  // ignore: experimental_member_use
+  l.capture<void>(
+    () => runZonedGuarded<void>(() async {
+      initialization
+          .$initializeApp(
+            // Handle progress updates during initialization
+            onProgress: (progress, message) {
+              // Update the initialization progress
+            },
+            onSuccess: () {
+              // Show the app one everything is initialized.
+              // This is where you should typically call `runApp()`.
+            },
+            onError: (e, st) {
+              // Display fallback UI in case of an error
+            },
+          )
+          .ignore();
+    }, l.e),
+    LogOptions(
+      handlePrint: true,
+      printColors: false,
+      output: LogOutput.print,
+      messageFormatting: _messageFormatting,
+      outputInRelease: !Config.environment.isProduction,
+    ),
+  );
+}
+
+/// Formats the log message.
+Object _messageFormatting(LogMessage log) {
+  // LogBuffer.instance.add(log);
+
+  // ignore: unused_local_variable
+  final prefix = log.level.when(
+    // Verbose and so on
+    v: () => '1️⃣',
+    vv: () => '2️⃣',
+    vvv: () => '3️⃣',
+    vvvv: () => '4️⃣',
+    vvvvv: () => '5️⃣',
+    vvvvvv: () => '6️⃣',
+
+    // Standart logs levels
+    debug: () => '🔍', // debug message
+    info: () => 'ℹ️', // information message
+    warning: () => '⚠️', // warnings
+    error: () => '❌', // errors
+    shout: () => '📣', // critical
+  );
+
+  /* ErrorUtil.addBreadcrumb(
+    message: log.message.toString(),
+    level: log.level.maybeWhen(
+      orElse: () => 1,
+      error: () => 4,
+      warning: () => 3,
+    ),
+    type: log.level.maybeWhen(
+      orElse: () => 'default',
+      error: () => 'error',
+      warning: () => 'warning',
+    ),
+    timestamp: log.timestamp,
+  ); */
+
+  return /* '[$prefix] ' */ '${_timeFormat(log.timestamp)} | ${log.message}';
+}
+
+/// Formats the time.
+String _timeFormat(DateTime time) => '${time.hour}:${time.minute.toString().padLeft(2, '0')}';

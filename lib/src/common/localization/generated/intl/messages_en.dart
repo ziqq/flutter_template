@@ -22,107 +22,207 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "addButton": MessageLookupByLibrary.simpleMessage("Add"),
-    "addToStarredButton": MessageLookupByLibrary.simpleMessage("Add to starred"),
-    "anErrorHasOccurred": MessageLookupByLibrary.simpleMessage("An error has occurred"),
-    "anExceptionHasOccurred": MessageLookupByLibrary.simpleMessage("An exception has occurred"),
-    "anUnknownErrorWasReceivedFromTheServer": MessageLookupByLibrary.simpleMessage(
-      "An unknown error was received from the server",
+    "advancedOptionsDescription": MessageLookupByLibrary.simpleMessage(
+      "Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.",
     ),
-    "apiDomain": MessageLookupByLibrary.simpleMessage("API domain"),
     "app": MessageLookupByLibrary.simpleMessage("App"),
+    "appVersion": MessageLookupByLibrary.simpleMessage("App version"),
     "application": MessageLookupByLibrary.simpleMessage("Application"),
-    "applicationInformation": MessageLookupByLibrary.simpleMessage("Application information"),
-    "applicationVersion": MessageLookupByLibrary.simpleMessage("Application version"),
-    "assertionError": MessageLookupByLibrary.simpleMessage("Assertion error"),
-    "authenticate": MessageLookupByLibrary.simpleMessage("Authenticate"),
+    "applicationInformation": MessageLookupByLibrary.simpleMessage(
+      "Application information",
+    ),
+    "attachLogsButton": MessageLookupByLibrary.simpleMessage("Attach logs"),
+    "attachLogsDescription": MessageLookupByLibrary.simpleMessage(
+      "Attaching logs can help us identify and fix the issue faster.",
+    ),
     "authenticated": MessageLookupByLibrary.simpleMessage("Authenticated"),
     "authentication": MessageLookupByLibrary.simpleMessage("Authentication"),
     "backButton": MessageLookupByLibrary.simpleMessage("Back"),
-    "badGateway": MessageLookupByLibrary.simpleMessage("Bad gateway"),
-    "badRequest": MessageLookupByLibrary.simpleMessage("Bad request"),
-    "badStateError": MessageLookupByLibrary.simpleMessage("Bad state error"),
     "cancelButton": MessageLookupByLibrary.simpleMessage("Cancel"),
-    "conectedDevices": MessageLookupByLibrary.simpleMessage("Connected devices"),
-    "confirmButton": MessageLookupByLibrary.simpleMessage("Confirm"),
-    "confirmPassword": MessageLookupByLibrary.simpleMessage("Confirm password"),
-    "continueButton": MessageLookupByLibrary.simpleMessage("Continue"),
+    "clearButton": MessageLookupByLibrary.simpleMessage("Clear"),
+    "clearKeyValueStorageButton": MessageLookupByLibrary.simpleMessage(
+      "Clear key-value storage",
+    ),
+    "clearKeyValueStorageDescription": MessageLookupByLibrary.simpleMessage(
+      "Clear key-value storage. Useful for testing onboarding and promo code flows.",
+    ),
+    "clearKeyValueStorageSuccessMessage": MessageLookupByLibrary.simpleMessage(
+      "Key-value storage cleared successfully",
+    ),
+    "contactSupportButton": MessageLookupByLibrary.simpleMessage(
+      "Contact support",
+    ),
     "copied": MessageLookupByLibrary.simpleMessage("Copied"),
-    "copyButton": MessageLookupByLibrary.simpleMessage("Copy"),
-    "createButton": MessageLookupByLibrary.simpleMessage("Create"),
-    "currentLabel": MessageLookupByLibrary.simpleMessage("Current"),
-    "currentUser": MessageLookupByLibrary.simpleMessage("Current user"),
-    "currentVersion": MessageLookupByLibrary.simpleMessage("Current version"),
+    "copyToClipboardTooltip": MessageLookupByLibrary.simpleMessage(
+      "Copy to clipboard",
+    ),
+    "currentUserInformation": MessageLookupByLibrary.simpleMessage(
+      "Information about current user",
+    ),
     "database": MessageLookupByLibrary.simpleMessage("Database"),
-    "date": MessageLookupByLibrary.simpleMessage("Date"),
+    "databaseClearFailedMessage": MessageLookupByLibrary.simpleMessage(
+      "Database clear failed",
+    ),
+    "databaseClearedMessage": MessageLookupByLibrary.simpleMessage(
+      "Database cleared",
+    ),
     "deleteButton": MessageLookupByLibrary.simpleMessage("Delete"),
+    "dependencies": MessageLookupByLibrary.simpleMessage("Dependencies"),
+    "detailsButton": MessageLookupByLibrary.simpleMessage("Details"),
+    "devDependencies": MessageLookupByLibrary.simpleMessage("Dev dependencies"),
     "developer": MessageLookupByLibrary.simpleMessage("Developer"),
-    "downloadButton": MessageLookupByLibrary.simpleMessage("Download"),
+    "developerInfoButton": MessageLookupByLibrary.simpleMessage(
+      "Developer info",
+    ),
+    "dropDatabase": MessageLookupByLibrary.simpleMessage("Drop database"),
+    "dropDatabaseDescription": MessageLookupByLibrary.simpleMessage(
+      "Clear database content.",
+    ),
     "editButton": MessageLookupByLibrary.simpleMessage("Edit"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "emailHint": MessageLookupByLibrary.simpleMessage("Enter your email"),
+    "emailInvalidError": MessageLookupByLibrary.simpleMessage(
+      "Must be a valid email.",
+    ),
+    "emailRequiredError": MessageLookupByLibrary.simpleMessage(
+      "Email is required.",
+    ),
+    "enterPasswordHint": MessageLookupByLibrary.simpleMessage(
+      "Enter your password",
+    ),
     "error": MessageLookupByLibrary.simpleMessage("Error"),
-    "exception": MessageLookupByLibrary.simpleMessage("Exception"),
-    "exitButton": MessageLookupByLibrary.simpleMessage("Exit"),
-    "fileSystemException": MessageLookupByLibrary.simpleMessage("File system error"),
-    "forbidden": MessageLookupByLibrary.simpleMessage("Forbidden"),
-    "gatewayTimeout": MessageLookupByLibrary.simpleMessage("Gateway timeout"),
-    "help": MessageLookupByLibrary.simpleMessage("Help"),
-    "internalServerError": MessageLookupByLibrary.simpleMessage("Internal server error"),
-    "invalidCredentials": MessageLookupByLibrary.simpleMessage("Invalid credentials"),
-    "invalidFormat": MessageLookupByLibrary.simpleMessage("Invalid format"),
+    "errorDetailsTitle": MessageLookupByLibrary.simpleMessage("Error details"),
+    "experimentalFeaturesDescription": MessageLookupByLibrary.simpleMessage(
+      "Experimental features. Use with caution, as they may cause unexpected behavior or crashes.",
+    ),
+    "generatePasswordTooltip": MessageLookupByLibrary.simpleMessage(
+      "Generate password",
+    ),
+    "hapticFeedbackDescription": MessageLookupByLibrary.simpleMessage(
+      "Enable haptic feedback in the app. Useful for testing haptic feedback functionality.",
+    ),
+    "home": MessageLookupByLibrary.simpleMessage("Home"),
+    "internalServerError": MessageLookupByLibrary.simpleMessage(
+      "Internal server error",
+    ),
     "language": MessageLookupByLibrary.simpleMessage("English"),
     "languageCode": MessageLookupByLibrary.simpleMessage("en"),
-    "languageSelection": MessageLookupByLibrary.simpleMessage("Language selection"),
-    "latestVersion": MessageLookupByLibrary.simpleMessage("Latest version"),
-    "localeCode": MessageLookupByLibrary.simpleMessage("en_US"),
-    "logInButton": MessageLookupByLibrary.simpleMessage("Log In"),
     "logOutButton": MessageLookupByLibrary.simpleMessage("Log Out"),
-    "logOutDescription": MessageLookupByLibrary.simpleMessage("You will be logged out from your account"),
-    "moveButton": MessageLookupByLibrary.simpleMessage("Move"),
-    "moveToTrashButton": MessageLookupByLibrary.simpleMessage("Move to trash"),
+    "logOutCurrentUser": MessageLookupByLibrary.simpleMessage(
+      "Log out current user",
+    ),
+    "logoutAllDevicesButton": MessageLookupByLibrary.simpleMessage(
+      "Log out from all devices",
+    ),
+    "logoutAllDevicesConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to log out from all devices?",
+    ),
+    "logoutAllDevicesDescription": MessageLookupByLibrary.simpleMessage(
+      "Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.",
+    ),
+    "logoutConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to log out?",
+    ),
+    "logs": MessageLookupByLibrary.simpleMessage("Logs"),
     "name": MessageLookupByLibrary.simpleMessage("Name"),
     "navigation": MessageLookupByLibrary.simpleMessage("Navigation"),
-    "noPlan": MessageLookupByLibrary.simpleMessage("No plan"),
-    "notAcceptable": MessageLookupByLibrary.simpleMessage("Not acceptable"),
+    "noLogsYet": MessageLookupByLibrary.simpleMessage("No logs yet"),
     "notFound": MessageLookupByLibrary.simpleMessage("Not found"),
-    "notImplementedYet": MessageLookupByLibrary.simpleMessage("Not implemented yet"),
     "ofSeparator": MessageLookupByLibrary.simpleMessage("of"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
-    "profileButton": MessageLookupByLibrary.simpleMessage("Profile"),
-    "recent": MessageLookupByLibrary.simpleMessage("Recent"),
-    "removeFromStarredButton": MessageLookupByLibrary.simpleMessage("Remove from starred"),
-    "renameButton": MessageLookupByLibrary.simpleMessage("Rename"),
-    "renewalDate": MessageLookupByLibrary.simpleMessage("Renewal date"),
-    "requestTimeout": MessageLookupByLibrary.simpleMessage("Request timeout"),
-    "restoreButton": MessageLookupByLibrary.simpleMessage("Restore"),
-    "routes": MessageLookupByLibrary.simpleMessage("Routes"),
-    "saveButton": MessageLookupByLibrary.simpleMessage("Save"),
+    "passwordLowercaseError": MessageLookupByLibrary.simpleMessage(
+      "Password must have at least one lowercase character.",
+    ),
+    "passwordMaxLengthError": MessageLookupByLibrary.simpleMessage(
+      "Password must be 32 characters or less.",
+    ),
+    "passwordMinLengthError": MessageLookupByLibrary.simpleMessage(
+      "Password must be 8 characters or more.",
+    ),
+    "passwordRequiredError": MessageLookupByLibrary.simpleMessage(
+      "Password is required.",
+    ),
+    "passwordUppercaseError": MessageLookupByLibrary.simpleMessage(
+      "Password must have at least one uppercase character.",
+    ),
+    "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "refreshFcmTokenButton": MessageLookupByLibrary.simpleMessage(
+      "Refresh FCM token",
+    ),
+    "refreshFcmTokenDescription": MessageLookupByLibrary.simpleMessage(
+      "Refresh FCM token. Useful for testing push notifications in development builds.",
+    ),
+    "refreshSession": MessageLookupByLibrary.simpleMessage("Refresh session"),
+    "refreshSessionDescription": MessageLookupByLibrary.simpleMessage(
+      "Refresh current user\'s session",
+    ),
+    "resetNavigation": MessageLookupByLibrary.simpleMessage("Reset navigation"),
+    "resetNavigationDescription": MessageLookupByLibrary.simpleMessage(
+      "Reset navigation stack.",
+    ),
     "selected": MessageLookupByLibrary.simpleMessage("Selected"),
-    "serviceUnavailable": MessageLookupByLibrary.simpleMessage("Service unavailable"),
+    "sendLogsButton": MessageLookupByLibrary.simpleMessage("Send logs"),
+    "sendReportButton": MessageLookupByLibrary.simpleMessage("Send report"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-    "shareButton": MessageLookupByLibrary.simpleMessage("Share"),
-    "shareLinkButton": MessageLookupByLibrary.simpleMessage("Share link"),
+    "settingsDescription": MessageLookupByLibrary.simpleMessage(
+      "Change your settings",
+    ),
+    "shareApplicationLogsDescription": MessageLookupByLibrary.simpleMessage(
+      "Share application logs for better support",
+    ),
+    "shareErrorButton": MessageLookupByLibrary.simpleMessage("Share the error"),
+    "shareErrorDescription": MessageLookupByLibrary.simpleMessage(
+      "Describe the issue you encountered and we will try to fix it as soon as possible.",
+    ),
+    "shareErrorOnShakeHint": MessageLookupByLibrary.simpleMessage(
+      "Disable this if you do not want the bug report dialog to appear when the device is shaken.",
+    ),
+    "shareErrorOnShakeLabel": MessageLookupByLibrary.simpleMessage(
+      "Open bug report dialog on shake",
+    ),
+    "shareErrorSuccessMessage": MessageLookupByLibrary.simpleMessage(
+      "Error message has been shared successfully!",
+    ),
+    "shareErrorTitle": MessageLookupByLibrary.simpleMessage("Share error"),
+    "showApplicationInformation": MessageLookupByLibrary.simpleMessage(
+      "Show information about the application.",
+    ),
+    "showDependencies": MessageLookupByLibrary.simpleMessage(
+      "Show dependencies.",
+    ),
+    "showDevDependencies": MessageLookupByLibrary.simpleMessage(
+      "Show developers dependencies.",
+    ),
+    "showLogs": MessageLookupByLibrary.simpleMessage("Show logs."),
     "signInButton": MessageLookupByLibrary.simpleMessage("Sign In"),
     "signUpButton": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "size": MessageLookupByLibrary.simpleMessage("Size"),
-    "somethingWentWrong": MessageLookupByLibrary.simpleMessage("Something went wrong"),
-    "starred": MessageLookupByLibrary.simpleMessage("Starred"),
     "status": MessageLookupByLibrary.simpleMessage("Status"),
     "storage": MessageLookupByLibrary.simpleMessage("Storage"),
-    "surname": MessageLookupByLibrary.simpleMessage("Surname"),
     "time": MessageLookupByLibrary.simpleMessage("Time"),
-    "timeOutExceeded": MessageLookupByLibrary.simpleMessage("Time out exceeded"),
     "title": MessageLookupByLibrary.simpleMessage("Title"),
-    "tooManyRequests": MessageLookupByLibrary.simpleMessage("Too many requests"),
-    "tryAgainLater": MessageLookupByLibrary.simpleMessage("Please try again later."),
     "type": MessageLookupByLibrary.simpleMessage("Type"),
-    "unauthorized": MessageLookupByLibrary.simpleMessage("Unauthorized"),
     "unimplemented": MessageLookupByLibrary.simpleMessage("Unimplemented"),
-    "unknownServerError": MessageLookupByLibrary.simpleMessage("Unknown server error"),
-    "unsupportedOperation": MessageLookupByLibrary.simpleMessage("Unsupported operation"),
-    "upgrade": MessageLookupByLibrary.simpleMessage("Upgrade"),
-    "uploadButton": MessageLookupByLibrary.simpleMessage("Upload"),
+    "useBetaFeatures": MessageLookupByLibrary.simpleMessage(
+      "Use beta features",
+    ),
+    "useDebugFeatures": MessageLookupByLibrary.simpleMessage(
+      "Use debug features",
+    ),
+    "useDeveloperMode": MessageLookupByLibrary.simpleMessage(
+      "Use developer mode",
+    ),
+    "useExperimentalFeatures": MessageLookupByLibrary.simpleMessage(
+      "Use experimental features",
+    ),
+    "useHapticFeedback": MessageLookupByLibrary.simpleMessage(
+      "Use haptic feedback",
+    ),
     "usefulLinks": MessageLookupByLibrary.simpleMessage("Useful links"),
     "version": MessageLookupByLibrary.simpleMessage("Version"),
+    "viewDatabase": MessageLookupByLibrary.simpleMessage("View database"),
+    "viewDatabaseDescription": MessageLookupByLibrary.simpleMessage(
+      "View database content.",
+    ),
   };
 }

@@ -1,4 +1,4 @@
-import 'package:flutter_template_name/src/common/widget/common_actions.dart';
+import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:ui/ui.dart';
 
 /// {@template home_screen}
@@ -9,22 +9,20 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          pinned: true,
-          title: const Text('Home'),
-          leading: const SizedBox.shrink(),
-          actions: CommonActions(),
-        ),
-        const SliverFillRemaining(
-          hasScrollBody: false,
-          child: Center(
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[Text('Home')]),
+  Widget build(BuildContext context) {
+    final l10n = Localization.of(context);
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(pinned: true, title: UIText.titleMedium(l10n.home), leading: const SizedBox.shrink()),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: Column(mainAxisAlignment: .center, children: <Widget>[Text(l10n.home)]),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }

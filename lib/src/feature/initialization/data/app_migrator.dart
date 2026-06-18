@@ -1,20 +1,23 @@
 // ignore_for_file: avoid_classes_with_only_static_members
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
 import 'package:flutter_template_name/src/common/database/database.dart';
+import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:l/l.dart';
 
+/// {@template app_migrator}
 /// Migrate application when version is changed.
+/// {@endtemplate}
 sealed class AppMigrator {
-  static Future<void> migrate(Database database) async {
+  /// Migrate application when version is changed.
+  static Future<void> migrate(Dependencies dependencies) async {
     try {
-      final prevMajor = database.getKey<int>(Config.versionMajorKey);
-      final prevMinor = database.getKey<int>(Config.versionMinorKey);
-      final prevPatch = database.getKey<int>(Config.versionPatchKey);
+      final prevMajor = await dependencies.sharedPreferences.getInt(Config.versionMajorKey);
+      final prevMinor = await dependencies.sharedPreferences.getInt(Config.versionMinorKey);
+      final prevPatch = await dependencies.sharedPreferences.getInt(Config.versionPatchKey);
       if (prevMajor == null || prevMinor == null || prevPatch == null) {
         l.i('Initializing app for the first time');
         /* ... */
@@ -22,22 +25,23 @@ sealed class AppMigrator {
           Pubspec.version.minor != prevMinor ||
           Pubspec.version.patch != prevPatch) {
         l.i(
-          'Migrating from $prevMajor.$prevMinor.$prevPatch '
-          'to '
-          '${Pubspec.version.major}.${Pubspec.version.minor}.${Pubspec.version.patch}',
+          'Migrating '
+          'from $prevMajor.$prevMinor.$prevPatch '
+          'to ${Pubspec.version.major}.${Pubspec.version.minor}.${Pubspec.version.patch}',
         );
-        /* ... */
+        await dependencies.sharedPreferences.remove('api_base_url'); // Remove old API base URL if exists
+        await $migrator$DropDatabase(dependencies.database); // db.removeAll();
       } else {
         l.i('App is up-to-date');
         return;
       }
-      database.setAll(<String, int>{
-        Config.versionMajorKey: Pubspec.version.major,
-        Config.versionMinorKey: Pubspec.version.minor,
-        Config.versionPatchKey: Pubspec.version.patch,
-      });
-    } on Object catch (error, stackTrace) {
-      l.e('App migration failed: $e', stackTrace);
+      await (
+        dependencies.sharedPreferences.setInt(Config.versionMajorKey, Pubspec.version.major),
+        dependencies.sharedPreferences.setInt(Config.versionMinorKey, Pubspec.version.minor),
+        dependencies.sharedPreferences.setInt(Config.versionPatchKey, Pubspec.version.patch),
+      ).wait;
+    } on Object catch (e, s) {
+      l.e('App migration failed: $e', s);
       rethrow;
     }
   }

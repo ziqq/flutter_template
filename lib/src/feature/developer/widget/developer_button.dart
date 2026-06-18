@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template_name/src/common/localization/localization.dart';
-import 'package:flutter_template_name/src/common/router/routes.dart';
-import 'package:octopus/octopus.dart';
+import 'package:flutter_template_name/src/feature/developer/widget/logs_screen.dart';
 
 /// {@template developer_button}
 /// DeveloperButton widget
@@ -13,7 +11,7 @@ class DeveloperButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => IconButton(
     icon: const Icon(Icons.developer_mode),
-    tooltip: Localization.of(context).developer,
-    onPressed: () => Octopus.of(context).push(Routes.developer),
+    tooltip: 'Developer',
+    onPressed: () => LogsScreen.show(context),
   );
 }

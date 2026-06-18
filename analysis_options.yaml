@@ -14,9 +14,7 @@ analyzer:
     # Assets
     - "assets/**"
     # Generated
-    - "lib/src/common/localization/generated/**"
-    - "lib/src/common/constants/pubspec.yaml.g.dart"
-    - "lib/src/common/model/generated/**"
+    - "**/generated/**"
     - "**.g.dart"
     - "**.gql.dart"
     - "**.freezed.dart"
@@ -169,7 +167,6 @@ linter:
     annotate_overrides: true
     avoid_empty_else: true
     avoid_init_to_null: true
-    avoid_null_checks_in_equality_operators: true
     avoid_return_types_on_setters: true
     avoid_shadowing_type_parameters: true
     avoid_types_as_parameter_names: true
@@ -232,6 +229,5 @@ linter:
     type_annotate_public_apis: true
     avoid_types_on_closure_parameters: true
     avoid_private_typedef_functions: true
-    avoid_positional_boolean_parameters: true
     hash_and_equals: true
     avoid_equals_and_hash_code_on_mutable_classes: true

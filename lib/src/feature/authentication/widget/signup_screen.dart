@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:ui/ui.dart';
 
 /// {@template signup_screen}
@@ -22,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(
                   height: 50,
                   child: Text(
-                    'Sign-Up',
+                    Localization.of(context).signUpButton,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -62,7 +63,7 @@ class _SignUpScreen$Buttons extends StatelessWidget {
         child: ElevatedButton.icon(
           onPressed: signUp,
           icon: const Icon(Icons.person_add),
-          label: const Text('Sign-Up', maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).signUpButton, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
       const SizedBox(width: 16),
@@ -71,7 +72,7 @@ class _SignUpScreen$Buttons extends StatelessWidget {
         child: FilledButton.tonalIcon(
           onPressed: cancel,
           icon: const Icon(Icons.cancel),
-          label: const Text('Cancel', maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).cancelButton, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
     ],

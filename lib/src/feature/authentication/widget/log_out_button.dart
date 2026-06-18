@@ -36,7 +36,7 @@ class LogOutButton extends StatelessWidget {
           ),
         ),
         content: Text(
-          'Are you sure you want to log out?',
+          Localization.of(context).logoutConfirmation,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium,
         ),

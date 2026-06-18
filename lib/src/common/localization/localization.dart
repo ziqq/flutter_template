@@ -35,6 +35,22 @@ final class Localization extends generated.GeneratedLocalization {
 
   /// Get supported locales.
   static List<Locale> get supportedLocales => const generated.AppLocalizationDelegate().supportedLocales;
+
+  /// Returns the localized strings for the given [context].
+  static T stringOf<T>(BuildContext context) {
+    final localization = Localizations.of<T>(context, T);
+    if (localization == null) {
+      throw ArgumentError(
+        'Out of scope, not found inherited widget '
+            'a Localization of the exact type',
+        'out_of_scope',
+      );
+    }
+    return localization as T;
+  }
+
+  /// Returns the current locale of the [context].
+  static Locale? localeOf(BuildContext context) => Localizations.localeOf(context);
 }
 
 @immutable

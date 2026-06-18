@@ -1,13 +1,15 @@
 import 'dart:collection' show Queue;
 
 import 'package:flutter/foundation.dart' show ChangeNotifier;
-import 'package:l/l.dart';
+import 'package:l/l.dart' show LogMessage;
 
 /// LogBuffer Singleton class
 class LogBuffer with ChangeNotifier {
   LogBuffer._internal();
-  static final LogBuffer _internalSingleton = LogBuffer._internal();
-  static LogBuffer get instance => _internalSingleton;
+
+  /// Get the singleton instance of [LogBuffer]
+  static LogBuffer get instance => _instance;
+  static final LogBuffer _instance = LogBuffer._internal();
 
   static const int bufferLimit = 10000;
   final Queue<LogMessage> _queue = Queue<LogMessage>();

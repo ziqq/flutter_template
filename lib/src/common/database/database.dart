@@ -7,12 +7,24 @@ import 'package:flutter_template_name/src/common/database/platform/database_vm.d
     // ignore: uri_does_not_exist
     if (dart.library.html) 'package:flutter_template_name/src/common/database/platform/database_js.dart';
 import 'package:flutter_template_name/src/common/database/queries.dart';
+import 'package:l/l.dart';
 import 'package:meta/meta.dart';
 
 export 'package:drift/drift.dart' hide DatabaseOpener;
 export 'package:drift/isolate.dart';
 
 part 'database.g.dart';
+
+/// Drops all tables in the database.
+/// Excluded `kvTbl` table, to save sensetive and important data, like auth tokens, preferences, promo codes, etc.
+Future<void> $migrator$DropDatabase(Database databse) async {
+  l.i('Dropping database...');
+  databse
+    ..delete(databse.characteristicTbl).go().ignore()
+    ..delete(databse.logTbl).go().ignore()
+    ..delete(databse.logPrefixTbl).go().ignore()
+    ..delete(databse.settingsTbl).go().ignore();
+}
 
 /// Key-value storage interface for SQLite database
 abstract interface class IKeyValueStorage {

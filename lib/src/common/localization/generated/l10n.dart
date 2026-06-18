@@ -28,7 +28,9 @@ class GeneratedLocalization {
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<GeneratedLocalization> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -49,12 +51,10 @@ class GeneratedLocalization {
   }
 
   static GeneratedLocalization? maybeOf(BuildContext context) {
-    return Localizations.of<GeneratedLocalization>(context, GeneratedLocalization);
-  }
-
-  /// `en_US`
-  String get localeCode {
-    return Intl.message('en_US', name: 'localeCode', desc: '', args: []);
+    return Localizations.of<GeneratedLocalization>(
+      context,
+      GeneratedLocalization,
+    );
   }
 
   /// `en`
@@ -72,34 +72,19 @@ class GeneratedLocalization {
     return Intl.message('Title', name: 'title', desc: '', args: []);
   }
 
-  /// `Routes`
-  String get routes {
-    return Intl.message('Routes', name: 'routes', desc: '', args: []);
-  }
-
-  /// `Recent`
-  String get recent {
-    return Intl.message('Recent', name: 'recent', desc: '', args: []);
-  }
-
-  /// `Starred`
-  String get starred {
-    return Intl.message('Starred', name: 'starred', desc: '', args: []);
-  }
-
   /// `Settings`
   String get settings {
     return Intl.message('Settings', name: 'settings', desc: '', args: []);
   }
 
-  /// `Developer`
-  String get developer {
-    return Intl.message('Developer', name: 'developer', desc: '', args: []);
+  /// `Profile`
+  String get profile {
+    return Intl.message('Profile', name: 'profile', desc: '', args: []);
   }
 
-  /// `Something went wrong`
-  String get somethingWentWrong {
-    return Intl.message('Something went wrong', name: 'somethingWentWrong', desc: '', args: []);
+  /// `Home`
+  String get home {
+    return Intl.message('Home', name: 'home', desc: '', args: []);
   }
 
   /// `Error`
@@ -107,136 +92,96 @@ class GeneratedLocalization {
     return Intl.message('Error', name: 'error', desc: '', args: []);
   }
 
-  /// `Exception`
-  String get exception {
-    return Intl.message('Exception', name: 'exception', desc: '', args: []);
-  }
-
-  /// `An error has occurred`
-  String get anErrorHasOccurred {
-    return Intl.message('An error has occurred', name: 'anErrorHasOccurred', desc: '', args: []);
-  }
-
-  /// `An exception has occurred`
-  String get anExceptionHasOccurred {
-    return Intl.message('An exception has occurred', name: 'anExceptionHasOccurred', desc: '', args: []);
-  }
-
-  /// `Please try again later.`
-  String get tryAgainLater {
-    return Intl.message('Please try again later.', name: 'tryAgainLater', desc: '', args: []);
-  }
-
-  /// `Invalid format`
-  String get invalidFormat {
-    return Intl.message('Invalid format', name: 'invalidFormat', desc: '', args: []);
-  }
-
-  /// `Time out exceeded`
-  String get timeOutExceeded {
-    return Intl.message('Time out exceeded', name: 'timeOutExceeded', desc: '', args: []);
-  }
-
-  /// `Invalid credentials`
-  String get invalidCredentials {
-    return Intl.message('Invalid credentials', name: 'invalidCredentials', desc: '', args: []);
-  }
-
-  /// `Unimplemented`
-  String get unimplemented {
-    return Intl.message('Unimplemented', name: 'unimplemented', desc: '', args: []);
-  }
-
-  /// `Not implemented yet`
-  String get notImplementedYet {
-    return Intl.message('Not implemented yet', name: 'notImplementedYet', desc: '', args: []);
-  }
-
-  /// `Unsupported operation`
-  String get unsupportedOperation {
-    return Intl.message('Unsupported operation', name: 'unsupportedOperation', desc: '', args: []);
-  }
-
-  /// `File system error`
-  String get fileSystemException {
-    return Intl.message('File system error', name: 'fileSystemException', desc: '', args: []);
-  }
-
-  /// `Assertion error`
-  String get assertionError {
-    return Intl.message('Assertion error', name: 'assertionError', desc: '', args: []);
-  }
-
-  /// `Bad state error`
-  String get badStateError {
-    return Intl.message('Bad state error', name: 'badStateError', desc: '', args: []);
-  }
-
-  /// `Bad request`
-  String get badRequest {
-    return Intl.message('Bad request', name: 'badRequest', desc: '', args: []);
-  }
-
-  /// `Unauthorized`
-  String get unauthorized {
-    return Intl.message('Unauthorized', name: 'unauthorized', desc: '', args: []);
-  }
-
-  /// `Forbidden`
-  String get forbidden {
-    return Intl.message('Forbidden', name: 'forbidden', desc: '', args: []);
-  }
-
   /// `Not found`
   String get notFound {
     return Intl.message('Not found', name: 'notFound', desc: '', args: []);
   }
 
-  /// `Not acceptable`
-  String get notAcceptable {
-    return Intl.message('Not acceptable', name: 'notAcceptable', desc: '', args: []);
-  }
-
-  /// `Request timeout`
-  String get requestTimeout {
-    return Intl.message('Request timeout', name: 'requestTimeout', desc: '', args: []);
-  }
-
-  /// `Too many requests`
-  String get tooManyRequests {
-    return Intl.message('Too many requests', name: 'tooManyRequests', desc: '', args: []);
+  /// `Unimplemented`
+  String get unimplemented {
+    return Intl.message(
+      'Unimplemented',
+      name: 'unimplemented',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Internal server error`
   String get internalServerError {
-    return Intl.message('Internal server error', name: 'internalServerError', desc: '', args: []);
-  }
-
-  /// `Bad gateway`
-  String get badGateway {
-    return Intl.message('Bad gateway', name: 'badGateway', desc: '', args: []);
-  }
-
-  /// `Service unavailable`
-  String get serviceUnavailable {
-    return Intl.message('Service unavailable', name: 'serviceUnavailable', desc: '', args: []);
-  }
-
-  /// `Gateway timeout`
-  String get gatewayTimeout {
-    return Intl.message('Gateway timeout', name: 'gatewayTimeout', desc: '', args: []);
-  }
-
-  /// `Unknown server error`
-  String get unknownServerError {
-    return Intl.message('Unknown server error', name: 'unknownServerError', desc: '', args: []);
-  }
-
-  /// `An unknown error was received from the server`
-  String get anUnknownErrorWasReceivedFromTheServer {
     return Intl.message(
-      'An unknown error was received from the server',
-      name: 'anUnknownErrorWasReceivedFromTheServer',
+      'Internal server error',
+      name: 'internalServerError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is required.`
+  String get emailRequiredError {
+    return Intl.message(
+      'Email is required.',
+      name: 'emailRequiredError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Must be a valid email.`
+  String get emailInvalidError {
+    return Intl.message(
+      'Must be a valid email.',
+      name: 'emailInvalidError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is required.`
+  String get passwordRequiredError {
+    return Intl.message(
+      'Password is required.',
+      name: 'passwordRequiredError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be 8 characters or more.`
+  String get passwordMinLengthError {
+    return Intl.message(
+      'Password must be 8 characters or more.',
+      name: 'passwordMinLengthError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be 32 characters or less.`
+  String get passwordMaxLengthError {
+    return Intl.message(
+      'Password must be 32 characters or less.',
+      name: 'passwordMaxLengthError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must have at least one uppercase character.`
+  String get passwordUppercaseError {
+    return Intl.message(
+      'Password must have at least one uppercase character.',
+      name: 'passwordUppercaseError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must have at least one lowercase character.`
+  String get passwordLowercaseError {
+    return Intl.message(
+      'Password must have at least one lowercase character.',
+      name: 'passwordLowercaseError',
       desc: '',
       args: [],
     );
@@ -247,24 +192,14 @@ class GeneratedLocalization {
     return Intl.message('Log Out', name: 'logOutButton', desc: '', args: []);
   }
 
-  /// `Log In`
-  String get logInButton {
-    return Intl.message('Log In', name: 'logInButton', desc: '', args: []);
-  }
-
-  /// `Exit`
-  String get exitButton {
-    return Intl.message('Exit', name: 'exitButton', desc: '', args: []);
+  /// `Sign In`
+  String get signInButton {
+    return Intl.message('Sign In', name: 'signInButton', desc: '', args: []);
   }
 
   /// `Sign Up`
   String get signUpButton {
     return Intl.message('Sign Up', name: 'signUpButton', desc: '', args: []);
-  }
-
-  /// `Sign In`
-  String get signInButton {
-    return Intl.message('Sign In', name: 'signInButton', desc: '', args: []);
   }
 
   /// `Back`
@@ -277,26 +212,6 @@ class GeneratedLocalization {
     return Intl.message('Cancel', name: 'cancelButton', desc: '', args: []);
   }
 
-  /// `Confirm`
-  String get confirmButton {
-    return Intl.message('Confirm', name: 'confirmButton', desc: '', args: []);
-  }
-
-  /// `Continue`
-  String get continueButton {
-    return Intl.message('Continue', name: 'continueButton', desc: '', args: []);
-  }
-
-  /// `Save`
-  String get saveButton {
-    return Intl.message('Save', name: 'saveButton', desc: '', args: []);
-  }
-
-  /// `Create`
-  String get createButton {
-    return Intl.message('Create', name: 'createButton', desc: '', args: []);
-  }
-
   /// `Delete`
   String get deleteButton {
     return Intl.message('Delete', name: 'deleteButton', desc: '', args: []);
@@ -307,69 +222,49 @@ class GeneratedLocalization {
     return Intl.message('Edit', name: 'editButton', desc: '', args: []);
   }
 
-  /// `Add`
-  String get addButton {
-    return Intl.message('Add', name: 'addButton', desc: '', args: []);
+  /// `Details`
+  String get detailsButton {
+    return Intl.message('Details', name: 'detailsButton', desc: '', args: []);
   }
 
-  /// `Copy`
-  String get copyButton {
-    return Intl.message('Copy', name: 'copyButton', desc: '', args: []);
+  /// `Attach logs`
+  String get attachLogsButton {
+    return Intl.message(
+      'Attach logs',
+      name: 'attachLogsButton',
+      desc: '',
+      args: [],
+    );
   }
 
-  /// `Move`
-  String get moveButton {
-    return Intl.message('Move', name: 'moveButton', desc: '', args: []);
+  /// `Send report`
+  String get sendReportButton {
+    return Intl.message(
+      'Send report',
+      name: 'sendReportButton',
+      desc: '',
+      args: [],
+    );
   }
 
-  /// `Rename`
-  String get renameButton {
-    return Intl.message('Rename', name: 'renameButton', desc: '', args: []);
+  /// `Contact support`
+  String get contactSupportButton {
+    return Intl.message(
+      'Contact support',
+      name: 'contactSupportButton',
+      desc: '',
+      args: [],
+    );
   }
 
-  /// `Upload`
-  String get uploadButton {
-    return Intl.message('Upload', name: 'uploadButton', desc: '', args: []);
-  }
-
-  /// `Download`
-  String get downloadButton {
-    return Intl.message('Download', name: 'downloadButton', desc: '', args: []);
-  }
-
-  /// `Share`
-  String get shareButton {
-    return Intl.message('Share', name: 'shareButton', desc: '', args: []);
-  }
-
-  /// `Share link`
-  String get shareLinkButton {
-    return Intl.message('Share link', name: 'shareLinkButton', desc: '', args: []);
-  }
-
-  /// `Remove from starred`
-  String get removeFromStarredButton {
-    return Intl.message('Remove from starred', name: 'removeFromStarredButton', desc: '', args: []);
-  }
-
-  /// `Add to starred`
-  String get addToStarredButton {
-    return Intl.message('Add to starred', name: 'addToStarredButton', desc: '', args: []);
-  }
-
-  /// `Move to trash`
-  String get moveToTrashButton {
-    return Intl.message('Move to trash', name: 'moveToTrashButton', desc: '', args: []);
-  }
-
-  /// `Restore`
-  String get restoreButton {
-    return Intl.message('Restore', name: 'restoreButton', desc: '', args: []);
-  }
-
-  /// `Profile`
-  String get profileButton {
-    return Intl.message('Profile', name: 'profileButton', desc: '', args: []);
+  /// `Share the error`
+  String get shareErrorButton {
+    return Intl.message(
+      'Share the error',
+      name: 'shareErrorButton',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Email`
@@ -382,29 +277,9 @@ class GeneratedLocalization {
     return Intl.message('Password', name: 'password', desc: '', args: []);
   }
 
-  /// `Confirm password`
-  String get confirmPassword {
-    return Intl.message('Confirm password', name: 'confirmPassword', desc: '', args: []);
-  }
-
   /// `Name`
   String get name {
     return Intl.message('Name', name: 'name', desc: '', args: []);
-  }
-
-  /// `Surname`
-  String get surname {
-    return Intl.message('Surname', name: 'surname', desc: '', args: []);
-  }
-
-  /// `Language selection`
-  String get languageSelection {
-    return Intl.message('Language selection', name: 'languageSelection', desc: '', args: []);
-  }
-
-  /// `Upgrade`
-  String get upgrade {
-    return Intl.message('Upgrade', name: 'upgrade', desc: '', args: []);
   }
 
   /// `App`
@@ -412,59 +287,29 @@ class GeneratedLocalization {
     return Intl.message('App', name: 'app', desc: '', args: []);
   }
 
-  /// `Application`
-  String get application {
-    return Intl.message('Application', name: 'application', desc: '', args: []);
-  }
-
-  /// `Authenticate`
-  String get authenticate {
-    return Intl.message('Authenticate', name: 'authenticate', desc: '', args: []);
-  }
-
   /// `Authenticated`
   String get authenticated {
-    return Intl.message('Authenticated', name: 'authenticated', desc: '', args: []);
+    return Intl.message(
+      'Authenticated',
+      name: 'authenticated',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Authentication`
   String get authentication {
-    return Intl.message('Authentication', name: 'authentication', desc: '', args: []);
-  }
-
-  /// `Navigation`
-  String get navigation {
-    return Intl.message('Navigation', name: 'navigation', desc: '', args: []);
+    return Intl.message(
+      'Authentication',
+      name: 'authentication',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Database`
   String get database {
     return Intl.message('Database', name: 'database', desc: '', args: []);
-  }
-
-  /// `Copied`
-  String get copied {
-    return Intl.message('Copied', name: 'copied', desc: '', args: []);
-  }
-
-  /// `Useful links`
-  String get usefulLinks {
-    return Intl.message('Useful links', name: 'usefulLinks', desc: '', args: []);
-  }
-
-  /// `You will be logged out from your account`
-  String get logOutDescription {
-    return Intl.message('You will be logged out from your account', name: 'logOutDescription', desc: '', args: []);
-  }
-
-  /// `Current version`
-  String get currentVersion {
-    return Intl.message('Current version', name: 'currentVersion', desc: '', args: []);
-  }
-
-  /// `Latest version`
-  String get latestVersion {
-    return Intl.message('Latest version', name: 'latestVersion', desc: '', args: []);
   }
 
   /// `Version`
@@ -482,11 +327,6 @@ class GeneratedLocalization {
     return Intl.message('Type', name: 'type', desc: '', args: []);
   }
 
-  /// `Date`
-  String get date {
-    return Intl.message('Date', name: 'date', desc: '', args: []);
-  }
-
   /// `Time`
   String get time {
     return Intl.message('Time', name: 'time', desc: '', args: []);
@@ -497,59 +337,569 @@ class GeneratedLocalization {
     return Intl.message('Status', name: 'status', desc: '', args: []);
   }
 
-  /// `Current`
-  String get currentLabel {
-    return Intl.message('Current', name: 'currentLabel', desc: '', args: []);
-  }
-
-  /// `Current user`
-  String get currentUser {
-    return Intl.message('Current user', name: 'currentUser', desc: '', args: []);
-  }
-
-  /// `Application version`
-  String get applicationVersion {
-    return Intl.message('Application version', name: 'applicationVersion', desc: '', args: []);
-  }
-
-  /// `Application information`
-  String get applicationInformation {
-    return Intl.message('Application information', name: 'applicationInformation', desc: '', args: []);
-  }
-
-  /// `Connected devices`
-  String get conectedDevices {
-    return Intl.message('Connected devices', name: 'conectedDevices', desc: '', args: []);
-  }
-
-  /// `Renewal date`
-  String get renewalDate {
-    return Intl.message('Renewal date', name: 'renewalDate', desc: '', args: []);
-  }
-
-  /// `API domain`
-  String get apiDomain {
-    return Intl.message('API domain', name: 'apiDomain', desc: '', args: []);
-  }
-
-  /// `No plan`
-  String get noPlan {
-    return Intl.message('No plan', name: 'noPlan', desc: '', args: []);
-  }
-
   /// `Storage`
   String get storage {
     return Intl.message('Storage', name: 'storage', desc: '', args: []);
   }
 
-  /// `Help`
-  String get help {
-    return Intl.message('Help', name: 'help', desc: '', args: []);
-  }
-
   /// `Selected`
   String get selected {
     return Intl.message('Selected', name: 'selected', desc: '', args: []);
+  }
+
+  /// `Generate password`
+  String get generatePasswordTooltip {
+    return Intl.message(
+      'Generate password',
+      name: 'generatePasswordTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your email`
+  String get emailHint {
+    return Intl.message(
+      'Enter your email',
+      name: 'emailHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your password`
+  String get enterPasswordHint {
+    return Intl.message(
+      'Enter your password',
+      name: 'enterPasswordHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to log out?`
+  String get logoutConfirmation {
+    return Intl.message(
+      'Are you sure you want to log out?',
+      name: 'logoutConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error details`
+  String get errorDetailsTitle {
+    return Intl.message(
+      'Error details',
+      name: 'errorDetailsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy to clipboard`
+  String get copyToClipboardTooltip {
+    return Intl.message(
+      'Copy to clipboard',
+      name: 'copyToClipboardTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error message has been shared successfully!`
+  String get shareErrorSuccessMessage {
+    return Intl.message(
+      'Error message has been shared successfully!',
+      name: 'shareErrorSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change your settings`
+  String get settingsDescription {
+    return Intl.message(
+      'Change your settings',
+      name: 'settingsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Developer`
+  String get developer {
+    return Intl.message('Developer', name: 'developer', desc: '', args: []);
+  }
+
+  /// `Application`
+  String get application {
+    return Intl.message('Application', name: 'application', desc: '', args: []);
+  }
+
+  /// `Navigation`
+  String get navigation {
+    return Intl.message('Navigation', name: 'navigation', desc: '', args: []);
+  }
+
+  /// `Useful links`
+  String get usefulLinks {
+    return Intl.message(
+      'Useful links',
+      name: 'usefulLinks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App version`
+  String get appVersion {
+    return Intl.message('App version', name: 'appVersion', desc: '', args: []);
+  }
+
+  /// `Copied`
+  String get copied {
+    return Intl.message('Copied', name: 'copied', desc: '', args: []);
+  }
+
+  /// `Database cleared`
+  String get databaseClearedMessage {
+    return Intl.message(
+      'Database cleared',
+      name: 'databaseClearedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Database clear failed`
+  String get databaseClearFailedMessage {
+    return Intl.message(
+      'Database clear failed',
+      name: 'databaseClearFailedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Application information`
+  String get applicationInformation {
+    return Intl.message(
+      'Application information',
+      name: 'applicationInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show information about the application.`
+  String get showApplicationInformation {
+    return Intl.message(
+      'Show information about the application.',
+      name: 'showApplicationInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dependencies`
+  String get dependencies {
+    return Intl.message(
+      'Dependencies',
+      name: 'dependencies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show dependencies.`
+  String get showDependencies {
+    return Intl.message(
+      'Show dependencies.',
+      name: 'showDependencies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dev dependencies`
+  String get devDependencies {
+    return Intl.message(
+      'Dev dependencies',
+      name: 'devDependencies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show developers dependencies.`
+  String get showDevDependencies {
+    return Intl.message(
+      'Show developers dependencies.',
+      name: 'showDevDependencies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logs`
+  String get logs {
+    return Intl.message('Logs', name: 'logs', desc: '', args: []);
+  }
+
+  /// `Show logs.`
+  String get showLogs {
+    return Intl.message('Show logs.', name: 'showLogs', desc: '', args: []);
+  }
+
+  /// `Clear`
+  String get clearButton {
+    return Intl.message('Clear', name: 'clearButton', desc: '', args: []);
+  }
+
+  /// `No logs yet`
+  String get noLogsYet {
+    return Intl.message('No logs yet', name: 'noLogsYet', desc: '', args: []);
+  }
+
+  /// `Share error`
+  String get shareErrorTitle {
+    return Intl.message(
+      'Share error',
+      name: 'shareErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Describe the issue you encountered and we will try to fix it as soon as possible.`
+  String get shareErrorDescription {
+    return Intl.message(
+      'Describe the issue you encountered and we will try to fix it as soon as possible.',
+      name: 'shareErrorDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attaching logs can help us identify and fix the issue faster.`
+  String get attachLogsDescription {
+    return Intl.message(
+      'Attaching logs can help us identify and fix the issue faster.',
+      name: 'attachLogsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open bug report dialog on shake`
+  String get shareErrorOnShakeLabel {
+    return Intl.message(
+      'Open bug report dialog on shake',
+      name: 'shareErrorOnShakeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disable this if you do not want the bug report dialog to appear when the device is shaken.`
+  String get shareErrorOnShakeHint {
+    return Intl.message(
+      'Disable this if you do not want the bug report dialog to appear when the device is shaken.',
+      name: 'shareErrorOnShakeHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset navigation`
+  String get resetNavigation {
+    return Intl.message(
+      'Reset navigation',
+      name: 'resetNavigation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset navigation stack.`
+  String get resetNavigationDescription {
+    return Intl.message(
+      'Reset navigation stack.',
+      name: 'resetNavigationDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View database`
+  String get viewDatabase {
+    return Intl.message(
+      'View database',
+      name: 'viewDatabase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View database content.`
+  String get viewDatabaseDescription {
+    return Intl.message(
+      'View database content.',
+      name: 'viewDatabaseDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drop database`
+  String get dropDatabase {
+    return Intl.message(
+      'Drop database',
+      name: 'dropDatabase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear database content.`
+  String get dropDatabaseDescription {
+    return Intl.message(
+      'Clear database content.',
+      name: 'dropDatabaseDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Information about current user`
+  String get currentUserInformation {
+    return Intl.message(
+      'Information about current user',
+      name: 'currentUserInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh session`
+  String get refreshSession {
+    return Intl.message(
+      'Refresh session',
+      name: 'refreshSession',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh current user's session`
+  String get refreshSessionDescription {
+    return Intl.message(
+      'Refresh current user\'s session',
+      name: 'refreshSessionDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log out current user`
+  String get logOutCurrentUser {
+    return Intl.message(
+      'Log out current user',
+      name: 'logOutCurrentUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.`
+  String get advancedOptionsDescription {
+    return Intl.message(
+      'Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.',
+      name: 'advancedOptionsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use debug features`
+  String get useDebugFeatures {
+    return Intl.message(
+      'Use debug features',
+      name: 'useDebugFeatures',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use developer mode`
+  String get useDeveloperMode {
+    return Intl.message(
+      'Use developer mode',
+      name: 'useDeveloperMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Developer info`
+  String get developerInfoButton {
+    return Intl.message(
+      'Developer info',
+      name: 'developerInfoButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Experimental features. Use with caution, as they may cause unexpected behavior or crashes.`
+  String get experimentalFeaturesDescription {
+    return Intl.message(
+      'Experimental features. Use with caution, as they may cause unexpected behavior or crashes.',
+      name: 'experimentalFeaturesDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use beta features`
+  String get useBetaFeatures {
+    return Intl.message(
+      'Use beta features',
+      name: 'useBetaFeatures',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use experimental features`
+  String get useExperimentalFeatures {
+    return Intl.message(
+      'Use experimental features',
+      name: 'useExperimentalFeatures',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable haptic feedback in the app. Useful for testing haptic feedback functionality.`
+  String get hapticFeedbackDescription {
+    return Intl.message(
+      'Enable haptic feedback in the app. Useful for testing haptic feedback functionality.',
+      name: 'hapticFeedbackDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use haptic feedback`
+  String get useHapticFeedback {
+    return Intl.message(
+      'Use haptic feedback',
+      name: 'useHapticFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear key-value storage. Useful for testing onboarding and promo code flows.`
+  String get clearKeyValueStorageDescription {
+    return Intl.message(
+      'Clear key-value storage. Useful for testing onboarding and promo code flows.',
+      name: 'clearKeyValueStorageDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear key-value storage`
+  String get clearKeyValueStorageButton {
+    return Intl.message(
+      'Clear key-value storage',
+      name: 'clearKeyValueStorageButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Key-value storage cleared successfully`
+  String get clearKeyValueStorageSuccessMessage {
+    return Intl.message(
+      'Key-value storage cleared successfully',
+      name: 'clearKeyValueStorageSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh FCM token. Useful for testing push notifications in development builds.`
+  String get refreshFcmTokenDescription {
+    return Intl.message(
+      'Refresh FCM token. Useful for testing push notifications in development builds.',
+      name: 'refreshFcmTokenDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh FCM token`
+  String get refreshFcmTokenButton {
+    return Intl.message(
+      'Refresh FCM token',
+      name: 'refreshFcmTokenButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share application logs for better support`
+  String get shareApplicationLogsDescription {
+    return Intl.message(
+      'Share application logs for better support',
+      name: 'shareApplicationLogsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send logs`
+  String get sendLogsButton {
+    return Intl.message(
+      'Send logs',
+      name: 'sendLogsButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.`
+  String get logoutAllDevicesDescription {
+    return Intl.message(
+      'Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.',
+      name: 'logoutAllDevicesDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to log out from all devices?`
+  String get logoutAllDevicesConfirmation {
+    return Intl.message(
+      'Are you sure you want to log out from all devices?',
+      name: 'logoutAllDevicesConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log out from all devices`
+  String get logoutAllDevicesButton {
+    return Intl.message(
+      'Log out from all devices',
+      name: 'logoutAllDevicesButton',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `of`
@@ -558,17 +908,22 @@ class GeneratedLocalization {
   }
 }
 
-class AppLocalizationDelegate extends LocalizationsDelegate<GeneratedLocalization> {
+class AppLocalizationDelegate
+    extends LocalizationsDelegate<GeneratedLocalization> {
   const AppLocalizationDelegate();
 
   List<Locale> get supportedLocales {
-    return const <Locale>[Locale.fromSubtags(languageCode: 'en')];
+    return const <Locale>[
+      Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'ru'),
+    ];
   }
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);
   @override
-  Future<GeneratedLocalization> load(Locale locale) => GeneratedLocalization.load(locale);
+  Future<GeneratedLocalization> load(Locale locale) =>
+      GeneratedLocalization.load(locale);
   @override
   bool shouldReload(AppLocalizationDelegate old) => false;
 

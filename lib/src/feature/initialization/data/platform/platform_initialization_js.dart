@@ -1,27 +1,97 @@
-// ignore_for_file: avoid_web_libraries_in_flutter
+//import 'dart:js_interop';
+//import 'dart:js_interop_unsafe';
 
-import 'package:web/web.dart';
+import 'dart:async' show Timer;
+import 'dart:js_interop';
+
+// import 'package: file_picker/_internal/file_picker_web.dart';
+// import 'package:firebase_app_check/firebase_app_check.dart'as fb_app_check;
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:l/l.dart';
+import 'package:web/web.dart' as web;
+
+extension type $JSWindow._(JSObject _) implements JSObject {
+  /// Update loading progress.
+  external void updateLoadingProgress(int progress, String text);
+
+  /// Removes the loading indicator.
+  external void removeLoadingIndicator();
+}
+
+@JS('window')
+external $JSWindow get window;
 
 Future<void> $platformInitialization() async {
-  // setUrlStrategy(const HashUrlStrategy());
+  try {
+    // Set the URL strategy
+    usePathUrlStrategy();
+  } on Object catch (e, s) {
+    l.w('Failed to set URL strategy: $e', s);
+  }
 
-  // Remove splash screen
-  Future<void>.delayed(const Duration(seconds: 1), () {
-    // Before running your app:
-    // setUrlStrategy(null); // const HashUrlStrategy();
-    // setUrlStrategy(NoHistoryUrlStrategy());
+  try {
+    if (kIsWeb) BrowserContextMenu.disableContextMenu().ignore();
+  } on Object catch (e, s) {
+    l.w('Failed to disable browser context menu: $e', s);
+  }
 
-    document.getElementById('splash')?.remove();
-    document.getElementById('splash-branding')?.remove();
-    document.body?.style.background = 'transparent';
+  try {
+    // Register the FilePickerWeb.
+    // if (kIsWeb) FilePickerWeb.registerWith(Registrar());
+  } on Object catch (e, s) {
+    l.w('Failed to register FilePickerWeb: $e', s);
+  }
 
-    final elements = document.getElementsByClassName('splash-loading');
-    for (var i = elements.length - 1; i >= 0; i--) elements.item(i)?.remove();
+  // Remove splash screen after 1 second delay
+  Timer(const Duration(seconds: 1), () {
+    try {
+      final loading = web.document.getElementsByClassName('loading');
+      for (var i = loading.length - 1; i >= 0; i--) {
+        loading.item(i)?.remove();
+      }
+    } on Object catch (e, s) {
+      l.w('Failed to remove splash screen: $e', s);
+    }
   });
+
+  // Current os check
+  try {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.windows:
+        l.d('Device is Windows.');
+      case TargetPlatform.macOS:
+        l.d('Device is macOS.');
+        web.window.visualViewport?.addEventListener(
+          'resize',
+          (web.Event e) {
+            web.window.dispatchEvent(web.Event('resize'));
+          }.toJS,
+        );
+      case TargetPlatform.iOS:
+        l.d('Device is iOS.');
+        web.window.visualViewport?.addEventListener(
+          'resize',
+          (web.Event e) {
+            web.window.dispatchEvent(web.Event('resize'));
+          }.toJS,
+        );
+      case TargetPlatform.android:
+        l.d('Device is Android.');
+      case TargetPlatform.linux:
+        l.d('Device is Linux.');
+      case TargetPlatform.fuchsia:
+        l.d('Device is Fuchsia.');
+    }
+  } on Object catch (e, s) {
+    l.w('Error during platform pre initialization: $e', s);
+  }
 }
 
-/* class NoHistoryUrlStrategy extends PathUrlStrategy {
-  @override
-  void pushState(Object? state, String title, String url) => replaceState(state, title, url);
-}
-*/
+/// Update the loading progress on the web platform.
+void $updateLoadingProgress({int progress = 100, String text = ''}) => window.updateLoadingProgress(progress, text);
+
+/// Remove the loading widget from the web platform.
+void $removeLoadingWidget() => window.removeLoadingIndicator();

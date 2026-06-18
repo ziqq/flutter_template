@@ -4,12 +4,12 @@ import 'package:control/control.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/router/routes.dart';
+import 'package:flutter_template_name/src/common/localization/localization.dart';
+import 'package:flutter_template_name/src/common/router/app_pages.dart';
+import 'package:flutter_template_name/src/common/util/context_extension.dart';
 import 'package:flutter_template_name/src/feature/authentication/controller/authentication_controller.dart';
-import 'package:flutter_template_name/src/feature/authentication/controller/authentication_state.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/sign_in_data.dart';
 import 'package:flutter_template_name/src/feature/authentication/widget/authentication_scope.dart';
-import 'package:octopus/octopus.dart';
 
 /// {@template signin_screen}
 /// SignInScreen widget.
@@ -37,126 +37,127 @@ class _SignInScreenState extends State<SignInScreen> with _UsernamePasswordFormS
   bool _obscurePassword = true;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: Center(
-        child: LayoutBuilder(
-          builder: (context, constraints) => SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: math.max(16, (constraints.maxWidth - 620) / 2)),
-            child: StateConsumer<AuthenticationController, AuthenticationState>(
-              controller: _authenticationController,
-              buildWhen: (previous, current) => previous != current,
-              builder: (context, state, _) => Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 50,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        const SizedBox(width: 50),
-                        Text(
-                          'Sign-In',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineLarge?.copyWith(height: 1),
-                        ),
-                        const SizedBox(width: 2),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: IconButton(
-                            icon: const Icon(Icons.casino),
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints.tightFor(width: 48, height: 48),
-                            tooltip: 'Generate password',
-                            onPressed: state.isIdling
-                                ? () {
-                                    if (_obscurePassword) {
-                                      setState(() => _obscurePassword = false);
-                                    }
-                                    generatePassword();
-                                  }
-                                : null,
+  Widget build(BuildContext context) {
+    final l10n = Localization.of(context);
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: math.max(16, (constraints.maxWidth - 620) / 2)),
+              child: StateConsumer<AuthenticationController, AuthenticationState>(
+                controller: _authenticationController,
+                buildWhen: (previous, current) => previous != current,
+                builder: (context, state, _) => Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 50,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          const SizedBox(width: 50),
+                          Text(
+                            l10n.signInButton,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headlineLarge?.copyWith(height: 1),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  TextField(
-                    focusNode: _usernameFocusNode,
-                    enabled: state.isIdling,
-                    maxLines: 1,
-                    minLines: 1,
-                    controller: _usernameController,
-                    autocorrect: false,
-                    autofillHints: const <String>[AutofillHints.username, AutofillHints.email],
-                    keyboardType: TextInputType.emailAddress,
-                    inputFormatters: _usernameFormatters,
-                    decoration: InputDecoration(
-                      labelText: 'Username',
-                      hintText: 'Enter your username',
-                      helperText: '',
-                      helperMaxLines: 1,
-                      errorText: _usernameError ?? state.error,
-                      errorMaxLines: 1,
-                      prefixIcon: const Icon(Icons.person),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    focusNode: _passwordFocusNode,
-                    enabled: state.isIdling,
-                    maxLines: 1,
-                    minLines: 1,
-                    controller: _passwordController,
-                    autocorrect: false,
-                    obscureText: _obscurePassword,
-                    maxLength: Config.passwordMaxLength,
-                    autofillHints: const <String>[AutofillHints.password],
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      hintText: 'Enter your password',
-                      helperText: '',
-                      helperMaxLines: 1,
-                      errorText: _passwordError ?? state.error,
-                      errorMaxLines: 1,
-                      prefixIcon: const Icon(Icons.lock),
-                      suffixIcon: IconButton(
-                        icon: Icon(_obscurePassword ? Icons.visibility : Icons.visibility_off),
-                        onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                          const SizedBox(width: 2),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: IconButton(
+                              icon: const Icon(Icons.casino),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints.tightFor(width: 48, height: 48),
+                              tooltip: l10n.generatePasswordTooltip,
+                              onPressed: state.isProcessing
+                                  ? null
+                                  : () {
+                                      if (_obscurePassword) setState(() => _obscurePassword = false);
+                                      generatePassword();
+                                    },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 32),
-                  SizedBox(
-                    height: 48,
-                    child: AnimatedBuilder(
-                      animation: _formChangedNotifier,
-                      builder: (context, _) {
-                        final formFilled =
-                            _usernameController.text.length > 3 &&
-                            _passwordController.text.length >= Config.passwordMinLength;
-                        final signInCallback = state.isIdling && formFilled ? () => signIn(context) : null;
-                        final signUpCallback = state.isIdling ? () => signUp(context) : null;
-                        final key = ValueKey<int>(
-                          (signInCallback == null ? 0 : 1 << 1) | (signUpCallback == null ? 0 : 1),
-                        );
-                        return _SignInScreen$Buttons(signIn: signInCallback, signUp: signUpCallback, key: key);
-                      },
+                    const SizedBox(height: 32),
+                    TextField(
+                      focusNode: _usernameFocusNode,
+                      enabled: !state.isProcessing,
+                      maxLines: 1,
+                      minLines: 1,
+                      controller: _usernameController,
+                      autocorrect: false,
+                      autofillHints: const <String>[AutofillHints.username, AutofillHints.email],
+                      keyboardType: TextInputType.emailAddress,
+                      inputFormatters: _usernameFormatters,
+                      decoration: InputDecoration(
+                        labelText: l10n.email,
+                        hintText: l10n.emailHint,
+                        helperText: '',
+                        helperMaxLines: 1,
+                        errorText: _usernameError,
+                        errorMaxLines: 1,
+                        prefixIcon: const Icon(Icons.person),
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    TextField(
+                      focusNode: _passwordFocusNode,
+                      enabled: !state.isProcessing,
+                      maxLines: 1,
+                      minLines: 1,
+                      controller: _passwordController,
+                      autocorrect: false,
+                      obscureText: _obscurePassword,
+                      maxLength: Config.passwordMaxLength,
+                      autofillHints: const <String>[AutofillHints.password],
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecoration(
+                        labelText: l10n.password,
+                        hintText: l10n.enterPasswordHint,
+                        helperText: '',
+                        helperMaxLines: 1,
+                        errorText: _passwordError,
+                        errorMaxLines: 1,
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(_obscurePassword ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      height: 48,
+                      child: AnimatedBuilder(
+                        animation: _formChangedNotifier,
+                        builder: (context, _) {
+                          final formFilled =
+                              _usernameController.text.length > 3 &&
+                              _passwordController.text.length >= Config.passwordMinLength;
+                          final signInCallback = !state.isProcessing && formFilled ? () => signIn(context) : null;
+                          final signUpCallback = !state.isProcessing ? () => signUp(context) : null;
+                          final key = ValueKey<int>(
+                            (signInCallback == null ? 0 : 1 << 1) | (signUpCallback == null ? 0 : 1),
+                          );
+                          return _SignInScreen$Buttons(signIn: signInCallback, signUp: signUpCallback, key: key);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _SignInScreen$Buttons extends StatelessWidget {
@@ -175,7 +176,7 @@ class _SignInScreen$Buttons extends StatelessWidget {
         child: ElevatedButton.icon(
           onPressed: signIn,
           icon: const Icon(Icons.login),
-          label: const Text('Sign-In', maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).signInButton, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
       const SizedBox(width: 16),
@@ -184,7 +185,7 @@ class _SignInScreen$Buttons extends StatelessWidget {
         child: FilledButton.tonalIcon(
           onPressed: signUp,
           icon: const Icon(Icons.person_add),
-          label: const Text('Sign-Up', maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).signUpButton, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
     ],
@@ -199,35 +200,37 @@ class _UsernameTextFormatter extends TextInputFormatter {
 }
 
 mixin _UsernamePasswordFormStateMixin on State<SignInScreen> {
-  static String? _usernameValidator(String username) {
-    if (username.isEmpty) return 'Username is required.';
+  String? _usernameValidator(BuildContext context, String username) {
+    final l10n = Localization.of(context);
+    if (username.isEmpty) return l10n.emailRequiredError;
     final length = switch (username.length) {
-      0 => 'Password is required.',
-      < 3 => 'Must be a valid email.',
+      0 => l10n.emailRequiredError,
+      < 3 => l10n.emailInvalidError,
       _ => null,
     };
     if (length != null) return length;
     if (username.split('@').where((e) => e.isNotEmpty).length != 2) {
-      return 'Must be a valid email.';
+      return l10n.emailInvalidError;
     }
     // If username passes all checks, return null
     return null;
   }
 
-  static String? _passwordValidator(String password) {
+  String? _passwordValidator(BuildContext context, String password) {
+    final l10n = Localization.of(context);
     const passwordMinLength = Config.passwordMinLength, passwordMaxLength = Config.passwordMaxLength;
     final length = switch (password.length) {
-      0 => 'Password is required.',
-      < passwordMinLength => 'Password must be 8 characters or more.',
-      > passwordMaxLength => 'Password must be 32 characters or less.',
+      0 => l10n.passwordRequiredError,
+      < passwordMinLength => l10n.passwordMinLengthError,
+      > passwordMaxLength => l10n.passwordMaxLengthError,
       _ => null,
     };
     if (length != null) return length;
     if (!password.contains(RegExp('[A-Z]'))) {
-      return 'Password must have at least one uppercase character.';
+      return l10n.passwordUppercaseError;
     }
     if (!password.contains(RegExp('[a-z]'))) {
-      return 'Password must have at least one lowercase character.';
+      return l10n.passwordLowercaseError;
     }
     // If password passes all checks, return null
     return null;
@@ -238,9 +241,9 @@ mixin _UsernamePasswordFormStateMixin on State<SignInScreen> {
   final TextEditingController _passwordController = TextEditingController();
   String? _usernameError, _passwordError;
 
-  bool _validate(String username, String password) {
-    final usernameError = _usernameValidator(username);
-    final passwordError = _passwordValidator(password);
+  bool _validate(BuildContext context, String username, String password) {
+    final usernameError = _usernameValidator(context, username);
+    final passwordError = _passwordValidator(context, password);
     if (mounted) {
       setState(() {
         _usernameError = usernameError;
@@ -254,7 +257,7 @@ mixin _UsernamePasswordFormStateMixin on State<SignInScreen> {
   void signIn(BuildContext context) {
     final username = _usernameController.text;
     final password = _passwordController.text;
-    if (!_validate(username, password)) return;
+    if (!_validate(context, username, password)) return;
     FocusScope.of(context).unfocus();
     _authenticationController.signIn(SignInData(username: username, password: password));
   }
@@ -281,13 +284,14 @@ mixin _UsernamePasswordFormStateMixin on State<SignInScreen> {
     FocusScope.of(context).unfocus();
     // url_launcher.launchUrlString('...').ignore();
     // context.octopus.setState((state) => state..add(Routes.signup.node()));
-    context.octopus.push(Routes.signup);
+    // context.octopus.push(Routes.signup);
+    context.ext.navigator.push(const SignUpPage());
   }
 
   @override
   void initState() {
     super.initState();
-    _authenticationController = AuthenticationScope.controllerOf(context);
+    _authenticationController = AuthenticationScope.of(context);
     generatePassword();
   }
 
