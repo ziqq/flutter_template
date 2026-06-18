@@ -1,9 +1,22 @@
 {
+  "dart.flutterSdkPath": ".fvm/versions/stable",
   "dart.lineLength": 120,
+  "dart.doNotFormat": [
+    "**/generated/**",
+    "**.gen.dart",
+    "**.g.dart",
+    "**.gql.dart",
+    "**.freezed.dart",
+    "**.config.dart",
+    "**.mocks.dart",
+    "**.pb.dart",
+    "**.pbenum.dart",
+    "**.pbjson.dart",
+    "**.endpoint.dart",
+    "**_endpoint.dart"
+  ],
   "[dart]": {
-    "editor.rulers": [
-      120
-    ],
+    "editor.rulers": [120],
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "editor.suggest.snippetsPreventQuickSuggestions": false,
@@ -27,20 +40,6 @@
     },
     "editor.links": true
   },
-  "dart.doNotFormat": [
-    "**/generated/**",
-    "**.gen.dart",
-    "**.g.dart",
-    "**.gql.dart",
-    "**.freezed.dart",
-    "**.config.dart",
-    "**.mocks.dart",
-    "**.pb.dart",
-    "**.pbenum.dart",
-    "**.pbjson.dart",
-    "**.endpoint.dart",
-    "**_endpoint.dart"
-  ],
   "search.exclude": {
     "**/.fvm": true,
     ".fvm": true,
@@ -85,18 +84,16 @@
     "*.drift": "sql"
   },
   "highlight.regexes": {
-    "(\"@\\s*.+\":\\s{0,1}{},)": {
+    "(\"@[^\"\\n]+\":\\s*\\{\\},?)": {
       "filterFileRegex": ".*\\.arb",
-      "filterThemeRegex": ".*Dark.*",
       "decorations": [
         {
           "overviewRulerColor": "#d19a66",
-          "backgroundColor": "#d19a66",
+          "backgroundColor": "#d19a6633",
           "color": "#282c34",
           "fontWeight": "bold"
         }
       ]
     }
-  },
-  "dart.flutterSdkPath": ".fvm/versions/stable"
+  }
 }
