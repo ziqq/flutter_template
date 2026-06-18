@@ -22,207 +22,253 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "advancedOptionsDescription": MessageLookupByLibrary.simpleMessage(
-      "Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.",
+    "appLocaleCode": MessageLookupByLibrary.simpleMessage("en"),
+    "appLocaleName": MessageLookupByLibrary.simpleMessage("English"),
+    "appTitle": MessageLookupByLibrary.simpleMessage("Title"),
+    "authEmailFieldHint": MessageLookupByLibrary.simpleMessage(
+      "Enter your email",
     ),
-    "app": MessageLookupByLibrary.simpleMessage("App"),
-    "appVersion": MessageLookupByLibrary.simpleMessage("App version"),
-    "application": MessageLookupByLibrary.simpleMessage("Application"),
-    "applicationInformation": MessageLookupByLibrary.simpleMessage(
-      "Application information",
-    ),
-    "attachLogsButton": MessageLookupByLibrary.simpleMessage("Attach logs"),
-    "attachLogsDescription": MessageLookupByLibrary.simpleMessage(
-      "Attaching logs can help us identify and fix the issue faster.",
-    ),
-    "authenticated": MessageLookupByLibrary.simpleMessage("Authenticated"),
-    "authentication": MessageLookupByLibrary.simpleMessage("Authentication"),
-    "backButton": MessageLookupByLibrary.simpleMessage("Back"),
-    "cancelButton": MessageLookupByLibrary.simpleMessage("Cancel"),
-    "clearButton": MessageLookupByLibrary.simpleMessage("Clear"),
-    "clearKeyValueStorageButton": MessageLookupByLibrary.simpleMessage(
-      "Clear key-value storage",
-    ),
-    "clearKeyValueStorageDescription": MessageLookupByLibrary.simpleMessage(
-      "Clear key-value storage. Useful for testing onboarding and promo code flows.",
-    ),
-    "clearKeyValueStorageSuccessMessage": MessageLookupByLibrary.simpleMessage(
-      "Key-value storage cleared successfully",
-    ),
-    "contactSupportButton": MessageLookupByLibrary.simpleMessage(
-      "Contact support",
-    ),
-    "copied": MessageLookupByLibrary.simpleMessage("Copied"),
-    "copyToClipboardTooltip": MessageLookupByLibrary.simpleMessage(
-      "Copy to clipboard",
-    ),
-    "currentUserInformation": MessageLookupByLibrary.simpleMessage(
-      "Information about current user",
-    ),
-    "database": MessageLookupByLibrary.simpleMessage("Database"),
-    "databaseClearFailedMessage": MessageLookupByLibrary.simpleMessage(
-      "Database clear failed",
-    ),
-    "databaseClearedMessage": MessageLookupByLibrary.simpleMessage(
-      "Database cleared",
-    ),
-    "deleteButton": MessageLookupByLibrary.simpleMessage("Delete"),
-    "dependencies": MessageLookupByLibrary.simpleMessage("Dependencies"),
-    "detailsButton": MessageLookupByLibrary.simpleMessage("Details"),
-    "devDependencies": MessageLookupByLibrary.simpleMessage("Dev dependencies"),
-    "developer": MessageLookupByLibrary.simpleMessage("Developer"),
-    "developerInfoButton": MessageLookupByLibrary.simpleMessage(
-      "Developer info",
-    ),
-    "dropDatabase": MessageLookupByLibrary.simpleMessage("Drop database"),
-    "dropDatabaseDescription": MessageLookupByLibrary.simpleMessage(
-      "Clear database content.",
-    ),
-    "editButton": MessageLookupByLibrary.simpleMessage("Edit"),
-    "email": MessageLookupByLibrary.simpleMessage("Email"),
-    "emailHint": MessageLookupByLibrary.simpleMessage("Enter your email"),
-    "emailInvalidError": MessageLookupByLibrary.simpleMessage(
-      "Must be a valid email.",
-    ),
-    "emailRequiredError": MessageLookupByLibrary.simpleMessage(
-      "Email is required.",
-    ),
-    "enterPasswordHint": MessageLookupByLibrary.simpleMessage(
-      "Enter your password",
-    ),
-    "error": MessageLookupByLibrary.simpleMessage("Error"),
-    "errorDetailsTitle": MessageLookupByLibrary.simpleMessage("Error details"),
-    "experimentalFeaturesDescription": MessageLookupByLibrary.simpleMessage(
-      "Experimental features. Use with caution, as they may cause unexpected behavior or crashes.",
-    ),
-    "generatePasswordTooltip": MessageLookupByLibrary.simpleMessage(
+    "authEmailFieldLabel": MessageLookupByLibrary.simpleMessage("Email"),
+    "authGeneratePasswordTooltip": MessageLookupByLibrary.simpleMessage(
       "Generate password",
     ),
-    "hapticFeedbackDescription": MessageLookupByLibrary.simpleMessage(
-      "Enable haptic feedback in the app. Useful for testing haptic feedback functionality.",
-    ),
-    "home": MessageLookupByLibrary.simpleMessage("Home"),
-    "internalServerError": MessageLookupByLibrary.simpleMessage(
-      "Internal server error",
-    ),
-    "language": MessageLookupByLibrary.simpleMessage("English"),
-    "languageCode": MessageLookupByLibrary.simpleMessage("en"),
-    "logOutButton": MessageLookupByLibrary.simpleMessage("Log Out"),
-    "logOutCurrentUser": MessageLookupByLibrary.simpleMessage(
-      "Log out current user",
-    ),
-    "logoutAllDevicesButton": MessageLookupByLibrary.simpleMessage(
-      "Log out from all devices",
-    ),
-    "logoutAllDevicesConfirmation": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to log out from all devices?",
-    ),
-    "logoutAllDevicesDescription": MessageLookupByLibrary.simpleMessage(
-      "Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.",
-    ),
-    "logoutConfirmation": MessageLookupByLibrary.simpleMessage(
+    "authLogoutActionLabel": MessageLookupByLibrary.simpleMessage("Log Out"),
+    "authLogoutConfirmationMessage": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to log out?",
     ),
-    "logs": MessageLookupByLibrary.simpleMessage("Logs"),
-    "name": MessageLookupByLibrary.simpleMessage("Name"),
-    "navigation": MessageLookupByLibrary.simpleMessage("Navigation"),
-    "noLogsYet": MessageLookupByLibrary.simpleMessage("No logs yet"),
-    "notFound": MessageLookupByLibrary.simpleMessage("Not found"),
-    "ofSeparator": MessageLookupByLibrary.simpleMessage("of"),
-    "password": MessageLookupByLibrary.simpleMessage("Password"),
-    "passwordLowercaseError": MessageLookupByLibrary.simpleMessage(
-      "Password must have at least one lowercase character.",
+    "authPasswordFieldHint": MessageLookupByLibrary.simpleMessage(
+      "Enter your password",
     ),
-    "passwordMaxLengthError": MessageLookupByLibrary.simpleMessage(
-      "Password must be 32 characters or less.",
+    "authPasswordFieldLabel": MessageLookupByLibrary.simpleMessage("Password"),
+    "authSignInActionLabel": MessageLookupByLibrary.simpleMessage("Sign In"),
+    "authSignUpActionLabel": MessageLookupByLibrary.simpleMessage("Sign Up"),
+    "authValidationEmailInvalidMessage": MessageLookupByLibrary.simpleMessage(
+      "Must be a valid email.",
     ),
-    "passwordMinLengthError": MessageLookupByLibrary.simpleMessage(
-      "Password must be 8 characters or more.",
+    "authValidationEmailRequiredMessage": MessageLookupByLibrary.simpleMessage(
+      "Email is required.",
     ),
-    "passwordRequiredError": MessageLookupByLibrary.simpleMessage(
-      "Password is required.",
+    "authValidationPasswordMissingLowercaseMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "Password must have at least one lowercase character.",
+        ),
+    "authValidationPasswordMissingUppercaseMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "Password must have at least one uppercase character.",
+        ),
+    "authValidationPasswordRequiredMessage":
+        MessageLookupByLibrary.simpleMessage("Password is required."),
+    "authValidationPasswordTooLongMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "Password must be 32 characters or less.",
+        ),
+    "authValidationPasswordTooShortMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "Password must be 8 characters or more.",
+        ),
+    "bugReportAttachLogsHelpText": MessageLookupByLibrary.simpleMessage(
+      "Attaching logs can help us identify and fix the issue faster.",
     ),
-    "passwordUppercaseError": MessageLookupByLibrary.simpleMessage(
-      "Password must have at least one uppercase character.",
+    "bugReportAttachLogsToggleLabel": MessageLookupByLibrary.simpleMessage(
+      "Attach logs",
     ),
-    "profile": MessageLookupByLibrary.simpleMessage("Profile"),
-    "refreshFcmTokenButton": MessageLookupByLibrary.simpleMessage(
-      "Refresh FCM token",
-    ),
-    "refreshFcmTokenDescription": MessageLookupByLibrary.simpleMessage(
-      "Refresh FCM token. Useful for testing push notifications in development builds.",
-    ),
-    "refreshSession": MessageLookupByLibrary.simpleMessage("Refresh session"),
-    "refreshSessionDescription": MessageLookupByLibrary.simpleMessage(
-      "Refresh current user\'s session",
-    ),
-    "resetNavigation": MessageLookupByLibrary.simpleMessage("Reset navigation"),
-    "resetNavigationDescription": MessageLookupByLibrary.simpleMessage(
-      "Reset navigation stack.",
-    ),
-    "selected": MessageLookupByLibrary.simpleMessage("Selected"),
-    "sendLogsButton": MessageLookupByLibrary.simpleMessage("Send logs"),
-    "sendReportButton": MessageLookupByLibrary.simpleMessage("Send report"),
-    "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-    "settingsDescription": MessageLookupByLibrary.simpleMessage(
-      "Change your settings",
-    ),
-    "shareApplicationLogsDescription": MessageLookupByLibrary.simpleMessage(
-      "Share application logs for better support",
-    ),
-    "shareErrorButton": MessageLookupByLibrary.simpleMessage("Share the error"),
-    "shareErrorDescription": MessageLookupByLibrary.simpleMessage(
+    "bugReportDialogDescription": MessageLookupByLibrary.simpleMessage(
       "Describe the issue you encountered and we will try to fix it as soon as possible.",
     ),
-    "shareErrorOnShakeHint": MessageLookupByLibrary.simpleMessage(
+    "bugReportDialogTitle": MessageLookupByLibrary.simpleMessage("Share error"),
+    "bugReportShakeToReportToggleHint": MessageLookupByLibrary.simpleMessage(
       "Disable this if you do not want the bug report dialog to appear when the device is shaken.",
     ),
-    "shareErrorOnShakeLabel": MessageLookupByLibrary.simpleMessage(
+    "bugReportShakeToReportToggleLabel": MessageLookupByLibrary.simpleMessage(
       "Open bug report dialog on shake",
     ),
-    "shareErrorSuccessMessage": MessageLookupByLibrary.simpleMessage(
-      "Error message has been shared successfully!",
+    "bugReportSubmitActionLabel": MessageLookupByLibrary.simpleMessage(
+      "Send report",
     ),
-    "shareErrorTitle": MessageLookupByLibrary.simpleMessage("Share error"),
-    "showApplicationInformation": MessageLookupByLibrary.simpleMessage(
-      "Show information about the application.",
+    "commonAppLabel": MessageLookupByLibrary.simpleMessage("App"),
+    "commonBackActionLabel": MessageLookupByLibrary.simpleMessage("Back"),
+    "commonCancelActionLabel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "commonClearActionLabel": MessageLookupByLibrary.simpleMessage("Clear"),
+    "commonCopiedMessage": MessageLookupByLibrary.simpleMessage("Copied"),
+    "commonCopyToClipboardTooltip": MessageLookupByLibrary.simpleMessage(
+      "Copy to clipboard",
     ),
-    "showDependencies": MessageLookupByLibrary.simpleMessage(
-      "Show dependencies.",
+    "commonDeleteActionLabel": MessageLookupByLibrary.simpleMessage("Delete"),
+    "commonDetailsActionLabel": MessageLookupByLibrary.simpleMessage("Details"),
+    "commonEditActionLabel": MessageLookupByLibrary.simpleMessage("Edit"),
+    "commonNameLabel": MessageLookupByLibrary.simpleMessage("Name"),
+    "commonOfSeparator": MessageLookupByLibrary.simpleMessage("of"),
+    "commonSelectedLabel": MessageLookupByLibrary.simpleMessage("Selected"),
+    "commonSizeLabel": MessageLookupByLibrary.simpleMessage("Size"),
+    "commonStatusLabel": MessageLookupByLibrary.simpleMessage("Status"),
+    "commonStorageLabel": MessageLookupByLibrary.simpleMessage("Storage"),
+    "commonTimeLabel": MessageLookupByLibrary.simpleMessage("Time"),
+    "commonTypeLabel": MessageLookupByLibrary.simpleMessage("Type"),
+    "commonVersionLabel": MessageLookupByLibrary.simpleMessage("Version"),
+    "developerAppVersionLabel": MessageLookupByLibrary.simpleMessage(
+      "App version",
     ),
-    "showDevDependencies": MessageLookupByLibrary.simpleMessage(
-      "Show developers dependencies.",
+    "developerApplicationInfoOpenDescription":
+        MessageLookupByLibrary.simpleMessage(
+          "Show information about the application.",
+        ),
+    "developerApplicationInfoTitle": MessageLookupByLibrary.simpleMessage(
+      "Application information",
     ),
-    "showLogs": MessageLookupByLibrary.simpleMessage("Show logs."),
-    "signInButton": MessageLookupByLibrary.simpleMessage("Sign In"),
-    "signUpButton": MessageLookupByLibrary.simpleMessage("Sign Up"),
-    "size": MessageLookupByLibrary.simpleMessage("Size"),
-    "status": MessageLookupByLibrary.simpleMessage("Status"),
-    "storage": MessageLookupByLibrary.simpleMessage("Storage"),
-    "time": MessageLookupByLibrary.simpleMessage("Time"),
-    "title": MessageLookupByLibrary.simpleMessage("Title"),
-    "type": MessageLookupByLibrary.simpleMessage("Type"),
-    "unimplemented": MessageLookupByLibrary.simpleMessage("Unimplemented"),
-    "useBetaFeatures": MessageLookupByLibrary.simpleMessage(
-      "Use beta features",
+    "developerDatabaseClearFailureMessage":
+        MessageLookupByLibrary.simpleMessage("Database clear failed"),
+    "developerDatabaseClearSuccessMessage":
+        MessageLookupByLibrary.simpleMessage("Database cleared"),
+    "developerDatabaseDropDescription": MessageLookupByLibrary.simpleMessage(
+      "Clear database content.",
     ),
-    "useDebugFeatures": MessageLookupByLibrary.simpleMessage(
-      "Use debug features",
+    "developerDatabaseDropTitle": MessageLookupByLibrary.simpleMessage(
+      "Drop database",
     ),
-    "useDeveloperMode": MessageLookupByLibrary.simpleMessage(
-      "Use developer mode",
-    ),
-    "useExperimentalFeatures": MessageLookupByLibrary.simpleMessage(
-      "Use experimental features",
-    ),
-    "useHapticFeedback": MessageLookupByLibrary.simpleMessage(
-      "Use haptic feedback",
-    ),
-    "usefulLinks": MessageLookupByLibrary.simpleMessage("Useful links"),
-    "version": MessageLookupByLibrary.simpleMessage("Version"),
-    "viewDatabase": MessageLookupByLibrary.simpleMessage("View database"),
-    "viewDatabaseDescription": MessageLookupByLibrary.simpleMessage(
+    "developerDatabaseOpenDescription": MessageLookupByLibrary.simpleMessage(
       "View database content.",
     ),
+    "developerDatabaseOpenTitle": MessageLookupByLibrary.simpleMessage(
+      "View database",
+    ),
+    "developerDependenciesOpenDescription":
+        MessageLookupByLibrary.simpleMessage("Show dependencies."),
+    "developerDependenciesTitle": MessageLookupByLibrary.simpleMessage(
+      "Dependencies",
+    ),
+    "developerDevDependenciesOpenDescription":
+        MessageLookupByLibrary.simpleMessage("Show developers dependencies."),
+    "developerDevDependenciesTitle": MessageLookupByLibrary.simpleMessage(
+      "Dev dependencies",
+    ),
+    "developerDeveloperModeToggleLabel": MessageLookupByLibrary.simpleMessage(
+      "Use developer mode",
+    ),
+    "developerFeatureFlagsDescription": MessageLookupByLibrary.simpleMessage(
+      "Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.",
+    ),
+    "developerHapticFeedbackDescription": MessageLookupByLibrary.simpleMessage(
+      "Enable haptic feedback in the app. Useful for testing haptic feedback functionality.",
+    ),
+    "developerHapticFeedbackToggleLabel": MessageLookupByLibrary.simpleMessage(
+      "Use haptic feedback",
+    ),
+    "developerInfoOpenActionLabel": MessageLookupByLibrary.simpleMessage(
+      "Developer info",
+    ),
+    "developerLogsClearActionLabel": MessageLookupByLibrary.simpleMessage(
+      "Clear",
+    ),
+    "developerLogsEmptyStateMessage": MessageLookupByLibrary.simpleMessage(
+      "No logs yet",
+    ),
+    "developerLogsOpenDescription": MessageLookupByLibrary.simpleMessage(
+      "Show logs.",
+    ),
+    "developerLogsShareActionLabel": MessageLookupByLibrary.simpleMessage(
+      "Send logs",
+    ),
+    "developerLogsShareDescription": MessageLookupByLibrary.simpleMessage(
+      "Share application logs for better support",
+    ),
+    "developerLogsTitle": MessageLookupByLibrary.simpleMessage("Logs"),
+    "developerNavigationResetDescription": MessageLookupByLibrary.simpleMessage(
+      "Reset navigation stack.",
+    ),
+    "developerNavigationResetTitle": MessageLookupByLibrary.simpleMessage(
+      "Reset navigation",
+    ),
+    "developerNotificationsRefreshDescription":
+        MessageLookupByLibrary.simpleMessage(
+          "Refresh FCM token. Useful for testing push notifications in development builds.",
+        ),
+    "developerNotificationsRefreshTitle": MessageLookupByLibrary.simpleMessage(
+      "Refresh FCM token",
+    ),
+    "developerSectionApplicationTitle": MessageLookupByLibrary.simpleMessage(
+      "Application",
+    ),
+    "developerSectionAuthenticationTitle": MessageLookupByLibrary.simpleMessage(
+      "Authentication",
+    ),
+    "developerSectionDatabaseTitle": MessageLookupByLibrary.simpleMessage(
+      "Database",
+    ),
+    "developerSectionNavigationTitle": MessageLookupByLibrary.simpleMessage(
+      "Navigation",
+    ),
+    "developerSectionUsefulLinksTitle": MessageLookupByLibrary.simpleMessage(
+      "Useful links",
+    ),
+    "developerSessionsLogoutAllActionLabel":
+        MessageLookupByLibrary.simpleMessage("Log out from all devices"),
+    "developerSessionsLogoutAllConfirmationMessage":
+        MessageLookupByLibrary.simpleMessage(
+          "Are you sure you want to log out from all devices?",
+        ),
+    "developerSessionsLogoutAllDescription": MessageLookupByLibrary.simpleMessage(
+      "Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.",
+    ),
+    "developerStorageClearActionLabel": MessageLookupByLibrary.simpleMessage(
+      "Clear key-value storage",
+    ),
+    "developerStorageClearDescription": MessageLookupByLibrary.simpleMessage(
+      "Clear key-value storage. Useful for testing onboarding and promo code flows.",
+    ),
+    "developerStorageClearSuccessMessage": MessageLookupByLibrary.simpleMessage(
+      "Key-value storage cleared successfully",
+    ),
+    "developerTitle": MessageLookupByLibrary.simpleMessage("Developer"),
+    "developerToggleBetaFeaturesLabel": MessageLookupByLibrary.simpleMessage(
+      "Use beta features",
+    ),
+    "developerToggleDebugFeaturesLabel": MessageLookupByLibrary.simpleMessage(
+      "Use debug features",
+    ),
+    "developerToggleExperimentalFeaturesDescription":
+        MessageLookupByLibrary.simpleMessage(
+          "Experimental features. Use with caution, as they may cause unexpected behavior or crashes.",
+        ),
+    "developerToggleExperimentalFeaturesLabel":
+        MessageLookupByLibrary.simpleMessage("Use experimental features"),
+    "developerUserAuthenticatedLabel": MessageLookupByLibrary.simpleMessage(
+      "Authenticated",
+    ),
+    "developerUserCurrentInfoDescription": MessageLookupByLibrary.simpleMessage(
+      "Information about current user",
+    ),
+    "developerUserCurrentLogoutDescription":
+        MessageLookupByLibrary.simpleMessage("Log out current user"),
+    "developerUserRefreshSessionDescription":
+        MessageLookupByLibrary.simpleMessage("Refresh current user\'s session"),
+    "developerUserRefreshSessionTitle": MessageLookupByLibrary.simpleMessage(
+      "Refresh session",
+    ),
+    "errorContactSupportActionLabel": MessageLookupByLibrary.simpleMessage(
+      "Contact support",
+    ),
+    "errorDetailsDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "Error details",
+    ),
+    "errorInternalServerTitle": MessageLookupByLibrary.simpleMessage(
+      "Internal server error",
+    ),
+    "errorNotFoundTitle": MessageLookupByLibrary.simpleMessage("Not found"),
+    "errorShareActionLabel": MessageLookupByLibrary.simpleMessage(
+      "Share the error",
+    ),
+    "errorShareSuccessMessage": MessageLookupByLibrary.simpleMessage(
+      "Error message has been shared successfully!",
+    ),
+    "errorTitle": MessageLookupByLibrary.simpleMessage("Error"),
+    "errorUnimplementedTitle": MessageLookupByLibrary.simpleMessage(
+      "Unimplemented",
+    ),
+    "homeTitle": MessageLookupByLibrary.simpleMessage("Home"),
+    "profileSettingsDescription": MessageLookupByLibrary.simpleMessage(
+      "Change your settings",
+    ),
+    "profileSettingsTitle": MessageLookupByLibrary.simpleMessage("Settings"),
+    "profileTitle": MessageLookupByLibrary.simpleMessage("Profile"),
   };
 }

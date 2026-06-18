@@ -9,314 +9,317 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get languageCode => 'en';
+  String get appLocaleCode => 'en';
 
   @override
-  String get language => 'English';
+  String get appLocaleName => 'English';
 
   @override
-  String get title => 'Title';
+  String get appTitle => 'Title';
 
   @override
-  String get settings => 'Settings';
+  String get authEmailFieldLabel => 'Email';
 
   @override
-  String get profile => 'Profile';
+  String get authEmailFieldHint => 'Enter your email';
 
   @override
-  String get home => 'Home';
+  String get authGeneratePasswordTooltip => 'Generate password';
 
   @override
-  String get error => 'Error';
+  String get authLogoutActionLabel => 'Log Out';
 
   @override
-  String get errorDetailsTitle => 'Error details';
+  String get authLogoutConfirmationMessage => 'Are you sure you want to log out?';
 
   @override
-  String get notFound => 'Not found';
+  String get authPasswordFieldLabel => 'Password';
 
   @override
-  String get unimplemented => 'Unimplemented';
+  String get authPasswordFieldHint => 'Enter your password';
 
   @override
-  String get internalServerError => 'Internal server error';
+  String get authSignInActionLabel => 'Sign In';
 
   @override
-  String get emailHint => 'Enter your email';
+  String get authSignUpActionLabel => 'Sign Up';
 
   @override
-  String get emailRequiredError => 'Email is required.';
+  String get authValidationEmailInvalidMessage => 'Must be a valid email.';
 
   @override
-  String get emailInvalidError => 'Must be a valid email.';
+  String get authValidationEmailRequiredMessage => 'Email is required.';
 
   @override
-  String get passwordRequiredError => 'Password is required.';
+  String get authValidationPasswordMissingLowercaseMessage => 'Password must have at least one lowercase character.';
 
   @override
-  String get passwordMinLengthError => 'Password must be 8 characters or more.';
+  String get authValidationPasswordMissingUppercaseMessage => 'Password must have at least one uppercase character.';
 
   @override
-  String get passwordMaxLengthError => 'Password must be 32 characters or less.';
+  String get authValidationPasswordRequiredMessage => 'Password is required.';
 
   @override
-  String get passwordUppercaseError => 'Password must have at least one uppercase character.';
+  String get authValidationPasswordTooLongMessage => 'Password must be 32 characters or less.';
 
   @override
-  String get passwordLowercaseError => 'Password must have at least one lowercase character.';
+  String get authValidationPasswordTooShortMessage => 'Password must be 8 characters or more.';
 
   @override
-  String get logOutButton => 'Log Out';
+  String get bugReportAttachLogsHelpText => 'Attaching logs can help us identify and fix the issue faster.';
 
   @override
-  String get signInButton => 'Sign In';
+  String get bugReportAttachLogsToggleLabel => 'Attach logs';
 
   @override
-  String get signUpButton => 'Sign Up';
+  String get bugReportDialogDescription => 'Describe the issue you encountered and we will try to fix it as soon as possible.';
 
   @override
-  String get backButton => 'Back';
+  String get bugReportDialogTitle => 'Share error';
 
   @override
-  String get cancelButton => 'Cancel';
+  String get bugReportShakeToReportToggleHint => 'Disable this if you do not want the bug report dialog to appear when the device is shaken.';
 
   @override
-  String get deleteButton => 'Delete';
+  String get bugReportShakeToReportToggleLabel => 'Open bug report dialog on shake';
 
   @override
-  String get editButton => 'Edit';
+  String get bugReportSubmitActionLabel => 'Send report';
 
   @override
-  String get detailsButton => 'Details';
+  String get commonAppLabel => 'App';
 
   @override
-  String get contactSupportButton => 'Contact support';
+  String get commonBackActionLabel => 'Back';
 
   @override
-  String get shareErrorSuccessMessage => 'Error message has been shared successfully!';
+  String get commonCancelActionLabel => 'Cancel';
 
   @override
-  String get shareErrorButton => 'Share the error';
+  String get commonClearActionLabel => 'Clear';
 
   @override
-  String get sendReportButton => 'Send report';
+  String get commonCopiedMessage => 'Copied';
 
   @override
-  String get attachLogsButton => 'Attach logs';
+  String get commonCopyToClipboardTooltip => 'Copy to clipboard';
 
   @override
-  String get email => 'Email';
+  String get commonDeleteActionLabel => 'Delete';
 
   @override
-  String get password => 'Password';
+  String get commonDetailsActionLabel => 'Details';
 
   @override
-  String get name => 'Name';
+  String get commonEditActionLabel => 'Edit';
 
   @override
-  String get app => 'App';
+  String get commonNameLabel => 'Name';
 
   @override
-  String get authenticated => 'Authenticated';
+  String get commonOfSeparator => 'of';
 
   @override
-  String get authentication => 'Authentication';
+  String get commonSelectedLabel => 'Selected';
 
   @override
-  String get database => 'Database';
+  String get commonSizeLabel => 'Size';
 
   @override
-  String get version => 'Version';
+  String get commonStatusLabel => 'Status';
 
   @override
-  String get status => 'Status';
+  String get commonStorageLabel => 'Storage';
 
   @override
-  String get size => 'Size';
+  String get commonTimeLabel => 'Time';
 
   @override
-  String get time => 'Time';
+  String get commonTypeLabel => 'Type';
 
   @override
-  String get type => 'Type';
+  String get commonVersionLabel => 'Version';
 
   @override
-  String get storage => 'Storage';
+  String get developerApplicationInfoTitle => 'Application information';
 
   @override
-  String get selected => 'Selected';
+  String get developerApplicationInfoOpenDescription => 'Show information about the application.';
 
   @override
-  String get generatePasswordTooltip => 'Generate password';
+  String get developerAppVersionLabel => 'App version';
 
   @override
-  String get enterPasswordHint => 'Enter your password';
+  String get developerDatabaseClearFailureMessage => 'Database clear failed';
 
   @override
-  String get logoutConfirmation => 'Are you sure you want to log out?';
+  String get developerDatabaseClearSuccessMessage => 'Database cleared';
 
   @override
-  String get copyToClipboardTooltip => 'Copy to clipboard';
+  String get developerDatabaseDropTitle => 'Drop database';
 
   @override
-  String get settingsDescription => 'Change your settings';
+  String get developerDatabaseDropDescription => 'Clear database content.';
 
   @override
-  String get developer => 'Developer';
+  String get developerDatabaseOpenTitle => 'View database';
 
   @override
-  String get application => 'Application';
+  String get developerDatabaseOpenDescription => 'View database content.';
 
   @override
-  String get navigation => 'Navigation';
+  String get developerDependenciesTitle => 'Dependencies';
 
   @override
-  String get usefulLinks => 'Useful links';
+  String get developerDependenciesOpenDescription => 'Show dependencies.';
 
   @override
-  String get appVersion => 'App version';
+  String get developerDeveloperModeToggleLabel => 'Use developer mode';
 
   @override
-  String get copied => 'Copied';
+  String get developerDevDependenciesTitle => 'Dev dependencies';
 
   @override
-  String get databaseClearedMessage => 'Database cleared';
+  String get developerDevDependenciesOpenDescription => 'Show developers dependencies.';
 
   @override
-  String get databaseClearFailedMessage => 'Database clear failed';
+  String get developerFeatureFlagsDescription => 'Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.';
 
   @override
-  String get applicationInformation => 'Application information';
+  String get developerHapticFeedbackDescription => 'Enable haptic feedback in the app. Useful for testing haptic feedback functionality.';
 
   @override
-  String get showApplicationInformation => 'Show information about the application.';
+  String get developerHapticFeedbackToggleLabel => 'Use haptic feedback';
 
   @override
-  String get dependencies => 'Dependencies';
+  String get developerInfoOpenActionLabel => 'Developer info';
 
   @override
-  String get showDependencies => 'Show dependencies.';
+  String get developerLogsClearActionLabel => 'Clear';
 
   @override
-  String get devDependencies => 'Dev dependencies';
+  String get developerLogsEmptyStateMessage => 'No logs yet';
 
   @override
-  String get showDevDependencies => 'Show developers dependencies.';
+  String get developerLogsOpenDescription => 'Show logs.';
 
   @override
-  String get logs => 'Logs';
+  String get developerLogsShareActionLabel => 'Send logs';
 
   @override
-  String get showLogs => 'Show logs.';
+  String get developerLogsShareDescription => 'Share application logs for better support';
 
   @override
-  String get clearButton => 'Clear';
+  String get developerLogsTitle => 'Logs';
 
   @override
-  String get noLogsYet => 'No logs yet';
+  String get developerNavigationResetDescription => 'Reset navigation stack.';
 
   @override
-  String get shareErrorTitle => 'Share error';
+  String get developerNavigationResetTitle => 'Reset navigation';
 
   @override
-  String get shareErrorDescription => 'Describe the issue you encountered and we will try to fix it as soon as possible.';
+  String get developerNotificationsRefreshDescription => 'Refresh FCM token. Useful for testing push notifications in development builds.';
 
   @override
-  String get attachLogsDescription => 'Attaching logs can help us identify and fix the issue faster.';
+  String get developerNotificationsRefreshTitle => 'Refresh FCM token';
 
   @override
-  String get shareErrorOnShakeLabel => 'Open bug report dialog on shake';
+  String get developerSectionApplicationTitle => 'Application';
 
   @override
-  String get shareErrorOnShakeHint => 'Disable this if you do not want the bug report dialog to appear when the device is shaken.';
+  String get developerSectionAuthenticationTitle => 'Authentication';
 
   @override
-  String get resetNavigation => 'Reset navigation';
+  String get developerSectionDatabaseTitle => 'Database';
 
   @override
-  String get resetNavigationDescription => 'Reset navigation stack.';
+  String get developerSectionNavigationTitle => 'Navigation';
 
   @override
-  String get viewDatabase => 'View database';
+  String get developerSectionUsefulLinksTitle => 'Useful links';
 
   @override
-  String get viewDatabaseDescription => 'View database content.';
+  String get developerSessionsLogoutAllActionLabel => 'Log out from all devices';
 
   @override
-  String get dropDatabase => 'Drop database';
+  String get developerSessionsLogoutAllConfirmationMessage => 'Are you sure you want to log out from all devices?';
 
   @override
-  String get dropDatabaseDescription => 'Clear database content.';
+  String get developerSessionsLogoutAllDescription => 'Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.';
 
   @override
-  String get currentUserInformation => 'Information about current user';
+  String get developerStorageClearActionLabel => 'Clear key-value storage';
 
   @override
-  String get refreshSession => 'Refresh session';
+  String get developerStorageClearDescription => 'Clear key-value storage. Useful for testing onboarding and promo code flows.';
 
   @override
-  String get refreshSessionDescription => 'Refresh current user\'s session';
+  String get developerStorageClearSuccessMessage => 'Key-value storage cleared successfully';
 
   @override
-  String get logOutCurrentUser => 'Log out current user';
+  String get developerTitle => 'Developer';
 
   @override
-  String get advancedOptionsDescription => 'Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.';
+  String get developerToggleBetaFeaturesLabel => 'Use beta features';
 
   @override
-  String get useDebugFeatures => 'Use debug features';
+  String get developerToggleDebugFeaturesLabel => 'Use debug features';
 
   @override
-  String get useDeveloperMode => 'Use developer mode';
+  String get developerToggleExperimentalFeaturesDescription => 'Experimental features. Use with caution, as they may cause unexpected behavior or crashes.';
 
   @override
-  String get developerInfoButton => 'Developer info';
+  String get developerToggleExperimentalFeaturesLabel => 'Use experimental features';
 
   @override
-  String get experimentalFeaturesDescription => 'Experimental features. Use with caution, as they may cause unexpected behavior or crashes.';
+  String get developerUserAuthenticatedLabel => 'Authenticated';
 
   @override
-  String get useBetaFeatures => 'Use beta features';
+  String get developerUserCurrentInfoDescription => 'Information about current user';
 
   @override
-  String get useExperimentalFeatures => 'Use experimental features';
+  String get developerUserCurrentLogoutDescription => 'Log out current user';
 
   @override
-  String get hapticFeedbackDescription => 'Enable haptic feedback in the app. Useful for testing haptic feedback functionality.';
+  String get developerUserRefreshSessionTitle => 'Refresh session';
 
   @override
-  String get useHapticFeedback => 'Use haptic feedback';
+  String get developerUserRefreshSessionDescription => 'Refresh current user\'s session';
 
   @override
-  String get clearKeyValueStorageDescription => 'Clear key-value storage. Useful for testing onboarding and promo code flows.';
+  String get errorContactSupportActionLabel => 'Contact support';
 
   @override
-  String get clearKeyValueStorageButton => 'Clear key-value storage';
+  String get errorDetailsDialogTitle => 'Error details';
 
   @override
-  String get clearKeyValueStorageSuccessMessage => 'Key-value storage cleared successfully';
+  String get errorInternalServerTitle => 'Internal server error';
 
   @override
-  String get refreshFcmTokenDescription => 'Refresh FCM token. Useful for testing push notifications in development builds.';
+  String get errorNotFoundTitle => 'Not found';
 
   @override
-  String get refreshFcmTokenButton => 'Refresh FCM token';
+  String get errorShareActionLabel => 'Share the error';
 
   @override
-  String get shareApplicationLogsDescription => 'Share application logs for better support';
+  String get errorShareSuccessMessage => 'Error message has been shared successfully!';
 
   @override
-  String get sendLogsButton => 'Send logs';
+  String get errorTitle => 'Error';
 
   @override
-  String get logoutAllDevicesDescription => 'Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.';
+  String get errorUnimplementedTitle => 'Unimplemented';
 
   @override
-  String get logoutAllDevicesConfirmation => 'Are you sure you want to log out from all devices?';
+  String get homeTitle => 'Home';
 
   @override
-  String get logoutAllDevicesButton => 'Log out from all devices';
+  String get profileSettingsTitle => 'Settings';
 
   @override
-  String get ofSeparator => 'of';
+  String get profileSettingsDescription => 'Change your settings';
+
+  @override
+  String get profileTitle => 'Profile';
 }

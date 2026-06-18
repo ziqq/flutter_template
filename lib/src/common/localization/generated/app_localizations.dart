@@ -95,629 +95,635 @@ abstract class AppLocalizations {
     Locale('ru')
   ];
 
-  /// No description provided for @languageCode.
+  /// No description provided for @appLocaleCode.
   ///
   /// In ru, this message translates to:
   /// **'ru'**
-  String get languageCode;
+  String get appLocaleCode;
 
-  /// No description provided for @language.
+  /// No description provided for @appLocaleName.
   ///
   /// In ru, this message translates to:
   /// **'Русский'**
-  String get language;
+  String get appLocaleName;
 
-  /// No description provided for @title.
+  /// No description provided for @appTitle.
   ///
   /// In ru, this message translates to:
   /// **'Заголовок'**
-  String get title;
+  String get appTitle;
 
-  /// No description provided for @settings.
-  ///
-  /// In ru, this message translates to:
-  /// **'Настройки'**
-  String get settings;
-
-  /// No description provided for @profile.
-  ///
-  /// In ru, this message translates to:
-  /// **'Профиль'**
-  String get profile;
-
-  /// No description provided for @home.
-  ///
-  /// In ru, this message translates to:
-  /// **'Главная'**
-  String get home;
-
-  /// No description provided for @error.
-  ///
-  /// In ru, this message translates to:
-  /// **'Ошибка'**
-  String get error;
-
-  /// No description provided for @errorDetailsTitle.
-  ///
-  /// In ru, this message translates to:
-  /// **'Подробности ошибки'**
-  String get errorDetailsTitle;
-
-  /// No description provided for @notFound.
-  ///
-  /// In ru, this message translates to:
-  /// **'Не найдено'**
-  String get notFound;
-
-  /// No description provided for @unimplemented.
-  ///
-  /// In ru, this message translates to:
-  /// **'Не реализовано'**
-  String get unimplemented;
-
-  /// No description provided for @internalServerError.
-  ///
-  /// In ru, this message translates to:
-  /// **'Внутренняя ошибка сервера'**
-  String get internalServerError;
-
-  /// No description provided for @emailHint.
-  ///
-  /// In ru, this message translates to:
-  /// **'Введите электронную почту'**
-  String get emailHint;
-
-  /// No description provided for @emailRequiredError.
-  ///
-  /// In ru, this message translates to:
-  /// **'Электронная почта обязательна.'**
-  String get emailRequiredError;
-
-  /// No description provided for @emailInvalidError.
-  ///
-  /// In ru, this message translates to:
-  /// **'Введите корректный адрес электронной почты.'**
-  String get emailInvalidError;
-
-  /// No description provided for @passwordRequiredError.
-  ///
-  /// In ru, this message translates to:
-  /// **'Пароль обязателен.'**
-  String get passwordRequiredError;
-
-  /// No description provided for @passwordMinLengthError.
-  ///
-  /// In ru, this message translates to:
-  /// **'Пароль должен содержать не менее 8 символов.'**
-  String get passwordMinLengthError;
-
-  /// No description provided for @passwordMaxLengthError.
-  ///
-  /// In ru, this message translates to:
-  /// **'Пароль должен содержать не более 32 символов.'**
-  String get passwordMaxLengthError;
-
-  /// No description provided for @passwordUppercaseError.
-  ///
-  /// In ru, this message translates to:
-  /// **'Пароль должен содержать хотя бы одну заглавную букву.'**
-  String get passwordUppercaseError;
-
-  /// No description provided for @passwordLowercaseError.
-  ///
-  /// In ru, this message translates to:
-  /// **'Пароль должен содержать хотя бы одну строчную букву.'**
-  String get passwordLowercaseError;
-
-  /// No description provided for @logOutButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Выйти'**
-  String get logOutButton;
-
-  /// No description provided for @signInButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Войти'**
-  String get signInButton;
-
-  /// No description provided for @signUpButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Зарегистрироваться'**
-  String get signUpButton;
-
-  /// No description provided for @backButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Назад'**
-  String get backButton;
-
-  /// No description provided for @cancelButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Отмена'**
-  String get cancelButton;
-
-  /// No description provided for @deleteButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Удалить'**
-  String get deleteButton;
-
-  /// No description provided for @editButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Изменить'**
-  String get editButton;
-
-  /// No description provided for @detailsButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Подробнее'**
-  String get detailsButton;
-
-  /// No description provided for @contactSupportButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Написать в поддержку'**
-  String get contactSupportButton;
-
-  /// No description provided for @shareErrorSuccessMessage.
-  ///
-  /// In ru, this message translates to:
-  /// **'Сообщение об ошибке успешно отправлено!'**
-  String get shareErrorSuccessMessage;
-
-  /// No description provided for @shareErrorButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Поделиться ошибкой'**
-  String get shareErrorButton;
-
-  /// No description provided for @sendReportButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Отправить отчёт'**
-  String get sendReportButton;
-
-  /// No description provided for @attachLogsButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Прикрепить логи'**
-  String get attachLogsButton;
-
-  /// No description provided for @email.
+  /// No description provided for @authEmailFieldLabel.
   ///
   /// In ru, this message translates to:
   /// **'Электронная почта'**
-  String get email;
+  String get authEmailFieldLabel;
 
-  /// No description provided for @password.
+  /// No description provided for @authEmailFieldHint.
   ///
   /// In ru, this message translates to:
-  /// **'Пароль'**
-  String get password;
+  /// **'Введите электронную почту'**
+  String get authEmailFieldHint;
 
-  /// No description provided for @name.
-  ///
-  /// In ru, this message translates to:
-  /// **'Имя'**
-  String get name;
-
-  /// No description provided for @app.
-  ///
-  /// In ru, this message translates to:
-  /// **'Приложение'**
-  String get app;
-
-  /// No description provided for @authenticated.
-  ///
-  /// In ru, this message translates to:
-  /// **'Авторизован'**
-  String get authenticated;
-
-  /// No description provided for @authentication.
-  ///
-  /// In ru, this message translates to:
-  /// **'Аутентификация'**
-  String get authentication;
-
-  /// No description provided for @database.
-  ///
-  /// In ru, this message translates to:
-  /// **'База данных'**
-  String get database;
-
-  /// No description provided for @version.
-  ///
-  /// In ru, this message translates to:
-  /// **'Версия'**
-  String get version;
-
-  /// No description provided for @status.
-  ///
-  /// In ru, this message translates to:
-  /// **'Статус'**
-  String get status;
-
-  /// No description provided for @size.
-  ///
-  /// In ru, this message translates to:
-  /// **'Размер'**
-  String get size;
-
-  /// No description provided for @time.
-  ///
-  /// In ru, this message translates to:
-  /// **'Время'**
-  String get time;
-
-  /// No description provided for @type.
-  ///
-  /// In ru, this message translates to:
-  /// **'Тип'**
-  String get type;
-
-  /// No description provided for @storage.
-  ///
-  /// In ru, this message translates to:
-  /// **'Хранилище'**
-  String get storage;
-
-  /// No description provided for @selected.
-  ///
-  /// In ru, this message translates to:
-  /// **'Выбрано'**
-  String get selected;
-
-  /// No description provided for @generatePasswordTooltip.
+  /// No description provided for @authGeneratePasswordTooltip.
   ///
   /// In ru, this message translates to:
   /// **'Сгенерировать пароль'**
-  String get generatePasswordTooltip;
+  String get authGeneratePasswordTooltip;
 
-  /// No description provided for @enterPasswordHint.
+  /// No description provided for @authLogoutActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Введите пароль'**
-  String get enterPasswordHint;
+  /// **'Выйти'**
+  String get authLogoutActionLabel;
 
-  /// No description provided for @logoutConfirmation.
+  /// No description provided for @authLogoutConfirmationMessage.
   ///
   /// In ru, this message translates to:
   /// **'Вы уверены, что хотите выйти?'**
-  String get logoutConfirmation;
+  String get authLogoutConfirmationMessage;
 
-  /// No description provided for @copyToClipboardTooltip.
+  /// No description provided for @authPasswordFieldLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Скопировать в буфер обмена'**
-  String get copyToClipboardTooltip;
+  /// **'Пароль'**
+  String get authPasswordFieldLabel;
 
-  /// No description provided for @settingsDescription.
+  /// No description provided for @authPasswordFieldHint.
   ///
   /// In ru, this message translates to:
-  /// **'Изменить настройки'**
-  String get settingsDescription;
+  /// **'Введите пароль'**
+  String get authPasswordFieldHint;
 
-  /// No description provided for @developer.
+  /// No description provided for @authSignInActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Разработчик'**
-  String get developer;
+  /// **'Войти'**
+  String get authSignInActionLabel;
 
-  /// No description provided for @application.
+  /// No description provided for @authSignUpActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Приложение'**
-  String get application;
+  /// **'Зарегистрироваться'**
+  String get authSignUpActionLabel;
 
-  /// No description provided for @navigation.
+  /// No description provided for @authValidationEmailInvalidMessage.
   ///
   /// In ru, this message translates to:
-  /// **'Навигация'**
-  String get navigation;
+  /// **'Введите корректный адрес электронной почты.'**
+  String get authValidationEmailInvalidMessage;
 
-  /// No description provided for @usefulLinks.
+  /// No description provided for @authValidationEmailRequiredMessage.
   ///
   /// In ru, this message translates to:
-  /// **'Полезные ссылки'**
-  String get usefulLinks;
+  /// **'Электронная почта обязательна.'**
+  String get authValidationEmailRequiredMessage;
 
-  /// No description provided for @appVersion.
+  /// No description provided for @authValidationPasswordMissingLowercaseMessage.
   ///
   /// In ru, this message translates to:
-  /// **'Версия приложения'**
-  String get appVersion;
+  /// **'Пароль должен содержать хотя бы одну строчную букву.'**
+  String get authValidationPasswordMissingLowercaseMessage;
 
-  /// No description provided for @copied.
+  /// No description provided for @authValidationPasswordMissingUppercaseMessage.
   ///
   /// In ru, this message translates to:
-  /// **'Скопировано'**
-  String get copied;
+  /// **'Пароль должен содержать хотя бы одну заглавную букву.'**
+  String get authValidationPasswordMissingUppercaseMessage;
 
-  /// No description provided for @databaseClearedMessage.
+  /// No description provided for @authValidationPasswordRequiredMessage.
   ///
   /// In ru, this message translates to:
-  /// **'База данных очищена'**
-  String get databaseClearedMessage;
+  /// **'Пароль обязателен.'**
+  String get authValidationPasswordRequiredMessage;
 
-  /// No description provided for @databaseClearFailedMessage.
+  /// No description provided for @authValidationPasswordTooLongMessage.
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось очистить базу данных'**
-  String get databaseClearFailedMessage;
+  /// **'Пароль должен содержать не более 32 символов.'**
+  String get authValidationPasswordTooLongMessage;
 
-  /// No description provided for @applicationInformation.
+  /// No description provided for @authValidationPasswordTooShortMessage.
   ///
   /// In ru, this message translates to:
-  /// **'Информация о приложении'**
-  String get applicationInformation;
+  /// **'Пароль должен содержать не менее 8 символов.'**
+  String get authValidationPasswordTooShortMessage;
 
-  /// No description provided for @showApplicationInformation.
-  ///
-  /// In ru, this message translates to:
-  /// **'Показать информацию о приложении.'**
-  String get showApplicationInformation;
-
-  /// No description provided for @dependencies.
-  ///
-  /// In ru, this message translates to:
-  /// **'Зависимости'**
-  String get dependencies;
-
-  /// No description provided for @showDependencies.
-  ///
-  /// In ru, this message translates to:
-  /// **'Показать зависимости.'**
-  String get showDependencies;
-
-  /// No description provided for @devDependencies.
-  ///
-  /// In ru, this message translates to:
-  /// **'Dev-зависимости'**
-  String get devDependencies;
-
-  /// No description provided for @showDevDependencies.
-  ///
-  /// In ru, this message translates to:
-  /// **'Показать зависимости для разработки.'**
-  String get showDevDependencies;
-
-  /// No description provided for @logs.
-  ///
-  /// In ru, this message translates to:
-  /// **'Логи'**
-  String get logs;
-
-  /// No description provided for @showLogs.
-  ///
-  /// In ru, this message translates to:
-  /// **'Показать логи.'**
-  String get showLogs;
-
-  /// No description provided for @clearButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Очистить'**
-  String get clearButton;
-
-  /// No description provided for @noLogsYet.
-  ///
-  /// In ru, this message translates to:
-  /// **'Логов пока нет'**
-  String get noLogsYet;
-
-  /// No description provided for @shareErrorTitle.
-  ///
-  /// In ru, this message translates to:
-  /// **'Поделиться ошибкой'**
-  String get shareErrorTitle;
-
-  /// No description provided for @shareErrorDescription.
-  ///
-  /// In ru, this message translates to:
-  /// **'Опишите проблему, с которой вы столкнулись, и мы постараемся исправить её как можно скорее.'**
-  String get shareErrorDescription;
-
-  /// No description provided for @attachLogsDescription.
+  /// No description provided for @bugReportAttachLogsHelpText.
   ///
   /// In ru, this message translates to:
   /// **'Прикреплённые логи помогают быстрее найти и исправить проблему.'**
-  String get attachLogsDescription;
+  String get bugReportAttachLogsHelpText;
 
-  /// No description provided for @shareErrorOnShakeLabel.
+  /// No description provided for @bugReportAttachLogsToggleLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Открывать диалог отчёта об ошибке при встряхивании'**
-  String get shareErrorOnShakeLabel;
+  /// **'Прикрепить логи'**
+  String get bugReportAttachLogsToggleLabel;
 
-  /// No description provided for @shareErrorOnShakeHint.
+  /// No description provided for @bugReportDialogDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Опишите проблему, с которой вы столкнулись, и мы постараемся исправить её как можно скорее.'**
+  String get bugReportDialogDescription;
+
+  /// No description provided for @bugReportDialogTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поделиться ошибкой'**
+  String get bugReportDialogTitle;
+
+  /// No description provided for @bugReportShakeToReportToggleHint.
   ///
   /// In ru, this message translates to:
   /// **'Отключите это, если не хотите, чтобы диалог отчёта об ошибке открывался при встряхивании устройства.'**
-  String get shareErrorOnShakeHint;
+  String get bugReportShakeToReportToggleHint;
 
-  /// No description provided for @resetNavigation.
+  /// No description provided for @bugReportShakeToReportToggleLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Сбросить навигацию'**
-  String get resetNavigation;
+  /// **'Открывать диалог отчёта об ошибке при встряхивании'**
+  String get bugReportShakeToReportToggleLabel;
 
-  /// No description provided for @resetNavigationDescription.
+  /// No description provided for @bugReportSubmitActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Сбросить стек навигации.'**
-  String get resetNavigationDescription;
+  /// **'Отправить отчёт'**
+  String get bugReportSubmitActionLabel;
 
-  /// No description provided for @viewDatabase.
+  /// No description provided for @commonAppLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Открыть базу данных'**
-  String get viewDatabase;
+  /// **'Приложение'**
+  String get commonAppLabel;
 
-  /// No description provided for @viewDatabaseDescription.
+  /// No description provided for @commonBackActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Показать содержимое базы данных.'**
-  String get viewDatabaseDescription;
+  /// **'Назад'**
+  String get commonBackActionLabel;
 
-  /// No description provided for @dropDatabase.
+  /// No description provided for @commonCancelActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Очистить базу данных'**
-  String get dropDatabase;
+  /// **'Отмена'**
+  String get commonCancelActionLabel;
 
-  /// No description provided for @dropDatabaseDescription.
+  /// No description provided for @commonClearActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Очистить содержимое базы данных.'**
-  String get dropDatabaseDescription;
+  /// **'Очистить'**
+  String get commonClearActionLabel;
 
-  /// No description provided for @currentUserInformation.
+  /// No description provided for @commonCopiedMessage.
   ///
   /// In ru, this message translates to:
-  /// **'Информация о текущем пользователе'**
-  String get currentUserInformation;
+  /// **'Скопировано'**
+  String get commonCopiedMessage;
 
-  /// No description provided for @refreshSession.
+  /// No description provided for @commonCopyToClipboardTooltip.
   ///
   /// In ru, this message translates to:
-  /// **'Обновить сессию'**
-  String get refreshSession;
+  /// **'Скопировать в буфер обмена'**
+  String get commonCopyToClipboardTooltip;
 
-  /// No description provided for @refreshSessionDescription.
+  /// No description provided for @commonDeleteActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Обновить текущую пользовательскую сессию'**
-  String get refreshSessionDescription;
+  /// **'Удалить'**
+  String get commonDeleteActionLabel;
 
-  /// No description provided for @logOutCurrentUser.
+  /// No description provided for @commonDetailsActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Выйти из текущей учётной записи'**
-  String get logOutCurrentUser;
+  /// **'Подробнее'**
+  String get commonDetailsActionLabel;
 
-  /// No description provided for @advancedOptionsDescription.
+  /// No description provided for @commonEditActionLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Расширенные опции для разработчиков. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.'**
-  String get advancedOptionsDescription;
+  /// **'Изменить'**
+  String get commonEditActionLabel;
 
-  /// No description provided for @useDebugFeatures.
+  /// No description provided for @commonNameLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Использовать debug-функции'**
-  String get useDebugFeatures;
+  /// **'Имя'**
+  String get commonNameLabel;
 
-  /// No description provided for @useDeveloperMode.
-  ///
-  /// In ru, this message translates to:
-  /// **'Использовать режим разработчика'**
-  String get useDeveloperMode;
-
-  /// No description provided for @developerInfoButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Информация для разработчика'**
-  String get developerInfoButton;
-
-  /// No description provided for @experimentalFeaturesDescription.
-  ///
-  /// In ru, this message translates to:
-  /// **'Экспериментальные функции. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.'**
-  String get experimentalFeaturesDescription;
-
-  /// No description provided for @useBetaFeatures.
-  ///
-  /// In ru, this message translates to:
-  /// **'Использовать beta-функции'**
-  String get useBetaFeatures;
-
-  /// No description provided for @useExperimentalFeatures.
-  ///
-  /// In ru, this message translates to:
-  /// **'Использовать экспериментальные функции'**
-  String get useExperimentalFeatures;
-
-  /// No description provided for @hapticFeedbackDescription.
-  ///
-  /// In ru, this message translates to:
-  /// **'Включить тактильную отдачу в приложении. Полезно для тестирования haptic feedback.'**
-  String get hapticFeedbackDescription;
-
-  /// No description provided for @useHapticFeedback.
-  ///
-  /// In ru, this message translates to:
-  /// **'Использовать тактильную отдачу'**
-  String get useHapticFeedback;
-
-  /// No description provided for @clearKeyValueStorageDescription.
-  ///
-  /// In ru, this message translates to:
-  /// **'Очистить key-value хранилище. Полезно для тестирования онбординга и промокодов.'**
-  String get clearKeyValueStorageDescription;
-
-  /// No description provided for @clearKeyValueStorageButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Очистить key-value хранилище'**
-  String get clearKeyValueStorageButton;
-
-  /// No description provided for @clearKeyValueStorageSuccessMessage.
-  ///
-  /// In ru, this message translates to:
-  /// **'Key-value хранилище успешно очищено'**
-  String get clearKeyValueStorageSuccessMessage;
-
-  /// No description provided for @refreshFcmTokenDescription.
-  ///
-  /// In ru, this message translates to:
-  /// **'Обновить FCM-токен. Полезно для тестирования push-уведомлений в development-сборках.'**
-  String get refreshFcmTokenDescription;
-
-  /// No description provided for @refreshFcmTokenButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Обновить FCM-токен'**
-  String get refreshFcmTokenButton;
-
-  /// No description provided for @shareApplicationLogsDescription.
-  ///
-  /// In ru, this message translates to:
-  /// **'Поделиться логами приложения для более удобной поддержки'**
-  String get shareApplicationLogsDescription;
-
-  /// No description provided for @sendLogsButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Отправить логи'**
-  String get sendLogsButton;
-
-  /// No description provided for @logoutAllDevicesDescription.
-  ///
-  /// In ru, this message translates to:
-  /// **'Выйти на всех устройствах. Полезно для тестирования выхода или обновления сессии на всех устройствах.'**
-  String get logoutAllDevicesDescription;
-
-  /// No description provided for @logoutAllDevicesConfirmation.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вы уверены, что хотите выйти на всех устройствах?'**
-  String get logoutAllDevicesConfirmation;
-
-  /// No description provided for @logoutAllDevicesButton.
-  ///
-  /// In ru, this message translates to:
-  /// **'Выйти на всех устройствах'**
-  String get logoutAllDevicesButton;
-
-  /// No description provided for @ofSeparator.
+  /// No description provided for @commonOfSeparator.
   ///
   /// In ru, this message translates to:
   /// **'из'**
-  String get ofSeparator;
+  String get commonOfSeparator;
+
+  /// No description provided for @commonSelectedLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрано'**
+  String get commonSelectedLabel;
+
+  /// No description provided for @commonSizeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Размер'**
+  String get commonSizeLabel;
+
+  /// No description provided for @commonStatusLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Статус'**
+  String get commonStatusLabel;
+
+  /// No description provided for @commonStorageLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Хранилище'**
+  String get commonStorageLabel;
+
+  /// No description provided for @commonTimeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Время'**
+  String get commonTimeLabel;
+
+  /// No description provided for @commonTypeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тип'**
+  String get commonTypeLabel;
+
+  /// No description provided for @commonVersionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Версия'**
+  String get commonVersionLabel;
+
+  /// No description provided for @developerApplicationInfoTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Информация о приложении'**
+  String get developerApplicationInfoTitle;
+
+  /// No description provided for @developerApplicationInfoOpenDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать информацию о приложении.'**
+  String get developerApplicationInfoOpenDescription;
+
+  /// No description provided for @developerAppVersionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Версия приложения'**
+  String get developerAppVersionLabel;
+
+  /// No description provided for @developerDatabaseClearFailureMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось очистить базу данных'**
+  String get developerDatabaseClearFailureMessage;
+
+  /// No description provided for @developerDatabaseClearSuccessMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'База данных очищена'**
+  String get developerDatabaseClearSuccessMessage;
+
+  /// No description provided for @developerDatabaseDropTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить базу данных'**
+  String get developerDatabaseDropTitle;
+
+  /// No description provided for @developerDatabaseDropDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить содержимое базы данных.'**
+  String get developerDatabaseDropDescription;
+
+  /// No description provided for @developerDatabaseOpenTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть базу данных'**
+  String get developerDatabaseOpenTitle;
+
+  /// No description provided for @developerDatabaseOpenDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать содержимое базы данных.'**
+  String get developerDatabaseOpenDescription;
+
+  /// No description provided for @developerDependenciesTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Зависимости'**
+  String get developerDependenciesTitle;
+
+  /// No description provided for @developerDependenciesOpenDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать зависимости.'**
+  String get developerDependenciesOpenDescription;
+
+  /// No description provided for @developerDeveloperModeToggleLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Использовать режим разработчика'**
+  String get developerDeveloperModeToggleLabel;
+
+  /// No description provided for @developerDevDependenciesTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Dev-зависимости'**
+  String get developerDevDependenciesTitle;
+
+  /// No description provided for @developerDevDependenciesOpenDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать зависимости для разработки.'**
+  String get developerDevDependenciesOpenDescription;
+
+  /// No description provided for @developerFeatureFlagsDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Расширенные опции для разработчиков. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.'**
+  String get developerFeatureFlagsDescription;
+
+  /// No description provided for @developerHapticFeedbackDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Включить тактильную отдачу в приложении. Полезно для тестирования haptic feedback.'**
+  String get developerHapticFeedbackDescription;
+
+  /// No description provided for @developerHapticFeedbackToggleLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Использовать тактильную отдачу'**
+  String get developerHapticFeedbackToggleLabel;
+
+  /// No description provided for @developerInfoOpenActionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Информация для разработчика'**
+  String get developerInfoOpenActionLabel;
+
+  /// No description provided for @developerLogsClearActionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get developerLogsClearActionLabel;
+
+  /// No description provided for @developerLogsEmptyStateMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Логов пока нет'**
+  String get developerLogsEmptyStateMessage;
+
+  /// No description provided for @developerLogsOpenDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать логи.'**
+  String get developerLogsOpenDescription;
+
+  /// No description provided for @developerLogsShareActionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить логи'**
+  String get developerLogsShareActionLabel;
+
+  /// No description provided for @developerLogsShareDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поделиться логами приложения для более удобной поддержки'**
+  String get developerLogsShareDescription;
+
+  /// No description provided for @developerLogsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Логи'**
+  String get developerLogsTitle;
+
+  /// No description provided for @developerNavigationResetDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сбросить стек навигации.'**
+  String get developerNavigationResetDescription;
+
+  /// No description provided for @developerNavigationResetTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сбросить навигацию'**
+  String get developerNavigationResetTitle;
+
+  /// No description provided for @developerNotificationsRefreshDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновить FCM-токен. Полезно для тестирования push-уведомлений в development-сборках.'**
+  String get developerNotificationsRefreshDescription;
+
+  /// No description provided for @developerNotificationsRefreshTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновить FCM-токен'**
+  String get developerNotificationsRefreshTitle;
+
+  /// No description provided for @developerSectionApplicationTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Приложение'**
+  String get developerSectionApplicationTitle;
+
+  /// No description provided for @developerSectionAuthenticationTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Аутентификация'**
+  String get developerSectionAuthenticationTitle;
+
+  /// No description provided for @developerSectionDatabaseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'База данных'**
+  String get developerSectionDatabaseTitle;
+
+  /// No description provided for @developerSectionNavigationTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Навигация'**
+  String get developerSectionNavigationTitle;
+
+  /// No description provided for @developerSectionUsefulLinksTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Полезные ссылки'**
+  String get developerSectionUsefulLinksTitle;
+
+  /// No description provided for @developerSessionsLogoutAllActionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти на всех устройствах'**
+  String get developerSessionsLogoutAllActionLabel;
+
+  /// No description provided for @developerSessionsLogoutAllConfirmationMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы уверены, что хотите выйти на всех устройствах?'**
+  String get developerSessionsLogoutAllConfirmationMessage;
+
+  /// No description provided for @developerSessionsLogoutAllDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти на всех устройствах. Полезно для тестирования выхода или обновления сессии на всех устройствах.'**
+  String get developerSessionsLogoutAllDescription;
+
+  /// No description provided for @developerStorageClearActionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить key-value хранилище'**
+  String get developerStorageClearActionLabel;
+
+  /// No description provided for @developerStorageClearDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить key-value хранилище. Полезно для тестирования онбординга и промокодов.'**
+  String get developerStorageClearDescription;
+
+  /// No description provided for @developerStorageClearSuccessMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Key-value хранилище успешно очищено'**
+  String get developerStorageClearSuccessMessage;
+
+  /// No description provided for @developerTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Разработчик'**
+  String get developerTitle;
+
+  /// No description provided for @developerToggleBetaFeaturesLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Использовать beta-функции'**
+  String get developerToggleBetaFeaturesLabel;
+
+  /// No description provided for @developerToggleDebugFeaturesLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Использовать debug-функции'**
+  String get developerToggleDebugFeaturesLabel;
+
+  /// No description provided for @developerToggleExperimentalFeaturesDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Экспериментальные функции. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.'**
+  String get developerToggleExperimentalFeaturesDescription;
+
+  /// No description provided for @developerToggleExperimentalFeaturesLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Использовать экспериментальные функции'**
+  String get developerToggleExperimentalFeaturesLabel;
+
+  /// No description provided for @developerUserAuthenticatedLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Авторизован'**
+  String get developerUserAuthenticatedLabel;
+
+  /// No description provided for @developerUserCurrentInfoDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Информация о текущем пользователе'**
+  String get developerUserCurrentInfoDescription;
+
+  /// No description provided for @developerUserCurrentLogoutDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти из текущей учётной записи'**
+  String get developerUserCurrentLogoutDescription;
+
+  /// No description provided for @developerUserRefreshSessionTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновить сессию'**
+  String get developerUserRefreshSessionTitle;
+
+  /// No description provided for @developerUserRefreshSessionDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновить текущую пользовательскую сессию'**
+  String get developerUserRefreshSessionDescription;
+
+  /// No description provided for @errorContactSupportActionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Написать в поддержку'**
+  String get errorContactSupportActionLabel;
+
+  /// No description provided for @errorDetailsDialogTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подробности ошибки'**
+  String get errorDetailsDialogTitle;
+
+  /// No description provided for @errorInternalServerTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Внутренняя ошибка сервера'**
+  String get errorInternalServerTitle;
+
+  /// No description provided for @errorNotFoundTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не найдено'**
+  String get errorNotFoundTitle;
+
+  /// No description provided for @errorShareActionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поделиться ошибкой'**
+  String get errorShareActionLabel;
+
+  /// No description provided for @errorShareSuccessMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщение об ошибке успешно отправлено!'**
+  String get errorShareSuccessMessage;
+
+  /// No description provided for @errorTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка'**
+  String get errorTitle;
+
+  /// No description provided for @errorUnimplementedTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не реализовано'**
+  String get errorUnimplementedTitle;
+
+  /// No description provided for @homeTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Главная'**
+  String get homeTitle;
+
+  /// No description provided for @profileSettingsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Настройки'**
+  String get profileSettingsTitle;
+
+  /// No description provided for @profileSettingsDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить настройки'**
+  String get profileSettingsDescription;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Профиль'**
+  String get profileTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

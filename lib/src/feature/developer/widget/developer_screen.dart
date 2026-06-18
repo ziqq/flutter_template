@@ -75,7 +75,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
           context: context,
           type: UISnackBarType.success,
           useHapticFeedback: context.ext.settings.useHapticFeedback(listen: false),
-          message: Localization.of(context).clearKeyValueStorageSuccessMessage,
+          message: Localization.of(context).developerStorageClearSuccessMessage,
         )
         .ignore();
   }
@@ -94,7 +94,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
           border: const Border(),
           backgroundColor: backgroundColor,
           leading: const CommonBackButton(),
-          middle: UIText.titleMedium(l10n.developer),
+          middle: UIText.titleMedium(l10n.developerTitle),
         ),
         body: StateConsumer<SettingsController, SettingsState>(
           controller: _controller,
@@ -112,14 +112,14 @@ class _DebugScreenState extends State<DeveloperScreen> {
                       children: <Widget>[
                         CupertinoListTile(
                           padding: CommonPadding.of(context),
-                          title: Text(l10n.appVersion, style: theme.textTheme.bodyLarge),
+                          title: Text(l10n.developerAppVersionLabel, style: theme.textTheme.bodyLarge),
                           additionalInfo: Text(
                             Pubspec.version.canonical,
                             style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.textSecondary),
                           ),
                         ),
                         /* UICupertinoFormRowSelect(
-                          title: /* l10n.showLogsButton */ 'Show logs',
+                          title: /* l10n.developerLogsOpenDescriptionButton */ 'Show logs',
                           showSuffix: false,
                           onTap: () => LogsScreen.show(context),
                         ), */
@@ -134,7 +134,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                   child: Padding(
                     padding: CommonPadding.of(context),
                     child: UIListSection.secodary(
-                      textFooter: l10n.advancedOptionsDescription,
+                      textFooter: l10n.developerFeatureFlagsDescription,
                       children: <Widget>[
                         /* UICupertinoFormRow.withSwitch(
                           title: /* l10n.advancedOptionsUseDebug */ 'Use debug features',
@@ -142,7 +142,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                           onChanged: _controller.setUseDebug,
                         ), */
                         CupertinoListTile(
-                          title: Text(l10n.useDebugFeatures),
+                          title: Text(l10n.developerToggleDebugFeaturesLabel),
                           additionalInfo: UISwitch(
                             value: state.preferences.useDebug,
                             onChanged: _controller.setUseDebug,
@@ -154,7 +154,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                           onChanged: _controller.setUseDevelompent,
                         ), */
                         CupertinoListTile(
-                          title: Text(l10n.useDeveloperMode),
+                          title: Text(l10n.developerDeveloperModeToggleLabel),
                           additionalInfo: UISwitch(
                             value: state.preferences.useDevelopment,
                             onChanged: _controller.setUseDevelompent,
@@ -162,12 +162,12 @@ class _DebugScreenState extends State<DeveloperScreen> {
                         ),
                         if (state.preferences.useDevelopment) ...[
                           /* UICupertinoFormRowSelect(
-                            title: /* l10n.developerInfoButton */ 'Developer info',
+                            title: /* l10n.developerInfoOpenActionLabel */ 'Developer info',
                             showSuffix: false,
                             onTap: () => context.ext.navigator.push(const DeveloperInfoPage()),
                           ), */
                           CupertinoListTile(
-                            title: Text(l10n.developerInfoButton),
+                            title: Text(l10n.developerInfoOpenActionLabel),
                             additionalInfo: CupertinoButton(
                               padding: .zero,
                               onPressed: () => context.ext.navigator.push(const DeveloperInfoPage()),
@@ -186,7 +186,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                   child: Padding(
                     padding: CommonPadding.of(context),
                     child: UIListSection.secodary(
-                      textFooter: l10n.experimentalFeaturesDescription,
+                      textFooter: l10n.developerToggleExperimentalFeaturesDescription,
                       children: <Widget>[
                         /* UICupertinoFormRow.withSwitch(
                           title: /* l10n.advancedOptionsUseBeta */ 'Use beta features',
@@ -194,7 +194,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                           value: state.preferences.useBeta,
                         ), */
                         CupertinoListTile(
-                          title: Text(l10n.useBetaFeatures),
+                          title: Text(l10n.developerToggleBetaFeaturesLabel),
                           additionalInfo: UISwitch(value: state.preferences.useBeta, onChanged: _controller.setUseBeta),
                         ),
                         /* UICupertinoFormRow.withSwitch(
@@ -203,7 +203,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                           value: state.preferences.useExpiremental,
                         ), */
                         CupertinoListTile(
-                          title: Text(l10n.useExperimentalFeatures),
+                          title: Text(l10n.developerToggleExperimentalFeaturesLabel),
                           additionalInfo: UISwitch(
                             value: state.preferences.useExpiremental,
                             onChanged: _controller.setUseExpiremental,
@@ -220,7 +220,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                   child: Padding(
                     padding: CommonPadding.of(context),
                     child: UIListSection.secodary(
-                      textFooter: l10n.hapticFeedbackDescription,
+                      textFooter: l10n.developerHapticFeedbackDescription,
                       children: <Widget>[
                         /* UICupertinoFormRow.withSwitch(
                           title: /* l10n.advancedOptionsUseHapticFeedback */ 'Use haptic feedback',
@@ -228,7 +228,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                           value: state.preferences.useHapticFeedback,
                         ), */
                         CupertinoListTile(
-                          title: Text(l10n.useHapticFeedback),
+                          title: Text(l10n.developerHapticFeedbackToggleLabel),
                           additionalInfo: UISwitch(
                             value: state.preferences.useHapticFeedback,
                             onChanged: _controller.setUseHapticFeedback,
@@ -245,7 +245,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                   child: Padding(
                     padding: CommonPadding.of(context),
                     child: UIListSection.secodary(
-                      textFooter: l10n.clearKeyValueStorageDescription,
+                      textFooter: l10n.developerStorageClearDescription,
                       children: <Widget>[
                         SizedBox(
                           width: double.infinity,
@@ -255,7 +255,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.clearKeyValueStorageButton,
+                              l10n.developerStorageClearActionLabel,
                               style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
                             ),
                           ),
@@ -271,7 +271,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                   child: Padding(
                     padding: CommonPadding.of(context),
                     child: UIListSection.secodary(
-                      textFooter: l10n.refreshFcmTokenDescription,
+                      textFooter: l10n.developerNotificationsRefreshDescription,
                       children: <Widget>[
                         SizedBox(
                           width: double.infinity,
@@ -305,7 +305,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.refreshFcmTokenButton,
+                              l10n.developerNotificationsRefreshTitle,
                               style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
                             ),
                           ),
@@ -321,7 +321,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                   child: Padding(
                     padding: CommonPadding.of(context),
                     child: UIListSection.secodary(
-                      textFooter: l10n.shareApplicationLogsDescription,
+                      textFooter: l10n.developerLogsShareDescription,
                       children: <Widget>[
                         SizedBox(
                           width: double.infinity,
@@ -331,7 +331,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.sendLogsButton,
+                              l10n.developerLogsShareActionLabel,
                               style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
                             ),
                           ),
@@ -347,7 +347,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                   child: Padding(
                     padding: CommonPadding.of(context),
                     child: UIListSection.secodary(
-                      textFooter: l10n.logoutAllDevicesDescription,
+                      textFooter: l10n.developerSessionsLogoutAllDescription,
                       children: <Widget>[
                         SizedBox(
                           width: double.infinity,
@@ -356,8 +356,8 @@ class _DebugScreenState extends State<DeveloperScreen> {
                                 .showCupertinoModal<void>(
                                   context: context,
                                   useRootNavigator: false,
-                                  title: Text(l10n.logoutAllDevicesConfirmation),
-                                  cancelButtonText: l10n.cancelButton,
+                                  title: Text(l10n.developerSessionsLogoutAllConfirmationMessage),
+                                  cancelButtonText: l10n.commonCancelActionLabel,
                                   actions: [
                                     CupertinoActionSheetAction(
                                       isDestructiveAction: true,
@@ -382,7 +382,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                                           // },
                                         );
                                       },
-                                      child: Text(l10n.logOutButton),
+                                      child: Text(l10n.authLogoutActionLabel),
                                     ),
                                   ],
                                 )
@@ -391,7 +391,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.logoutAllDevicesButton,
+                              l10n.developerSessionsLogoutAllActionLabel,
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 color: CupertinoDynamicColor.resolve(CupertinoColors.systemRed, context),
                               ),

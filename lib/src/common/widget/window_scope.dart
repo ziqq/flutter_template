@@ -115,7 +115,7 @@ class _WindowTitleState extends State<_WindowTitle> with WindowListener {
                         child: ScaleTransition(scale: animation, child: child),
                       ),
                       child: Text(
-                        context.findAncestorWidgetOfExactType<WindowScope>()?.title ?? Localization.of(context).app,
+                        context.findAncestorWidgetOfExactType<WindowScope>()?.title ?? Localization.of(context).commonAppLabel,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(height: 1),

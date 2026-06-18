@@ -9,314 +9,317 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get languageCode => 'ru';
+  String get appLocaleCode => 'ru';
 
   @override
-  String get language => 'Русский';
+  String get appLocaleName => 'Русский';
 
   @override
-  String get title => 'Заголовок';
+  String get appTitle => 'Заголовок';
 
   @override
-  String get settings => 'Настройки';
+  String get authEmailFieldLabel => 'Электронная почта';
 
   @override
-  String get profile => 'Профиль';
+  String get authEmailFieldHint => 'Введите электронную почту';
 
   @override
-  String get home => 'Главная';
+  String get authGeneratePasswordTooltip => 'Сгенерировать пароль';
 
   @override
-  String get error => 'Ошибка';
+  String get authLogoutActionLabel => 'Выйти';
 
   @override
-  String get errorDetailsTitle => 'Подробности ошибки';
+  String get authLogoutConfirmationMessage => 'Вы уверены, что хотите выйти?';
 
   @override
-  String get notFound => 'Не найдено';
+  String get authPasswordFieldLabel => 'Пароль';
 
   @override
-  String get unimplemented => 'Не реализовано';
+  String get authPasswordFieldHint => 'Введите пароль';
 
   @override
-  String get internalServerError => 'Внутренняя ошибка сервера';
+  String get authSignInActionLabel => 'Войти';
 
   @override
-  String get emailHint => 'Введите электронную почту';
+  String get authSignUpActionLabel => 'Зарегистрироваться';
 
   @override
-  String get emailRequiredError => 'Электронная почта обязательна.';
+  String get authValidationEmailInvalidMessage => 'Введите корректный адрес электронной почты.';
 
   @override
-  String get emailInvalidError => 'Введите корректный адрес электронной почты.';
+  String get authValidationEmailRequiredMessage => 'Электронная почта обязательна.';
 
   @override
-  String get passwordRequiredError => 'Пароль обязателен.';
+  String get authValidationPasswordMissingLowercaseMessage => 'Пароль должен содержать хотя бы одну строчную букву.';
 
   @override
-  String get passwordMinLengthError => 'Пароль должен содержать не менее 8 символов.';
+  String get authValidationPasswordMissingUppercaseMessage => 'Пароль должен содержать хотя бы одну заглавную букву.';
 
   @override
-  String get passwordMaxLengthError => 'Пароль должен содержать не более 32 символов.';
+  String get authValidationPasswordRequiredMessage => 'Пароль обязателен.';
 
   @override
-  String get passwordUppercaseError => 'Пароль должен содержать хотя бы одну заглавную букву.';
+  String get authValidationPasswordTooLongMessage => 'Пароль должен содержать не более 32 символов.';
 
   @override
-  String get passwordLowercaseError => 'Пароль должен содержать хотя бы одну строчную букву.';
+  String get authValidationPasswordTooShortMessage => 'Пароль должен содержать не менее 8 символов.';
 
   @override
-  String get logOutButton => 'Выйти';
+  String get bugReportAttachLogsHelpText => 'Прикреплённые логи помогают быстрее найти и исправить проблему.';
 
   @override
-  String get signInButton => 'Войти';
+  String get bugReportAttachLogsToggleLabel => 'Прикрепить логи';
 
   @override
-  String get signUpButton => 'Зарегистрироваться';
+  String get bugReportDialogDescription => 'Опишите проблему, с которой вы столкнулись, и мы постараемся исправить её как можно скорее.';
 
   @override
-  String get backButton => 'Назад';
+  String get bugReportDialogTitle => 'Поделиться ошибкой';
 
   @override
-  String get cancelButton => 'Отмена';
+  String get bugReportShakeToReportToggleHint => 'Отключите это, если не хотите, чтобы диалог отчёта об ошибке открывался при встряхивании устройства.';
 
   @override
-  String get deleteButton => 'Удалить';
+  String get bugReportShakeToReportToggleLabel => 'Открывать диалог отчёта об ошибке при встряхивании';
 
   @override
-  String get editButton => 'Изменить';
+  String get bugReportSubmitActionLabel => 'Отправить отчёт';
 
   @override
-  String get detailsButton => 'Подробнее';
+  String get commonAppLabel => 'Приложение';
 
   @override
-  String get contactSupportButton => 'Написать в поддержку';
+  String get commonBackActionLabel => 'Назад';
 
   @override
-  String get shareErrorSuccessMessage => 'Сообщение об ошибке успешно отправлено!';
+  String get commonCancelActionLabel => 'Отмена';
 
   @override
-  String get shareErrorButton => 'Поделиться ошибкой';
+  String get commonClearActionLabel => 'Очистить';
 
   @override
-  String get sendReportButton => 'Отправить отчёт';
+  String get commonCopiedMessage => 'Скопировано';
 
   @override
-  String get attachLogsButton => 'Прикрепить логи';
+  String get commonCopyToClipboardTooltip => 'Скопировать в буфер обмена';
 
   @override
-  String get email => 'Электронная почта';
+  String get commonDeleteActionLabel => 'Удалить';
 
   @override
-  String get password => 'Пароль';
+  String get commonDetailsActionLabel => 'Подробнее';
 
   @override
-  String get name => 'Имя';
+  String get commonEditActionLabel => 'Изменить';
 
   @override
-  String get app => 'Приложение';
+  String get commonNameLabel => 'Имя';
 
   @override
-  String get authenticated => 'Авторизован';
+  String get commonOfSeparator => 'из';
 
   @override
-  String get authentication => 'Аутентификация';
+  String get commonSelectedLabel => 'Выбрано';
 
   @override
-  String get database => 'База данных';
+  String get commonSizeLabel => 'Размер';
 
   @override
-  String get version => 'Версия';
+  String get commonStatusLabel => 'Статус';
 
   @override
-  String get status => 'Статус';
+  String get commonStorageLabel => 'Хранилище';
 
   @override
-  String get size => 'Размер';
+  String get commonTimeLabel => 'Время';
 
   @override
-  String get time => 'Время';
+  String get commonTypeLabel => 'Тип';
 
   @override
-  String get type => 'Тип';
+  String get commonVersionLabel => 'Версия';
 
   @override
-  String get storage => 'Хранилище';
+  String get developerApplicationInfoTitle => 'Информация о приложении';
 
   @override
-  String get selected => 'Выбрано';
+  String get developerApplicationInfoOpenDescription => 'Показать информацию о приложении.';
 
   @override
-  String get generatePasswordTooltip => 'Сгенерировать пароль';
+  String get developerAppVersionLabel => 'Версия приложения';
 
   @override
-  String get enterPasswordHint => 'Введите пароль';
+  String get developerDatabaseClearFailureMessage => 'Не удалось очистить базу данных';
 
   @override
-  String get logoutConfirmation => 'Вы уверены, что хотите выйти?';
+  String get developerDatabaseClearSuccessMessage => 'База данных очищена';
 
   @override
-  String get copyToClipboardTooltip => 'Скопировать в буфер обмена';
+  String get developerDatabaseDropTitle => 'Очистить базу данных';
 
   @override
-  String get settingsDescription => 'Изменить настройки';
+  String get developerDatabaseDropDescription => 'Очистить содержимое базы данных.';
 
   @override
-  String get developer => 'Разработчик';
+  String get developerDatabaseOpenTitle => 'Открыть базу данных';
 
   @override
-  String get application => 'Приложение';
+  String get developerDatabaseOpenDescription => 'Показать содержимое базы данных.';
 
   @override
-  String get navigation => 'Навигация';
+  String get developerDependenciesTitle => 'Зависимости';
 
   @override
-  String get usefulLinks => 'Полезные ссылки';
+  String get developerDependenciesOpenDescription => 'Показать зависимости.';
 
   @override
-  String get appVersion => 'Версия приложения';
+  String get developerDeveloperModeToggleLabel => 'Использовать режим разработчика';
 
   @override
-  String get copied => 'Скопировано';
+  String get developerDevDependenciesTitle => 'Dev-зависимости';
 
   @override
-  String get databaseClearedMessage => 'База данных очищена';
+  String get developerDevDependenciesOpenDescription => 'Показать зависимости для разработки.';
 
   @override
-  String get databaseClearFailedMessage => 'Не удалось очистить базу данных';
+  String get developerFeatureFlagsDescription => 'Расширенные опции для разработчиков. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.';
 
   @override
-  String get applicationInformation => 'Информация о приложении';
+  String get developerHapticFeedbackDescription => 'Включить тактильную отдачу в приложении. Полезно для тестирования haptic feedback.';
 
   @override
-  String get showApplicationInformation => 'Показать информацию о приложении.';
+  String get developerHapticFeedbackToggleLabel => 'Использовать тактильную отдачу';
 
   @override
-  String get dependencies => 'Зависимости';
+  String get developerInfoOpenActionLabel => 'Информация для разработчика';
 
   @override
-  String get showDependencies => 'Показать зависимости.';
+  String get developerLogsClearActionLabel => 'Очистить';
 
   @override
-  String get devDependencies => 'Dev-зависимости';
+  String get developerLogsEmptyStateMessage => 'Логов пока нет';
 
   @override
-  String get showDevDependencies => 'Показать зависимости для разработки.';
+  String get developerLogsOpenDescription => 'Показать логи.';
 
   @override
-  String get logs => 'Логи';
+  String get developerLogsShareActionLabel => 'Отправить логи';
 
   @override
-  String get showLogs => 'Показать логи.';
+  String get developerLogsShareDescription => 'Поделиться логами приложения для более удобной поддержки';
 
   @override
-  String get clearButton => 'Очистить';
+  String get developerLogsTitle => 'Логи';
 
   @override
-  String get noLogsYet => 'Логов пока нет';
+  String get developerNavigationResetDescription => 'Сбросить стек навигации.';
 
   @override
-  String get shareErrorTitle => 'Поделиться ошибкой';
+  String get developerNavigationResetTitle => 'Сбросить навигацию';
 
   @override
-  String get shareErrorDescription => 'Опишите проблему, с которой вы столкнулись, и мы постараемся исправить её как можно скорее.';
+  String get developerNotificationsRefreshDescription => 'Обновить FCM-токен. Полезно для тестирования push-уведомлений в development-сборках.';
 
   @override
-  String get attachLogsDescription => 'Прикреплённые логи помогают быстрее найти и исправить проблему.';
+  String get developerNotificationsRefreshTitle => 'Обновить FCM-токен';
 
   @override
-  String get shareErrorOnShakeLabel => 'Открывать диалог отчёта об ошибке при встряхивании';
+  String get developerSectionApplicationTitle => 'Приложение';
 
   @override
-  String get shareErrorOnShakeHint => 'Отключите это, если не хотите, чтобы диалог отчёта об ошибке открывался при встряхивании устройства.';
+  String get developerSectionAuthenticationTitle => 'Аутентификация';
 
   @override
-  String get resetNavigation => 'Сбросить навигацию';
+  String get developerSectionDatabaseTitle => 'База данных';
 
   @override
-  String get resetNavigationDescription => 'Сбросить стек навигации.';
+  String get developerSectionNavigationTitle => 'Навигация';
 
   @override
-  String get viewDatabase => 'Открыть базу данных';
+  String get developerSectionUsefulLinksTitle => 'Полезные ссылки';
 
   @override
-  String get viewDatabaseDescription => 'Показать содержимое базы данных.';
+  String get developerSessionsLogoutAllActionLabel => 'Выйти на всех устройствах';
 
   @override
-  String get dropDatabase => 'Очистить базу данных';
+  String get developerSessionsLogoutAllConfirmationMessage => 'Вы уверены, что хотите выйти на всех устройствах?';
 
   @override
-  String get dropDatabaseDescription => 'Очистить содержимое базы данных.';
+  String get developerSessionsLogoutAllDescription => 'Выйти на всех устройствах. Полезно для тестирования выхода или обновления сессии на всех устройствах.';
 
   @override
-  String get currentUserInformation => 'Информация о текущем пользователе';
+  String get developerStorageClearActionLabel => 'Очистить key-value хранилище';
 
   @override
-  String get refreshSession => 'Обновить сессию';
+  String get developerStorageClearDescription => 'Очистить key-value хранилище. Полезно для тестирования онбординга и промокодов.';
 
   @override
-  String get refreshSessionDescription => 'Обновить текущую пользовательскую сессию';
+  String get developerStorageClearSuccessMessage => 'Key-value хранилище успешно очищено';
 
   @override
-  String get logOutCurrentUser => 'Выйти из текущей учётной записи';
+  String get developerTitle => 'Разработчик';
 
   @override
-  String get advancedOptionsDescription => 'Расширенные опции для разработчиков. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.';
+  String get developerToggleBetaFeaturesLabel => 'Использовать beta-функции';
 
   @override
-  String get useDebugFeatures => 'Использовать debug-функции';
+  String get developerToggleDebugFeaturesLabel => 'Использовать debug-функции';
 
   @override
-  String get useDeveloperMode => 'Использовать режим разработчика';
+  String get developerToggleExperimentalFeaturesDescription => 'Экспериментальные функции. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.';
 
   @override
-  String get developerInfoButton => 'Информация для разработчика';
+  String get developerToggleExperimentalFeaturesLabel => 'Использовать экспериментальные функции';
 
   @override
-  String get experimentalFeaturesDescription => 'Экспериментальные функции. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.';
+  String get developerUserAuthenticatedLabel => 'Авторизован';
 
   @override
-  String get useBetaFeatures => 'Использовать beta-функции';
+  String get developerUserCurrentInfoDescription => 'Информация о текущем пользователе';
 
   @override
-  String get useExperimentalFeatures => 'Использовать экспериментальные функции';
+  String get developerUserCurrentLogoutDescription => 'Выйти из текущей учётной записи';
 
   @override
-  String get hapticFeedbackDescription => 'Включить тактильную отдачу в приложении. Полезно для тестирования haptic feedback.';
+  String get developerUserRefreshSessionTitle => 'Обновить сессию';
 
   @override
-  String get useHapticFeedback => 'Использовать тактильную отдачу';
+  String get developerUserRefreshSessionDescription => 'Обновить текущую пользовательскую сессию';
 
   @override
-  String get clearKeyValueStorageDescription => 'Очистить key-value хранилище. Полезно для тестирования онбординга и промокодов.';
+  String get errorContactSupportActionLabel => 'Написать в поддержку';
 
   @override
-  String get clearKeyValueStorageButton => 'Очистить key-value хранилище';
+  String get errorDetailsDialogTitle => 'Подробности ошибки';
 
   @override
-  String get clearKeyValueStorageSuccessMessage => 'Key-value хранилище успешно очищено';
+  String get errorInternalServerTitle => 'Внутренняя ошибка сервера';
 
   @override
-  String get refreshFcmTokenDescription => 'Обновить FCM-токен. Полезно для тестирования push-уведомлений в development-сборках.';
+  String get errorNotFoundTitle => 'Не найдено';
 
   @override
-  String get refreshFcmTokenButton => 'Обновить FCM-токен';
+  String get errorShareActionLabel => 'Поделиться ошибкой';
 
   @override
-  String get shareApplicationLogsDescription => 'Поделиться логами приложения для более удобной поддержки';
+  String get errorShareSuccessMessage => 'Сообщение об ошибке успешно отправлено!';
 
   @override
-  String get sendLogsButton => 'Отправить логи';
+  String get errorTitle => 'Ошибка';
 
   @override
-  String get logoutAllDevicesDescription => 'Выйти на всех устройствах. Полезно для тестирования выхода или обновления сессии на всех устройствах.';
+  String get errorUnimplementedTitle => 'Не реализовано';
 
   @override
-  String get logoutAllDevicesConfirmation => 'Вы уверены, что хотите выйти на всех устройствах?';
+  String get homeTitle => 'Главная';
 
   @override
-  String get logoutAllDevicesButton => 'Выйти на всех устройствах';
+  String get profileSettingsTitle => 'Настройки';
 
   @override
-  String get ofSeparator => 'из';
+  String get profileSettingsDescription => 'Изменить настройки';
+
+  @override
+  String get profileTitle => 'Профиль';
 }

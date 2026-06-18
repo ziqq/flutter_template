@@ -254,7 +254,7 @@ class _App$Error$HomeScreen extends StatelessWidget {
                 CupertinoButton(
                   padding: EdgeInsets.zero,
                   child: Text(
-                    Localization.of(context).contactSupportButton,
+                    Localization.of(context).errorContactSupportActionLabel,
                     style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
                   ),
                   onPressed: () {} /* () => showDialog$FollowAnExternalLink(
@@ -275,7 +275,7 @@ class _App$Error$HomeScreen extends StatelessWidget {
                 CupertinoButton(
                   padding: EdgeInsets.zero,
                   child: Text(
-                    Localization.of(context).shareErrorButton,
+                    Localization.of(context).errorShareActionLabel,
                     style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
                   ),
                   onPressed: () {
@@ -295,7 +295,7 @@ class _App$Error$HomeScreen extends StatelessWidget {
                                 context: context,
                                 useHapticFeedback: false,
                                 type: UISnackBarType.success,
-                                message: Localization.of(context).shareErrorSuccessMessage,
+                                message: Localization.of(context).errorShareSuccessMessage,
                               )
                               .ignore(),
                         )

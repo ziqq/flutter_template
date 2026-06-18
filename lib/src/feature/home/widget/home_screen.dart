@@ -14,11 +14,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(pinned: true, title: UIText.titleMedium(l10n.home), leading: const SizedBox.shrink()),
+          SliverAppBar(pinned: true, title: UIText.titleMedium(l10n.homeTitle), leading: const SizedBox.shrink()),
           SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
-              child: Column(mainAxisAlignment: .center, children: <Widget>[Text(l10n.home)]),
+              child: Column(mainAxisAlignment: .center, children: <Widget>[Text(l10n.homeTitle)]),
             ),
           ),
         ],

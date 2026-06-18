@@ -166,15 +166,15 @@ class _Logs$ListState extends State<_Logs$List> {
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: theme.uiTheme.indent / 2,
               children: <Widget>[
-                Text(l10n.logs, style: theme.textTheme.headlineMedium),
+                Text(l10n.developerLogsTitle, style: theme.textTheme.headlineMedium),
                 counterWidget,
               ],
             ),
-            largeTitle: Text(l10n.logs, style: theme.textTheme.displayLarge),
+            largeTitle: Text(l10n.developerLogsTitle, style: theme.textTheme.displayLarge),
             trailing: GestureDetector(
               onTap: _onClear,
               child: Text(
-                l10n.clearButton,
+                l10n.developerLogsClearActionLabel,
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: CupertinoDynamicColor.resolve(CupertinoColors.systemRed, context),
                 ),
@@ -187,7 +187,7 @@ class _Logs$ListState extends State<_Logs$List> {
                 padding: EdgeInsets.only(bottom: CommonBottomSpacer.heightOf(context)),
                 child: Center(
                   child: Text(
-                    l10n.noLogsYet,
+                    l10n.developerLogsEmptyStateMessage,
                     style: theme.textTheme.headlineMedium?.copyWith(color: theme.uiTheme.color.textSecondary),
                   ),
                 ),

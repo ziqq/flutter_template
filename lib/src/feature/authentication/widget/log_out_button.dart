@@ -13,7 +13,7 @@ class LogOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => IconButton(
     icon: const Icon(Icons.logout),
-    tooltip: Localization.of(context).logOutButton,
+    tooltip: Localization.of(context).authLogoutActionLabel,
     onPressed: () => showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
@@ -26,7 +26,7 @@ class LogOutButton extends StatelessWidget {
               const Icon(Icons.logout, size: 24),
               const SizedBox(width: 16),
               Text(
-                Localization.of(context).logOutButton,
+                Localization.of(context).authLogoutActionLabel,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(height: 1),
@@ -36,7 +36,7 @@ class LogOutButton extends StatelessWidget {
           ),
         ),
         content: Text(
-          Localization.of(context).logoutConfirmation,
+          Localization.of(context).authLogoutConfirmationMessage,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
@@ -47,7 +47,7 @@ class LogOutButton extends StatelessWidget {
             width: 128,
             child: FilledButton.icon(
               icon: const Icon(Icons.logout),
-              label: Text(Localization.of(context).logOutButton),
+              label: Text(Localization.of(context).authLogoutActionLabel),
               onPressed: () {
                 AuthenticationScope.signOut(context);
                 HapticFeedback.mediumImpact().ignore();
@@ -59,7 +59,7 @@ class LogOutButton extends StatelessWidget {
             width: 128,
             child: ElevatedButton.icon(
               icon: const Icon(Icons.cancel),
-              label: Text(Localization.of(context).cancelButton),
+              label: Text(Localization.of(context).commonCancelActionLabel),
               onPressed: () => Navigator.pop(context),
             ),
           ),

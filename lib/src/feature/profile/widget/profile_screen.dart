@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(title: Text(l10n.profile), pinned: true, floating: true, snap: true),
+          SliverAppBar(title: Text(l10n.profileTitle), pinned: true, floating: true, snap: true),
           SliverPadding(
             padding: ScaffoldPadding.of(context).copyWith(top: 16, bottom: 16),
             sliver: SliverList.list(
@@ -60,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     isThreeLine: false,
                     title: Text(
-                      l10n.name,
+                      l10n.commonNameLabel,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, height: 1),
@@ -82,13 +82,13 @@ class ProfileScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     isThreeLine: false,
                     title: Text(
-                      l10n.settings,
+                      l10n.profileSettingsTitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, height: 1),
                     ),
                     subtitle: Text(
-                      l10n.settingsDescription,
+                      l10n.profileSettingsDescription,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(height: 1),

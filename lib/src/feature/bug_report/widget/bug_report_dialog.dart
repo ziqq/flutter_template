@@ -84,17 +84,17 @@ class _BugReportDialogState extends State<BugReportDialog> {
                     children: <Widget>[
                       SizedBox(height: theme.uiTheme.size.offset.regular),
                       // --- Title --- //
-                      Text(Localization.of(context).shareErrorTitle, style: theme.textTheme.headlineLarge),
+                      Text(Localization.of(context).bugReportDialogTitle, style: theme.textTheme.headlineLarge),
                       SizedBox(height: theme.uiTheme.size.offset.small),
                       // --- Subtitle --- //
                       Text(
-                        Localization.of(context).shareErrorDescription,
+                        Localization.of(context).bugReportDialogDescription,
                         style: theme.textTheme.bodyMedium?.copyWith(height: 1.2),
                       ),
                       SizedBox(height: theme.uiTheme.size.offset.large),
                       // --- Form with attached logs --- //
                       UIListSection.secodary(
-                        textFooter: Localization.of(context).attachLogsDescription,
+                        textFooter: Localization.of(context).bugReportAttachLogsHelpText,
                         children: <Widget>[
                           Stack(
                             children: <Widget>[
@@ -145,7 +145,7 @@ class _BugReportDialogState extends State<BugReportDialog> {
                               title: context.ext.l10n.errors.sendLogsButton,
                               onChanged: (value) => _attachLogs.value = value,
                             ) */ CupertinoListTile(
-                                  title: Text(Localization.of(context).attachLogsButton),
+                                  title: Text(Localization.of(context).bugReportAttachLogsToggleLabel),
                                   additionalInfo: UISwitch(
                                     value: value,
                                     onChanged: (value) => _attachLogs.value = value,
@@ -165,7 +165,7 @@ class _BugReportDialogState extends State<BugReportDialog> {
                             loading: _loading,
                             attachLogs: _attachLogs.value,
                             message: _messageController.text,
-                            text: Localization.of(context).sendReportButton,
+                            text: Localization.of(context).bugReportSubmitActionLabel,
                             onPressed: () => _loading.value = true,
                             onSucceeded: () {
                               _loading.value = false;
@@ -185,7 +185,7 @@ class _BugReportDialogState extends State<BugReportDialog> {
                 visualDensity: .compact,
                 dense: true,
                 title: Text(
-                  Localization.of(context).shareErrorOnShakeLabel,
+                  Localization.of(context).bugReportShakeToReportToggleLabel,
                   style: theme.textTheme.bodyMedium?.copyWith(height: 1.2),
                 ),
                 trailing: ValueListenableBuilder<bool>(
@@ -201,7 +201,7 @@ class _BugReportDialogState extends State<BugReportDialog> {
               ),
               Padding(
                 padding: CommonPadding.of(context),
-                child: Text(Localization.of(context).shareErrorOnShakeHint, style: theme.textTheme.labelSmall),
+                child: Text(Localization.of(context).bugReportShakeToReportToggleHint, style: theme.textTheme.labelSmall),
               ),
               SizedBox(
                 height: CommonBottomSpacer.keyboardIsOpenOf(context)

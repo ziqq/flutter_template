@@ -35,16 +35,16 @@ class DeveloperInfoScreen extends StatelessWidget {
         padding: .zero,
         leading: const CommonBackButton(),
         backgroundColor: theme.uiTheme.color.background,
-        middle: UIText.titleMedium(l10n.developer),
+        middle: UIText.titleMedium(l10n.developerTitle),
       ),
       body: CustomScrollView(
         slivers: <Widget>[
           // --- Authentication --- //
-          _GroupSeparator(title: l10n.authentication),
-          _OpenUriTile(title: l10n.profile, description: l10n.currentUserInformation),
+          _GroupSeparator(title: l10n.developerSectionAuthenticationTitle),
+          _OpenUriTile(title: l10n.profileTitle, description: l10n.developerUserCurrentInfoDescription),
           _OpenUriTile(
-            title: l10n.refreshSession,
-            description: l10n.refreshSessionDescription,
+            title: l10n.developerUserRefreshSessionTitle,
+            description: l10n.developerUserRefreshSessionDescription,
             onTap: () {} /* () => AuthenticationScope.refresh(
               context,
               onDone: () => AnimatedCheckIcon.dismiss(),
@@ -53,14 +53,14 @@ class DeveloperInfoScreen extends StatelessWidget {
               onError: (e) => AnimatedCheckIcon.error(context, message: ErrorUtil.formatMessage(e)),
             ).ignore() */,
           ),
-          _OpenUriTile(title: l10n.logOutButton, description: l10n.logOutCurrentUser),
+          _OpenUriTile(title: l10n.authLogoutActionLabel, description: l10n.developerUserCurrentLogoutDescription),
           SliverPadding(
             padding: CommonPadding.of(context).copyWith(bottom: theme.uiTheme.padding, top: theme.uiTheme.padding),
             sliver: const SliverToBoxAdapter(child: SizedBox(height: 48, child: Placeholder())),
           ),
 
           // --- Application information --- //
-          _GroupSeparator(title: l10n.application),
+          _GroupSeparator(title: l10n.developerSectionApplicationTitle),
           const _ShowApplicationInfoTile(),
           const _ShowLicensePageTile(),
           const _ShowApplicationDependenciesTile(),
@@ -68,16 +68,16 @@ class DeveloperInfoScreen extends StatelessWidget {
           const _ShowLogsScreenTile(),
 
           // --- Navigation --- //
-          _GroupSeparator(title: l10n.navigation),
+          _GroupSeparator(title: l10n.developerSectionNavigationTitle),
           const _ResetNavigationTile(),
 
           // --- Database --- //
-          _GroupSeparator(title: l10n.database),
+          _GroupSeparator(title: l10n.developerSectionDatabaseTitle),
           const _ViewDatabaseTile(),
           const _ClearDatabaseTile(),
 
           // --- Useful links --- //
-          _GroupSeparator(title: l10n.usefulLinks),
+          _GroupSeparator(title: l10n.developerSectionUsefulLinksTitle),
           const _OpenUriTile(title: 'Flutter', description: 'Flutter website', uri: 'https://flutter.dev'),
           const _OpenUriTile(title: 'Flutter API', description: 'Framework API', uri: 'https://api.flutter.dev'),
           const _OpenUriTile(title: 'Portal', description: 'User portal'),
@@ -176,7 +176,9 @@ class _CopyTile extends StatelessWidget {
       Clipboard.setData(ClipboardData(text: content ?? (subtitle == null ? title : '$title: $subtitle')));
       ScaffoldMessenger.of(context)
         ..clearSnackBars()
-        ..showSnackBar(SnackBar(content: Text(Localization.of(context).copied), duration: const Duration(seconds: 3)));
+        ..showSnackBar(
+          SnackBar(content: Text(Localization.of(context).commonCopiedMessage), duration: const Duration(seconds: 3)),
+        );
     },
   );
 }
@@ -193,9 +195,9 @@ class _ShowApplicationInfoTile extends StatelessWidget {
         child: ListTile(
           dense: true,
           contentPadding: .zero,
-          title: Text(l10n.applicationInformation, style: Theme.of(context).textTheme.bodyLarge),
+          title: Text(l10n.developerApplicationInfoTitle, style: Theme.of(context).textTheme.bodyLarge),
           subtitle: Text(
-            l10n.showApplicationInformation,
+            l10n.developerApplicationInfoOpenDescription,
             maxLines: 1,
             overflow: .ellipsis,
             style: Theme.of(context).textTheme.bodySmall,
@@ -207,9 +209,9 @@ class _ShowApplicationInfoTile extends StatelessWidget {
               applicationVersion: Pubspec.version.representation,
               applicationIcon: const SizedBox.square(dimension: 64, child: Icon(Icons.apps, size: 64)),
               children: <Widget>[
-                _CopyTile(title: l10n.name, subtitle: Pubspec.name, content: Pubspec.name),
+                _CopyTile(title: l10n.commonNameLabel, subtitle: Pubspec.name, content: Pubspec.name),
                 _CopyTile(
-                  title: l10n.version,
+                  title: l10n.commonVersionLabel,
                   subtitle: Pubspec.version.representation,
                   content: Pubspec.version.representation,
                 ),
@@ -269,9 +271,9 @@ class _ShowApplicationDependenciesTile extends StatelessWidget {
         child: ListTile(
           dense: true,
           contentPadding: .zero,
-          title: Text(l10n.dependencies, style: Theme.of(context).textTheme.bodyLarge),
+          title: Text(l10n.developerDependenciesTitle, style: Theme.of(context).textTheme.bodyLarge),
           subtitle: Text(
-            l10n.showDependencies,
+            l10n.developerDependenciesOpenDescription,
             maxLines: 1,
             overflow: .ellipsis,
             style: Theme.of(context).textTheme.bodySmall,
@@ -288,7 +290,10 @@ class _ShowApplicationDependenciesTile extends StatelessWidget {
                   child: Column(
                     mainAxisSize: .min,
                     children: <Widget>[
-                      Text(l10n.dependencies, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      Text(
+                        l10n.developerDependenciesTitle,
+                        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
                       SizedBox(height: Theme.of(context).uiTheme.padding),
                       Wrap(
                         children: <Widget>[
@@ -324,9 +329,9 @@ class _ShowApplicationDevDependenciesTile extends StatelessWidget {
         child: ListTile(
           dense: true,
           contentPadding: .zero,
-          title: Text(l10n.devDependencies, style: Theme.of(context).textTheme.bodyLarge),
+          title: Text(l10n.developerDevDependenciesTitle, style: Theme.of(context).textTheme.bodyLarge),
           subtitle: Text(
-            l10n.showDevDependencies,
+            l10n.developerDevDependenciesOpenDescription,
             maxLines: 1,
             overflow: .ellipsis,
             style: Theme.of(context).textTheme.bodySmall,
@@ -343,7 +348,10 @@ class _ShowApplicationDevDependenciesTile extends StatelessWidget {
                   child: Column(
                     mainAxisSize: .min,
                     children: <Widget>[
-                      Text(l10n.devDependencies, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      Text(
+                        l10n.developerDevDependenciesTitle,
+                        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
                       SizedBox(height: Theme.of(context).uiTheme.padding),
                       Wrap(
                         children: <Widget>[
@@ -379,8 +387,13 @@ class _ShowLogsScreenTile extends StatelessWidget {
         child: ListTile(
           dense: true,
           contentPadding: .zero,
-          title: Text(l10n.logs, style: Theme.of(context).textTheme.bodyLarge),
-          subtitle: Text(l10n.showLogs, maxLines: 1, overflow: .ellipsis, style: Theme.of(context).textTheme.bodySmall),
+          title: Text(l10n.developerLogsTitle, style: Theme.of(context).textTheme.bodyLarge),
+          subtitle: Text(
+            l10n.developerLogsOpenDescription,
+            maxLines: 1,
+            overflow: .ellipsis,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
           onTap: () => Logs$Dialog.show(context).ignore(),
         ),
       ),
@@ -400,9 +413,9 @@ class _ResetNavigationTile extends StatelessWidget {
         child: ListTile(
           dense: true,
           contentPadding: .zero,
-          title: Text(l10n.resetNavigation, style: Theme.of(context).textTheme.bodyLarge),
+          title: Text(l10n.developerNavigationResetTitle, style: Theme.of(context).textTheme.bodyLarge),
           subtitle: Text(
-            l10n.resetNavigationDescription,
+            l10n.developerNavigationResetDescription,
             maxLines: 1,
             overflow: .ellipsis,
             style: Theme.of(context).textTheme.bodySmall,
@@ -426,9 +439,9 @@ class _ViewDatabaseTile extends StatelessWidget {
         child: ListTile(
           dense: true,
           contentPadding: .zero,
-          title: Text(l10n.viewDatabase, style: Theme.of(context).textTheme.bodyLarge),
+          title: Text(l10n.developerDatabaseOpenTitle, style: Theme.of(context).textTheme.bodyLarge),
           subtitle: Text(
-            l10n.viewDatabaseDescription,
+            l10n.developerDatabaseOpenDescription,
             maxLines: 1,
             overflow: .ellipsis,
             style: Theme.of(context).textTheme.bodySmall,
@@ -455,9 +468,9 @@ class _ClearDatabaseTile extends StatelessWidget {
         child: ListTile(
           dense: true,
           contentPadding: .zero,
-          title: Text(l10n.dropDatabase, style: Theme.of(context).textTheme.bodyLarge),
+          title: Text(l10n.developerDatabaseDropTitle, style: Theme.of(context).textTheme.bodyLarge),
           subtitle: Text(
-            l10n.dropDatabaseDescription,
+            l10n.developerDatabaseDropDescription,
             maxLines: 1,
             overflow: .ellipsis,
             style: Theme.of(context).textTheme.bodySmall,
@@ -477,12 +490,15 @@ class _ClearDatabaseTile extends StatelessWidget {
               }
             }).then<void>(
               (_) => messenger?.showSnackBar(
-                SnackBar(content: Text(l10n.databaseClearedMessage), duration: const Duration(seconds: 3)),
+                SnackBar(
+                  content: Text(l10n.developerDatabaseClearSuccessMessage),
+                  duration: const Duration(seconds: 3),
+                ),
               ),
               // ignore: inference_failure_on_untyped_parameter
               onError: (error) => messenger?.showSnackBar(
                 SnackBar(
-                  content: Text('${l10n.databaseClearFailedMessage}: $error'),
+                  content: Text('${l10n.developerDatabaseClearFailureMessage}: $error'),
                   backgroundColor: CupertinoDynamicColor.resolve(
                     CupertinoColors.systemRed,
                     context, // ignore: use_build_context_synchronously

@@ -158,7 +158,7 @@ abstract final class ErrorUtil {
               final navigator = Navigator.maybeOf(context);
               if (navigator == null) return null;
               return SnackBarAction(
-                label: Localization.of(context).detailsButton,
+                label: Localization.of(context).commonDetailsActionLabel,
                 textColor: Colors.white,
                 backgroundColor: Colors.white.withValues(alpha: .2),
                 onPressed: () {
@@ -169,7 +169,7 @@ abstract final class ErrorUtil {
                     barrierDismissible: true,
                     useSafeArea: true,
                     builder: (ctx) => AlertDialog(
-                      title: Text(Localization.of(ctx).errorDetailsTitle),
+                      title: Text(Localization.of(ctx).errorDetailsDialogTitle),
                       icon: Icon(Icons.error, color: CupertinoDynamicColor.resolve(CupertinoColors.systemRed, ctx)),
                       iconPadding: .all(theme.uiTheme.size.offset.medium),
                       titlePadding: .only(
@@ -216,7 +216,7 @@ abstract final class ErrorUtil {
                               child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: IconButton(
-                                  tooltip: Localization.of(ctx).copyToClipboardTooltip,
+                                  tooltip: Localization.of(ctx).commonCopyToClipboardTooltip,
                                   icon: const Icon(Icons.copy_all),
                                   onPressed: () {
                                     final buffer = StringBuffer()

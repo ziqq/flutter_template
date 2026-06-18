@@ -23,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(
                   height: 50,
                   child: Text(
-                    Localization.of(context).signUpButton,
+                    Localization.of(context).authSignUpActionLabel,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -63,7 +63,7 @@ class _SignUpScreen$Buttons extends StatelessWidget {
         child: ElevatedButton.icon(
           onPressed: signUp,
           icon: const Icon(Icons.person_add),
-          label: Text(Localization.of(context).signUpButton, maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).authSignUpActionLabel, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
       const SizedBox(width: 16),
@@ -72,7 +72,7 @@ class _SignUpScreen$Buttons extends StatelessWidget {
         child: FilledButton.tonalIcon(
           onPressed: cancel,
           icon: const Icon(Icons.cancel),
-          label: Text(Localization.of(context).cancelButton, maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).commonCancelActionLabel, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
     ],

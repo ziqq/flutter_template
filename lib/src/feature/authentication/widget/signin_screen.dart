@@ -59,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> with _UsernamePasswordFormS
                         children: <Widget>[
                           const SizedBox(width: 50),
                           Text(
-                            l10n.signInButton,
+                            l10n.authSignInActionLabel,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
@@ -72,7 +72,7 @@ class _SignInScreenState extends State<SignInScreen> with _UsernamePasswordFormS
                               icon: const Icon(Icons.casino),
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints.tightFor(width: 48, height: 48),
-                              tooltip: l10n.generatePasswordTooltip,
+                              tooltip: l10n.authGeneratePasswordTooltip,
                               onPressed: state.isProcessing
                                   ? null
                                   : () {
@@ -96,8 +96,8 @@ class _SignInScreenState extends State<SignInScreen> with _UsernamePasswordFormS
                       keyboardType: TextInputType.emailAddress,
                       inputFormatters: _usernameFormatters,
                       decoration: InputDecoration(
-                        labelText: l10n.email,
-                        hintText: l10n.emailHint,
+                        labelText: l10n.authEmailFieldLabel,
+                        hintText: l10n.authEmailFieldHint,
                         helperText: '',
                         helperMaxLines: 1,
                         errorText: _usernameError,
@@ -118,8 +118,8 @@ class _SignInScreenState extends State<SignInScreen> with _UsernamePasswordFormS
                       autofillHints: const <String>[AutofillHints.password],
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
-                        labelText: l10n.password,
-                        hintText: l10n.enterPasswordHint,
+                        labelText: l10n.authPasswordFieldLabel,
+                        hintText: l10n.authPasswordFieldHint,
                         helperText: '',
                         helperMaxLines: 1,
                         errorText: _passwordError,
@@ -176,7 +176,7 @@ class _SignInScreen$Buttons extends StatelessWidget {
         child: ElevatedButton.icon(
           onPressed: signIn,
           icon: const Icon(Icons.login),
-          label: Text(Localization.of(context).signInButton, maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).authSignInActionLabel, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
       const SizedBox(width: 16),
@@ -185,7 +185,7 @@ class _SignInScreen$Buttons extends StatelessWidget {
         child: FilledButton.tonalIcon(
           onPressed: signUp,
           icon: const Icon(Icons.person_add),
-          label: Text(Localization.of(context).signUpButton, maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).authSignUpActionLabel, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
     ],
@@ -202,15 +202,15 @@ class _UsernameTextFormatter extends TextInputFormatter {
 mixin _UsernamePasswordFormStateMixin on State<SignInScreen> {
   String? _usernameValidator(BuildContext context, String username) {
     final l10n = Localization.of(context);
-    if (username.isEmpty) return l10n.emailRequiredError;
+    if (username.isEmpty) return l10n.authValidationEmailRequiredMessage;
     final length = switch (username.length) {
-      0 => l10n.emailRequiredError,
-      < 3 => l10n.emailInvalidError,
+      0 => l10n.authValidationEmailRequiredMessage,
+      < 3 => l10n.authValidationEmailInvalidMessage,
       _ => null,
     };
     if (length != null) return length;
     if (username.split('@').where((e) => e.isNotEmpty).length != 2) {
-      return l10n.emailInvalidError;
+      return l10n.authValidationEmailInvalidMessage;
     }
     // If username passes all checks, return null
     return null;
@@ -220,17 +220,17 @@ mixin _UsernamePasswordFormStateMixin on State<SignInScreen> {
     final l10n = Localization.of(context);
     const passwordMinLength = Config.passwordMinLength, passwordMaxLength = Config.passwordMaxLength;
     final length = switch (password.length) {
-      0 => l10n.passwordRequiredError,
-      < passwordMinLength => l10n.passwordMinLengthError,
-      > passwordMaxLength => l10n.passwordMaxLengthError,
+      0 => l10n.authValidationPasswordRequiredMessage,
+      < passwordMinLength => l10n.authValidationPasswordTooShortMessage,
+      > passwordMaxLength => l10n.authValidationPasswordTooLongMessage,
       _ => null,
     };
     if (length != null) return length;
     if (!password.contains(RegExp('[A-Z]'))) {
-      return l10n.passwordUppercaseError;
+      return l10n.authValidationPasswordMissingUppercaseMessage;
     }
     if (!password.contains(RegExp('[a-z]'))) {
-      return l10n.passwordLowercaseError;
+      return l10n.authValidationPasswordMissingLowercaseMessage;
     }
     // If password passes all checks, return null
     return null;

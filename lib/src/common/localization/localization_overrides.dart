@@ -10,19 +10,19 @@ class OverrideUILocalizations extends UILocalizations {
   final UILocalizations _fallback;
 
   @override
-  String get backButton => _l10n.backButton;
+  String get backButton => _l10n.commonBackActionLabel;
 
   @override
-  String get cancelButton => _l10n.cancelButton;
+  String get cancelButton => _l10n.commonCancelActionLabel;
 
   @override
-  String get editButton => _l10n.editButton;
+  String get editButton => _l10n.commonEditActionLabel;
 
   @override
   String get closeButton => _fallback.closeButton;
 
   @override
-  String get deleteButton => _l10n.deleteButton;
+  String get deleteButton => _l10n.commonDeleteActionLabel;
 
   @override
   String get doneButton => _fallback.doneButton;
@@ -79,7 +79,7 @@ class OverrideUILocalizations extends UILocalizations {
   String get todayLabel => _fallback.todayLabel;
 
   @override
-  String get language => _l10n.language;
+  String get language => _l10n.appLocaleName;
 
   @override
   String get loading => _fallback.loading;
