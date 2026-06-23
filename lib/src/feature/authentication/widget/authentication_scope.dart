@@ -10,7 +10,7 @@ import 'package:flutter_template_name/src/common/util/error_util.dart';
 import 'package:flutter_template_name/src/feature/authentication/controller/authentication_controller.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/sign_in_data.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
-import 'package:flutter_template_name/src/feature/authentication/widget/signup_screen.dart';
+import 'package:flutter_template_name/src/feature/authentication/widget/signin_screen.dart';
 import 'package:l/l.dart';
 
 /// {@template authentication_scope}
@@ -215,7 +215,7 @@ class _AuthenticationScopeState extends State<AuthenticationScope> {
     state: _state,
     child: user.isAuthenticated
         ? widget.child
-        : /* AuthenticationNavigator(pages: const [AuthOnboardingPage()]) */ const SignUpScreen(),
+        : /* AuthenticationNavigator(pages: const [AuthOnboardingPage()]) */ const SignInScreen(),
   );
 }
 

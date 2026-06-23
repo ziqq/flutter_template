@@ -77,9 +77,6 @@ class _AppState extends State<App> {
   /// The main app navigator.
   late final AppNavigator _navigator;
 
-  /// Scopes for the app.
-  late final OverlayEntry _scopes = OverlayEntry(builder: (context) => Scopes(navigator: _navigator));
-
   @override
   void initState() {
     super.initState();
@@ -141,7 +138,7 @@ class _AppState extends State<App> {
     return MaterialApp(
       restorationScopeId: 'flutter_template_name',
       debugShowCheckedModeBanner: !Config.environment.isProduction,
-      onGenerateTitle: (context) => /* AppLocalization.of(context).title */ 'Title',
+      onGenerateTitle: (context) => Localization.of(context).title,
 
       // Localizations
       supportedLocales: /* Locales.values */ Localization.supportedLocales,
@@ -153,9 +150,8 @@ class _AppState extends State<App> {
       darkTheme: darkTheme,
       themeMode: theme.themeMode,
 
-      home: Overlay(clipBehavior: .none, initialEntries: <OverlayEntry>[_scopes]),
-
       // Scopes
+      home: Scopes(navigator: _navigator),
       builder: EasyLoading.init(
         builder: (context, child) {
           assert(debugCheckHasMediaQuery(context)); // ignore: prefer_asserts_with_message
@@ -254,7 +250,7 @@ class _App$Error$HomeScreen extends StatelessWidget {
                 CupertinoButton(
                   padding: EdgeInsets.zero,
                   child: Text(
-                    Localization.of(context).errorContactSupportActionLabel,
+                    Localization.of(context).contactSupportButton,
                     style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
                   ),
                   onPressed: () {} /* () => showDialog$FollowAnExternalLink(
@@ -275,7 +271,7 @@ class _App$Error$HomeScreen extends StatelessWidget {
                 CupertinoButton(
                   padding: EdgeInsets.zero,
                   child: Text(
-                    Localization.of(context).errorShareActionLabel,
+                    Localization.of(context).shareErrorButton,
                     style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
                   ),
                   onPressed: () {
@@ -295,7 +291,7 @@ class _App$Error$HomeScreen extends StatelessWidget {
                                 context: context,
                                 useHapticFeedback: false,
                                 type: UISnackBarType.success,
-                                message: Localization.of(context).errorShareSuccessMessage,
+                                message: Localization.of(context).shareErrorSuccessMessage,
                               )
                               .ignore(),
                         )

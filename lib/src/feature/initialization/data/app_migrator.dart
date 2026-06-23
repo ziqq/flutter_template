@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
 import 'package:flutter_template_name/src/common/database/database.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:l/l.dart';

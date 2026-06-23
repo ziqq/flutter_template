@@ -9,40 +9,40 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appLocaleCode => 'en';
+  String get localeCode => 'en';
 
   @override
-  String get appLocaleName => 'English';
+  String get localeName => 'English';
 
   @override
-  String get appTitle => 'Title';
+  String get title => 'Title';
 
   @override
-  String get authEmailFieldLabel => 'Email';
+  String get emailLabel => 'Email';
 
   @override
-  String get authEmailFieldHint => 'Enter your email';
+  String get emailPlaceholder => 'Enter your email';
 
   @override
   String get authGeneratePasswordTooltip => 'Generate password';
 
   @override
-  String get authLogoutActionLabel => 'Log Out';
+  String get logoutButton => 'Log Out';
 
   @override
   String get authLogoutConfirmationMessage => 'Are you sure you want to log out?';
 
   @override
-  String get authPasswordFieldLabel => 'Password';
+  String get passwordLabel => 'Password';
 
   @override
-  String get authPasswordFieldHint => 'Enter your password';
+  String get passwordPlaceholder => 'Enter your password';
 
   @override
-  String get authSignInActionLabel => 'Sign In';
+  String get signInButton => 'Sign In';
 
   @override
-  String get authSignUpActionLabel => 'Sign Up';
+  String get signUpButton => 'Sign Up';
 
   @override
   String get authValidationEmailInvalidMessage => 'Must be a valid email.';
@@ -72,73 +72,75 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bugReportAttachLogsToggleLabel => 'Attach logs';
 
   @override
-  String get bugReportDialogDescription => 'Describe the issue you encountered and we will try to fix it as soon as possible.';
+  String get bugReportDialogDescription =>
+      'Describe the issue you encountered and we will try to fix it as soon as possible.';
 
   @override
   String get bugReportDialogTitle => 'Share error';
 
   @override
-  String get bugReportShakeToReportToggleHint => 'Disable this if you do not want the bug report dialog to appear when the device is shaken.';
+  String get bugReportShakeToReportToggleHint =>
+      'Disable this if you do not want the bug report dialog to appear when the device is shaken.';
 
   @override
   String get bugReportShakeToReportToggleLabel => 'Open bug report dialog on shake';
 
   @override
-  String get bugReportSubmitActionLabel => 'Send report';
+  String get submitReportButton => 'Send report';
 
   @override
-  String get commonAppLabel => 'App';
+  String get appLabel => 'App';
 
   @override
-  String get commonBackActionLabel => 'Back';
+  String get backButton => 'Back';
 
   @override
-  String get commonCancelActionLabel => 'Cancel';
+  String get cancelButton => 'Cancel';
 
   @override
-  String get commonClearActionLabel => 'Clear';
+  String get clearButton => 'Clear';
 
   @override
-  String get commonCopiedMessage => 'Copied';
+  String get copiedMessage => 'Copied';
 
   @override
-  String get commonCopyToClipboardTooltip => 'Copy to clipboard';
+  String get copyToClipboardLabel => 'Copy to clipboard';
 
   @override
-  String get commonDeleteActionLabel => 'Delete';
+  String get deleteButton => 'Delete';
 
   @override
-  String get commonDetailsActionLabel => 'Details';
+  String get detailsButton => 'Details';
 
   @override
-  String get commonEditActionLabel => 'Edit';
+  String get editButton => 'Edit';
 
   @override
-  String get commonNameLabel => 'Name';
+  String get nameLabel => 'Name';
 
   @override
-  String get commonOfSeparator => 'of';
+  String get ofSeparator => 'of';
 
   @override
-  String get commonSelectedLabel => 'Selected';
+  String get selectedLabel => 'Selected';
 
   @override
-  String get commonSizeLabel => 'Size';
+  String get sizeLabel => 'Size';
 
   @override
-  String get commonStatusLabel => 'Status';
+  String get statusLabel => 'Status';
 
   @override
-  String get commonStorageLabel => 'Storage';
+  String get storageLabel => 'Storage';
 
   @override
-  String get commonTimeLabel => 'Time';
+  String get timeLabel => 'Time';
 
   @override
-  String get commonTypeLabel => 'Type';
+  String get typeLabel => 'Type';
 
   @override
-  String get commonVersionLabel => 'Version';
+  String get versionLabel => 'Version';
 
   @override
   String get developerApplicationInfoTitle => 'Application information';
@@ -183,19 +185,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerDevDependenciesOpenDescription => 'Show developers dependencies.';
 
   @override
-  String get developerFeatureFlagsDescription => 'Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.';
+  String get developerFeatureFlagsDescription =>
+      'Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.';
 
   @override
-  String get developerHapticFeedbackDescription => 'Enable haptic feedback in the app. Useful for testing haptic feedback functionality.';
+  String get developerHapticFeedbackDescription =>
+      'Enable haptic feedback in the app. Useful for testing haptic feedback functionality.';
 
   @override
   String get developerHapticFeedbackToggleLabel => 'Use haptic feedback';
 
   @override
-  String get developerInfoOpenActionLabel => 'Developer info';
+  String get developerInfoButton => 'Developer info';
 
   @override
-  String get developerLogsClearActionLabel => 'Clear';
+  String get clearLogsButton => 'Clear';
 
   @override
   String get developerLogsEmptyStateMessage => 'No logs yet';
@@ -204,7 +208,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerLogsOpenDescription => 'Show logs.';
 
   @override
-  String get developerLogsShareActionLabel => 'Send logs';
+  String get sendLogsButton => 'Send logs';
 
   @override
   String get developerLogsShareDescription => 'Share application logs for better support';
@@ -219,7 +223,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerNavigationResetTitle => 'Reset navigation';
 
   @override
-  String get developerNotificationsRefreshDescription => 'Refresh FCM token. Useful for testing push notifications in development builds.';
+  String get developerNotificationsRefreshDescription =>
+      'Refresh FCM token. Useful for testing push notifications in development builds.';
 
   @override
   String get developerNotificationsRefreshTitle => 'Refresh FCM token';
@@ -240,19 +245,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerSectionUsefulLinksTitle => 'Useful links';
 
   @override
-  String get developerSessionsLogoutAllActionLabel => 'Log out from all devices';
+  String get logoutAllDevicesButton => 'Log out from all devices';
 
   @override
   String get developerSessionsLogoutAllConfirmationMessage => 'Are you sure you want to log out from all devices?';
 
   @override
-  String get developerSessionsLogoutAllDescription => 'Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.';
+  String get developerSessionsLogoutAllDescription =>
+      'Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.';
 
   @override
-  String get developerStorageClearActionLabel => 'Clear key-value storage';
+  String get clearKVStorageButton => 'Clear key-value storage';
 
   @override
-  String get developerStorageClearDescription => 'Clear key-value storage. Useful for testing onboarding and promo code flows.';
+  String get developerStorageClearDescription =>
+      'Clear key-value storage. Useful for testing onboarding and promo code flows.';
 
   @override
   String get developerStorageClearSuccessMessage => 'Key-value storage cleared successfully';
@@ -267,7 +274,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerToggleDebugFeaturesLabel => 'Use debug features';
 
   @override
-  String get developerToggleExperimentalFeaturesDescription => 'Experimental features. Use with caution, as they may cause unexpected behavior or crashes.';
+  String get developerToggleExperimentalFeaturesDescription =>
+      'Experimental features. Use with caution, as they may cause unexpected behavior or crashes.';
 
   @override
   String get developerToggleExperimentalFeaturesLabel => 'Use experimental features';
@@ -288,28 +296,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerUserRefreshSessionDescription => 'Refresh current user\'s session';
 
   @override
-  String get errorContactSupportActionLabel => 'Contact support';
+  String get contactSupportButton => 'Contact support';
 
   @override
-  String get errorDetailsDialogTitle => 'Error details';
+  String get errorDetailsDialogLabel => 'Error details';
 
   @override
-  String get errorInternalServerTitle => 'Internal server error';
+  String get errorInternalServerLabel => 'Internal server error';
 
   @override
-  String get errorNotFoundTitle => 'Not found';
+  String get errorNotFoundLabel => 'Not found';
 
   @override
-  String get errorShareActionLabel => 'Share the error';
+  String get shareErrorButton => 'Share the error';
 
   @override
-  String get errorShareSuccessMessage => 'Error message has been shared successfully!';
+  String get shareErrorSuccessMessage => 'Error message has been shared successfully!';
 
   @override
-  String get errorTitle => 'Error';
+  String get errorLabel => 'Error';
 
   @override
-  String get errorUnimplementedTitle => 'Unimplemented';
+  String get errorUnimplementedLabel => 'Unimplemented';
 
   @override
   String get homeTitle => 'Home';

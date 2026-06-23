@@ -9,8 +9,7 @@ import 'package:flutter_template_name/src/common/api_client/api_exception.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:flutter_template_name/src/common/util/platform/error_util_vm.dart'
-    // ignore: uri_does_not_exist
-    if (dart.library.html) 'package:flutter_template_name/src/common/util/platform/error_util_js.dart';
+    if (dart.library.html) 'platform/error_util_js.dart';
 import 'package:l/l.dart';
 import 'package:meta/meta.dart';
 import 'package:ui/ui.dart';
@@ -158,7 +157,7 @@ abstract final class ErrorUtil {
               final navigator = Navigator.maybeOf(context);
               if (navigator == null) return null;
               return SnackBarAction(
-                label: Localization.of(context).commonDetailsActionLabel,
+                label: Localization.of(context).detailsButton,
                 textColor: Colors.white,
                 backgroundColor: Colors.white.withValues(alpha: .2),
                 onPressed: () {
@@ -169,7 +168,7 @@ abstract final class ErrorUtil {
                     barrierDismissible: true,
                     useSafeArea: true,
                     builder: (ctx) => AlertDialog(
-                      title: Text(Localization.of(ctx).errorDetailsDialogTitle),
+                      title: Text(Localization.of(ctx).errorDetailsDialogLabel),
                       icon: Icon(Icons.error, color: CupertinoDynamicColor.resolve(CupertinoColors.systemRed, ctx)),
                       iconPadding: .all(theme.uiTheme.size.offset.medium),
                       titlePadding: .only(
@@ -216,7 +215,7 @@ abstract final class ErrorUtil {
                               child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: IconButton(
-                                  tooltip: Localization.of(ctx).commonCopyToClipboardTooltip,
+                                  tooltip: Localization.of(ctx).copyToClipboardLabel,
                                   icon: const Icon(Icons.copy_all),
                                   onPressed: () {
                                     final buffer = StringBuffer()

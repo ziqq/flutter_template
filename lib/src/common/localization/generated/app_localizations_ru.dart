@@ -9,40 +9,40 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get appLocaleCode => 'ru';
+  String get localeCode => 'ru';
 
   @override
-  String get appLocaleName => 'Русский';
+  String get localeName => 'Русский';
 
   @override
-  String get appTitle => 'Заголовок';
+  String get title => 'Заголовок';
 
   @override
-  String get authEmailFieldLabel => 'Электронная почта';
+  String get emailLabel => 'Электронная почта';
 
   @override
-  String get authEmailFieldHint => 'Введите электронную почту';
+  String get emailPlaceholder => 'Введите электронную почту';
 
   @override
   String get authGeneratePasswordTooltip => 'Сгенерировать пароль';
 
   @override
-  String get authLogoutActionLabel => 'Выйти';
+  String get logoutButton => 'Выйти';
 
   @override
   String get authLogoutConfirmationMessage => 'Вы уверены, что хотите выйти?';
 
   @override
-  String get authPasswordFieldLabel => 'Пароль';
+  String get passwordLabel => 'Пароль';
 
   @override
-  String get authPasswordFieldHint => 'Введите пароль';
+  String get passwordPlaceholder => 'Введите пароль';
 
   @override
-  String get authSignInActionLabel => 'Войти';
+  String get signInButton => 'Войти';
 
   @override
-  String get authSignUpActionLabel => 'Зарегистрироваться';
+  String get signUpButton => 'Зарегистрироваться';
 
   @override
   String get authValidationEmailInvalidMessage => 'Введите корректный адрес электронной почты.';
@@ -72,73 +72,75 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bugReportAttachLogsToggleLabel => 'Прикрепить логи';
 
   @override
-  String get bugReportDialogDescription => 'Опишите проблему, с которой вы столкнулись, и мы постараемся исправить её как можно скорее.';
+  String get bugReportDialogDescription =>
+      'Опишите проблему, с которой вы столкнулись, и мы постараемся исправить её как можно скорее.';
 
   @override
   String get bugReportDialogTitle => 'Поделиться ошибкой';
 
   @override
-  String get bugReportShakeToReportToggleHint => 'Отключите это, если не хотите, чтобы диалог отчёта об ошибке открывался при встряхивании устройства.';
+  String get bugReportShakeToReportToggleHint =>
+      'Отключите это, если не хотите, чтобы диалог отчёта об ошибке открывался при встряхивании устройства.';
 
   @override
   String get bugReportShakeToReportToggleLabel => 'Открывать диалог отчёта об ошибке при встряхивании';
 
   @override
-  String get bugReportSubmitActionLabel => 'Отправить отчёт';
+  String get submitReportButton => 'Отправить отчёт';
 
   @override
-  String get commonAppLabel => 'Приложение';
+  String get appLabel => 'Приложение';
 
   @override
-  String get commonBackActionLabel => 'Назад';
+  String get backButton => 'Назад';
 
   @override
-  String get commonCancelActionLabel => 'Отмена';
+  String get cancelButton => 'Отмена';
 
   @override
-  String get commonClearActionLabel => 'Очистить';
+  String get clearButton => 'Очистить';
 
   @override
-  String get commonCopiedMessage => 'Скопировано';
+  String get copiedMessage => 'Скопировано';
 
   @override
-  String get commonCopyToClipboardTooltip => 'Скопировать в буфер обмена';
+  String get copyToClipboardLabel => 'Скопировать в буфер обмена';
 
   @override
-  String get commonDeleteActionLabel => 'Удалить';
+  String get deleteButton => 'Удалить';
 
   @override
-  String get commonDetailsActionLabel => 'Подробнее';
+  String get detailsButton => 'Подробнее';
 
   @override
-  String get commonEditActionLabel => 'Изменить';
+  String get editButton => 'Изменить';
 
   @override
-  String get commonNameLabel => 'Имя';
+  String get nameLabel => 'Имя';
 
   @override
-  String get commonOfSeparator => 'из';
+  String get ofSeparator => 'из';
 
   @override
-  String get commonSelectedLabel => 'Выбрано';
+  String get selectedLabel => 'Выбрано';
 
   @override
-  String get commonSizeLabel => 'Размер';
+  String get sizeLabel => 'Размер';
 
   @override
-  String get commonStatusLabel => 'Статус';
+  String get statusLabel => 'Статус';
 
   @override
-  String get commonStorageLabel => 'Хранилище';
+  String get storageLabel => 'Хранилище';
 
   @override
-  String get commonTimeLabel => 'Время';
+  String get timeLabel => 'Время';
 
   @override
-  String get commonTypeLabel => 'Тип';
+  String get typeLabel => 'Тип';
 
   @override
-  String get commonVersionLabel => 'Версия';
+  String get versionLabel => 'Версия';
 
   @override
   String get developerApplicationInfoTitle => 'Информация о приложении';
@@ -183,19 +185,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get developerDevDependenciesOpenDescription => 'Показать зависимости для разработки.';
 
   @override
-  String get developerFeatureFlagsDescription => 'Расширенные опции для разработчиков. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.';
+  String get developerFeatureFlagsDescription =>
+      'Расширенные опции для разработчиков. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.';
 
   @override
-  String get developerHapticFeedbackDescription => 'Включить тактильную отдачу в приложении. Полезно для тестирования haptic feedback.';
+  String get developerHapticFeedbackDescription =>
+      'Включить тактильную отдачу в приложении. Полезно для тестирования haptic feedback.';
 
   @override
   String get developerHapticFeedbackToggleLabel => 'Использовать тактильную отдачу';
 
   @override
-  String get developerInfoOpenActionLabel => 'Информация для разработчика';
+  String get developerInfoButton => 'Информация для разработчика';
 
   @override
-  String get developerLogsClearActionLabel => 'Очистить';
+  String get clearLogsButton => 'Очистить';
 
   @override
   String get developerLogsEmptyStateMessage => 'Логов пока нет';
@@ -204,7 +208,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get developerLogsOpenDescription => 'Показать логи.';
 
   @override
-  String get developerLogsShareActionLabel => 'Отправить логи';
+  String get sendLogsButton => 'Отправить логи';
 
   @override
   String get developerLogsShareDescription => 'Поделиться логами приложения для более удобной поддержки';
@@ -219,7 +223,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get developerNavigationResetTitle => 'Сбросить навигацию';
 
   @override
-  String get developerNotificationsRefreshDescription => 'Обновить FCM-токен. Полезно для тестирования push-уведомлений в development-сборках.';
+  String get developerNotificationsRefreshDescription =>
+      'Обновить FCM-токен. Полезно для тестирования push-уведомлений в development-сборках.';
 
   @override
   String get developerNotificationsRefreshTitle => 'Обновить FCM-токен';
@@ -240,19 +245,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get developerSectionUsefulLinksTitle => 'Полезные ссылки';
 
   @override
-  String get developerSessionsLogoutAllActionLabel => 'Выйти на всех устройствах';
+  String get logoutAllDevicesButton => 'Выйти на всех устройствах';
 
   @override
   String get developerSessionsLogoutAllConfirmationMessage => 'Вы уверены, что хотите выйти на всех устройствах?';
 
   @override
-  String get developerSessionsLogoutAllDescription => 'Выйти на всех устройствах. Полезно для тестирования выхода или обновления сессии на всех устройствах.';
+  String get developerSessionsLogoutAllDescription =>
+      'Выйти на всех устройствах. Полезно для тестирования выхода или обновления сессии на всех устройствах.';
 
   @override
-  String get developerStorageClearActionLabel => 'Очистить key-value хранилище';
+  String get clearKVStorageButton => 'Очистить key-value хранилище';
 
   @override
-  String get developerStorageClearDescription => 'Очистить key-value хранилище. Полезно для тестирования онбординга и промокодов.';
+  String get developerStorageClearDescription =>
+      'Очистить key-value хранилище. Полезно для тестирования онбординга и промокодов.';
 
   @override
   String get developerStorageClearSuccessMessage => 'Key-value хранилище успешно очищено';
@@ -267,7 +274,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get developerToggleDebugFeaturesLabel => 'Использовать debug-функции';
 
   @override
-  String get developerToggleExperimentalFeaturesDescription => 'Экспериментальные функции. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.';
+  String get developerToggleExperimentalFeaturesDescription =>
+      'Экспериментальные функции. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.';
 
   @override
   String get developerToggleExperimentalFeaturesLabel => 'Использовать экспериментальные функции';
@@ -288,28 +296,28 @@ class AppLocalizationsRu extends AppLocalizations {
   String get developerUserRefreshSessionDescription => 'Обновить текущую пользовательскую сессию';
 
   @override
-  String get errorContactSupportActionLabel => 'Написать в поддержку';
+  String get contactSupportButton => 'Написать в поддержку';
 
   @override
-  String get errorDetailsDialogTitle => 'Подробности ошибки';
+  String get errorDetailsDialogLabel => 'Подробности ошибки';
 
   @override
-  String get errorInternalServerTitle => 'Внутренняя ошибка сервера';
+  String get errorInternalServerLabel => 'Внутренняя ошибка сервера';
 
   @override
-  String get errorNotFoundTitle => 'Не найдено';
+  String get errorNotFoundLabel => 'Не найдено';
 
   @override
-  String get errorShareActionLabel => 'Поделиться ошибкой';
+  String get shareErrorButton => 'Поделиться ошибкой';
 
   @override
-  String get errorShareSuccessMessage => 'Сообщение об ошибке успешно отправлено!';
+  String get shareErrorSuccessMessage => 'Сообщение об ошибке успешно отправлено!';
 
   @override
-  String get errorTitle => 'Ошибка';
+  String get errorLabel => 'Ошибка';
 
   @override
-  String get errorUnimplementedTitle => 'Не реализовано';
+  String get errorUnimplementedLabel => 'Не реализовано';
 
   @override
   String get homeTitle => 'Главная';

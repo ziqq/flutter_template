@@ -60,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     isThreeLine: false,
                     title: Text(
-                      l10n.commonNameLabel,
+                      l10n.nameLabel,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, height: 1),

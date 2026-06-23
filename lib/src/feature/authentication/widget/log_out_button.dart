@@ -13,7 +13,7 @@ class LogOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => IconButton(
     icon: const Icon(Icons.logout),
-    tooltip: Localization.of(context).authLogoutActionLabel,
+    tooltip: Localization.of(context).logoutButton,
     onPressed: () => showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
@@ -26,7 +26,7 @@ class LogOutButton extends StatelessWidget {
               const Icon(Icons.logout, size: 24),
               const SizedBox(width: 16),
               Text(
-                Localization.of(context).authLogoutActionLabel,
+                Localization.of(context).logoutButton,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(height: 1),
@@ -47,7 +47,7 @@ class LogOutButton extends StatelessWidget {
             width: 128,
             child: FilledButton.icon(
               icon: const Icon(Icons.logout),
-              label: Text(Localization.of(context).authLogoutActionLabel),
+              label: Text(Localization.of(context).logoutButton),
               onPressed: () {
                 AuthenticationScope.signOut(context);
                 HapticFeedback.mediumImpact().ignore();
@@ -59,7 +59,7 @@ class LogOutButton extends StatelessWidget {
             width: 128,
             child: ElevatedButton.icon(
               icon: const Icon(Icons.cancel),
-              label: Text(Localization.of(context).commonCancelActionLabel),
+              label: Text(Localization.of(context).cancelButton),
               onPressed: () => Navigator.pop(context),
             ),
           ),

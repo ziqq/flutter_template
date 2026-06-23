@@ -174,7 +174,7 @@ class _Logs$ListState extends State<_Logs$List> {
             trailing: GestureDetector(
               onTap: _onClear,
               child: Text(
-                l10n.developerLogsClearActionLabel,
+                l10n.clearLogsButton,
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: CupertinoDynamicColor.resolve(CupertinoColors.systemRed, context),
                 ),

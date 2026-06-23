@@ -3,7 +3,7 @@ import 'dart:io' as io;
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart' as ffi;
 import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
 import 'package:l/l.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';

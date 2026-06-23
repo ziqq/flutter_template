@@ -59,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> with _UsernamePasswordFormS
                         children: <Widget>[
                           const SizedBox(width: 50),
                           Text(
-                            l10n.authSignInActionLabel,
+                            l10n.signInButton,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
@@ -96,8 +96,8 @@ class _SignInScreenState extends State<SignInScreen> with _UsernamePasswordFormS
                       keyboardType: TextInputType.emailAddress,
                       inputFormatters: _usernameFormatters,
                       decoration: InputDecoration(
-                        labelText: l10n.authEmailFieldLabel,
-                        hintText: l10n.authEmailFieldHint,
+                        labelText: l10n.emailLabel,
+                        hintText: l10n.emailPlaceholder,
                         helperText: '',
                         helperMaxLines: 1,
                         errorText: _usernameError,
@@ -118,8 +118,8 @@ class _SignInScreenState extends State<SignInScreen> with _UsernamePasswordFormS
                       autofillHints: const <String>[AutofillHints.password],
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
-                        labelText: l10n.authPasswordFieldLabel,
-                        hintText: l10n.authPasswordFieldHint,
+                        labelText: l10n.passwordLabel,
+                        hintText: l10n.passwordPlaceholder,
                         helperText: '',
                         helperMaxLines: 1,
                         errorText: _passwordError,
@@ -176,7 +176,7 @@ class _SignInScreen$Buttons extends StatelessWidget {
         child: ElevatedButton.icon(
           onPressed: signIn,
           icon: const Icon(Icons.login),
-          label: Text(Localization.of(context).authSignInActionLabel, maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).signInButton, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
       const SizedBox(width: 16),
@@ -185,7 +185,7 @@ class _SignInScreen$Buttons extends StatelessWidget {
         child: FilledButton.tonalIcon(
           onPressed: signUp,
           icon: const Icon(Icons.person_add),
-          label: Text(Localization.of(context).authSignUpActionLabel, maxLines: 1, overflow: TextOverflow.ellipsis),
+          label: Text(Localization.of(context).signUpButton, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
     ],

@@ -90,40 +90,37 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('ru')
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en'), Locale('ru')];
 
-  /// No description provided for @appLocaleCode.
+  /// No description provided for @localeCode.
   ///
   /// In ru, this message translates to:
   /// **'ru'**
-  String get appLocaleCode;
+  String get localeCode;
 
-  /// No description provided for @appLocaleName.
+  /// No description provided for @localeName.
   ///
   /// In ru, this message translates to:
   /// **'Русский'**
-  String get appLocaleName;
+  String get localeName;
 
-  /// No description provided for @appTitle.
+  /// No description provided for @title.
   ///
   /// In ru, this message translates to:
   /// **'Заголовок'**
-  String get appTitle;
+  String get title;
 
-  /// No description provided for @authEmailFieldLabel.
+  /// No description provided for @emailLabel.
   ///
   /// In ru, this message translates to:
   /// **'Электронная почта'**
-  String get authEmailFieldLabel;
+  String get emailLabel;
 
-  /// No description provided for @authEmailFieldHint.
+  /// No description provided for @emailPlaceholder.
   ///
   /// In ru, this message translates to:
   /// **'Введите электронную почту'**
-  String get authEmailFieldHint;
+  String get emailPlaceholder;
 
   /// No description provided for @authGeneratePasswordTooltip.
   ///
@@ -131,11 +128,11 @@ abstract class AppLocalizations {
   /// **'Сгенерировать пароль'**
   String get authGeneratePasswordTooltip;
 
-  /// No description provided for @authLogoutActionLabel.
+  /// No description provided for @logoutButton.
   ///
   /// In ru, this message translates to:
   /// **'Выйти'**
-  String get authLogoutActionLabel;
+  String get logoutButton;
 
   /// No description provided for @authLogoutConfirmationMessage.
   ///
@@ -143,29 +140,29 @@ abstract class AppLocalizations {
   /// **'Вы уверены, что хотите выйти?'**
   String get authLogoutConfirmationMessage;
 
-  /// No description provided for @authPasswordFieldLabel.
+  /// No description provided for @passwordLabel.
   ///
   /// In ru, this message translates to:
   /// **'Пароль'**
-  String get authPasswordFieldLabel;
+  String get passwordLabel;
 
-  /// No description provided for @authPasswordFieldHint.
+  /// No description provided for @passwordPlaceholder.
   ///
   /// In ru, this message translates to:
   /// **'Введите пароль'**
-  String get authPasswordFieldHint;
+  String get passwordPlaceholder;
 
-  /// No description provided for @authSignInActionLabel.
+  /// No description provided for @signInButton.
   ///
   /// In ru, this message translates to:
   /// **'Войти'**
-  String get authSignInActionLabel;
+  String get signInButton;
 
-  /// No description provided for @authSignUpActionLabel.
+  /// No description provided for @signUpButton.
   ///
   /// In ru, this message translates to:
   /// **'Зарегистрироваться'**
-  String get authSignUpActionLabel;
+  String get signUpButton;
 
   /// No description provided for @authValidationEmailInvalidMessage.
   ///
@@ -245,119 +242,119 @@ abstract class AppLocalizations {
   /// **'Открывать диалог отчёта об ошибке при встряхивании'**
   String get bugReportShakeToReportToggleLabel;
 
-  /// No description provided for @bugReportSubmitActionLabel.
+  /// No description provided for @submitReportButton.
   ///
   /// In ru, this message translates to:
   /// **'Отправить отчёт'**
-  String get bugReportSubmitActionLabel;
+  String get submitReportButton;
 
-  /// No description provided for @commonAppLabel.
+  /// No description provided for @appLabel.
   ///
   /// In ru, this message translates to:
   /// **'Приложение'**
-  String get commonAppLabel;
+  String get appLabel;
 
-  /// No description provided for @commonBackActionLabel.
+  /// No description provided for @backButton.
   ///
   /// In ru, this message translates to:
   /// **'Назад'**
-  String get commonBackActionLabel;
+  String get backButton;
 
-  /// No description provided for @commonCancelActionLabel.
+  /// No description provided for @cancelButton.
   ///
   /// In ru, this message translates to:
   /// **'Отмена'**
-  String get commonCancelActionLabel;
+  String get cancelButton;
 
-  /// No description provided for @commonClearActionLabel.
+  /// No description provided for @clearButton.
   ///
   /// In ru, this message translates to:
   /// **'Очистить'**
-  String get commonClearActionLabel;
+  String get clearButton;
 
-  /// No description provided for @commonCopiedMessage.
+  /// No description provided for @copiedMessage.
   ///
   /// In ru, this message translates to:
   /// **'Скопировано'**
-  String get commonCopiedMessage;
+  String get copiedMessage;
 
-  /// No description provided for @commonCopyToClipboardTooltip.
+  /// No description provided for @copyToClipboardLabel.
   ///
   /// In ru, this message translates to:
   /// **'Скопировать в буфер обмена'**
-  String get commonCopyToClipboardTooltip;
+  String get copyToClipboardLabel;
 
-  /// No description provided for @commonDeleteActionLabel.
+  /// No description provided for @deleteButton.
   ///
   /// In ru, this message translates to:
   /// **'Удалить'**
-  String get commonDeleteActionLabel;
+  String get deleteButton;
 
-  /// No description provided for @commonDetailsActionLabel.
+  /// No description provided for @detailsButton.
   ///
   /// In ru, this message translates to:
   /// **'Подробнее'**
-  String get commonDetailsActionLabel;
+  String get detailsButton;
 
-  /// No description provided for @commonEditActionLabel.
+  /// No description provided for @editButton.
   ///
   /// In ru, this message translates to:
   /// **'Изменить'**
-  String get commonEditActionLabel;
+  String get editButton;
 
-  /// No description provided for @commonNameLabel.
+  /// No description provided for @nameLabel.
   ///
   /// In ru, this message translates to:
   /// **'Имя'**
-  String get commonNameLabel;
+  String get nameLabel;
 
-  /// No description provided for @commonOfSeparator.
+  /// No description provided for @ofSeparator.
   ///
   /// In ru, this message translates to:
   /// **'из'**
-  String get commonOfSeparator;
+  String get ofSeparator;
 
-  /// No description provided for @commonSelectedLabel.
+  /// No description provided for @selectedLabel.
   ///
   /// In ru, this message translates to:
   /// **'Выбрано'**
-  String get commonSelectedLabel;
+  String get selectedLabel;
 
-  /// No description provided for @commonSizeLabel.
+  /// No description provided for @sizeLabel.
   ///
   /// In ru, this message translates to:
   /// **'Размер'**
-  String get commonSizeLabel;
+  String get sizeLabel;
 
-  /// No description provided for @commonStatusLabel.
+  /// No description provided for @statusLabel.
   ///
   /// In ru, this message translates to:
   /// **'Статус'**
-  String get commonStatusLabel;
+  String get statusLabel;
 
-  /// No description provided for @commonStorageLabel.
+  /// No description provided for @storageLabel.
   ///
   /// In ru, this message translates to:
   /// **'Хранилище'**
-  String get commonStorageLabel;
+  String get storageLabel;
 
-  /// No description provided for @commonTimeLabel.
+  /// No description provided for @timeLabel.
   ///
   /// In ru, this message translates to:
   /// **'Время'**
-  String get commonTimeLabel;
+  String get timeLabel;
 
-  /// No description provided for @commonTypeLabel.
+  /// No description provided for @typeLabel.
   ///
   /// In ru, this message translates to:
   /// **'Тип'**
-  String get commonTypeLabel;
+  String get typeLabel;
 
-  /// No description provided for @commonVersionLabel.
+  /// No description provided for @versionLabel.
   ///
   /// In ru, this message translates to:
   /// **'Версия'**
-  String get commonVersionLabel;
+  String get versionLabel;
 
   /// No description provided for @developerApplicationInfoTitle.
   ///
@@ -461,17 +458,17 @@ abstract class AppLocalizations {
   /// **'Использовать тактильную отдачу'**
   String get developerHapticFeedbackToggleLabel;
 
-  /// No description provided for @developerInfoOpenActionLabel.
+  /// No description provided for @developerInfoButton.
   ///
   /// In ru, this message translates to:
   /// **'Информация для разработчика'**
-  String get developerInfoOpenActionLabel;
+  String get developerInfoButton;
 
-  /// No description provided for @developerLogsClearActionLabel.
+  /// No description provided for @clearLogsButton.
   ///
   /// In ru, this message translates to:
   /// **'Очистить'**
-  String get developerLogsClearActionLabel;
+  String get clearLogsButton;
 
   /// No description provided for @developerLogsEmptyStateMessage.
   ///
@@ -485,11 +482,11 @@ abstract class AppLocalizations {
   /// **'Показать логи.'**
   String get developerLogsOpenDescription;
 
-  /// No description provided for @developerLogsShareActionLabel.
+  /// No description provided for @sendLogsButton.
   ///
   /// In ru, this message translates to:
   /// **'Отправить логи'**
-  String get developerLogsShareActionLabel;
+  String get sendLogsButton;
 
   /// No description provided for @developerLogsShareDescription.
   ///
@@ -557,11 +554,11 @@ abstract class AppLocalizations {
   /// **'Полезные ссылки'**
   String get developerSectionUsefulLinksTitle;
 
-  /// No description provided for @developerSessionsLogoutAllActionLabel.
+  /// No description provided for @logoutAllDevicesButton.
   ///
   /// In ru, this message translates to:
   /// **'Выйти на всех устройствах'**
-  String get developerSessionsLogoutAllActionLabel;
+  String get logoutAllDevicesButton;
 
   /// No description provided for @developerSessionsLogoutAllConfirmationMessage.
   ///
@@ -575,11 +572,11 @@ abstract class AppLocalizations {
   /// **'Выйти на всех устройствах. Полезно для тестирования выхода или обновления сессии на всех устройствах.'**
   String get developerSessionsLogoutAllDescription;
 
-  /// No description provided for @developerStorageClearActionLabel.
+  /// No description provided for @clearKVStorageButton.
   ///
   /// In ru, this message translates to:
   /// **'Очистить key-value хранилище'**
-  String get developerStorageClearActionLabel;
+  String get clearKVStorageButton;
 
   /// No description provided for @developerStorageClearDescription.
   ///
@@ -653,53 +650,53 @@ abstract class AppLocalizations {
   /// **'Обновить текущую пользовательскую сессию'**
   String get developerUserRefreshSessionDescription;
 
-  /// No description provided for @errorContactSupportActionLabel.
+  /// No description provided for @contactSupportButton.
   ///
   /// In ru, this message translates to:
   /// **'Написать в поддержку'**
-  String get errorContactSupportActionLabel;
+  String get contactSupportButton;
 
-  /// No description provided for @errorDetailsDialogTitle.
+  /// No description provided for @errorDetailsDialogLabel.
   ///
   /// In ru, this message translates to:
   /// **'Подробности ошибки'**
-  String get errorDetailsDialogTitle;
+  String get errorDetailsDialogLabel;
 
-  /// No description provided for @errorInternalServerTitle.
+  /// No description provided for @errorInternalServerLabel.
   ///
   /// In ru, this message translates to:
   /// **'Внутренняя ошибка сервера'**
-  String get errorInternalServerTitle;
+  String get errorInternalServerLabel;
 
-  /// No description provided for @errorNotFoundTitle.
+  /// No description provided for @errorNotFoundLabel.
   ///
   /// In ru, this message translates to:
   /// **'Не найдено'**
-  String get errorNotFoundTitle;
+  String get errorNotFoundLabel;
 
-  /// No description provided for @errorShareActionLabel.
+  /// No description provided for @shareErrorButton.
   ///
   /// In ru, this message translates to:
   /// **'Поделиться ошибкой'**
-  String get errorShareActionLabel;
+  String get shareErrorButton;
 
-  /// No description provided for @errorShareSuccessMessage.
+  /// No description provided for @shareErrorSuccessMessage.
   ///
   /// In ru, this message translates to:
   /// **'Сообщение об ошибке успешно отправлено!'**
-  String get errorShareSuccessMessage;
+  String get shareErrorSuccessMessage;
 
-  /// No description provided for @errorTitle.
+  /// No description provided for @errorLabel.
   ///
   /// In ru, this message translates to:
   /// **'Ошибка'**
-  String get errorTitle;
+  String get errorLabel;
 
-  /// No description provided for @errorUnimplementedTitle.
+  /// No description provided for @errorUnimplementedLabel.
   ///
   /// In ru, this message translates to:
   /// **'Не реализовано'**
-  String get errorUnimplementedTitle;
+  String get errorUnimplementedLabel;
 
   /// No description provided for @homeTitle.
   ///
@@ -742,18 +739,18 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationsEn();
-    case 'ru': return AppLocalizationsRu();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'ru':
+      return AppLocalizationsRu();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }

@@ -2,7 +2,7 @@ name: flutter_template_name
 
 description: "flutter_template_description"
 
-publish_to: 'none'
+publish_to: none
 
 version: 0.0.1+1
 
@@ -116,6 +116,7 @@ dependencies:
   # Web
   web: ^1.1.1
 
+  # Packages
   ui:
     path: ./packages/ui
 
@@ -170,5 +171,5 @@ flutter_intl:
   use_deferred_loading: false
 
 flutter_gen:
-  output: lib/src/common/constant/
+  output: lib/src/common/constant/generated
   line_length: 120

@@ -1,44 +1,45 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
+/// {@template shake_detector}
+/// [ShakeDetector] detects shake gestures using the device's accelerometer.
+/// {@endtemplate}
 class ShakeDetector with ChangeNotifier {
+  /// {@macro shake_detector}
   ShakeDetector({
-    int minShakeCount = 3,
-    num shakeThresholdGravity = 1.8,
-    Duration minTimeBetweenShakes = const Duration(milliseconds: 150),
-    Duration shakeCountResetTime = const Duration(milliseconds: 1500),
-  }) : _minShakeCount = minShakeCount,
-       _shakeThresholdGravity = shakeThresholdGravity,
-       _minTimeBetweenShakes = minTimeBetweenShakes,
-       _shakeCountResetTime = shakeCountResetTime {
-    _startListening();
+    this._minShakeCount = 3,
+    this._shakeThresholdGravity = 1.8,
+    this._minTimeBetweenShakes = const Duration(milliseconds: 150),
+    this._shakeCountResetTime = const Duration(milliseconds: 1500),
+  }) {
+    if (defaultTargetPlatform != .macOS && defaultTargetPlatform != .linux && defaultTargetPlatform != .windows) {
+      _startListening();
+    }
   }
 
-  /// Количество встряхиваний для срабатывания уведомления
+  /// Minimum number of shakes required to trigger the shake event.
   final int _minShakeCount;
 
-  /// Ускорение при котором движение телефона считается
-  /// за встряхивание
+  /// Minimum gForce required to consider as a shake. (default is 1.8, which is a strong shake)
   final num _shakeThresholdGravity;
 
-  /// Минимальное окно между встряхиваниями
-  /// Все что меньше него - игнорируется
+  /// Minimum time between shakes to prevent multiple shake events from being triggered in quick succession.
   final Duration _minTimeBetweenShakes;
 
-  /// Промежуток времени после которого сбрасывается прогресс
+  /// Time after which the shake count will be reset if no shakes are detected.
   final Duration _shakeCountResetTime;
 
   final _stopwatch = Stopwatch();
 
   StreamSubscription<num>? _streamSubscription;
 
-  /// Приостановить подписку
+  /// Pause listening to accelerometer events
   void pause() => _streamSubscription?.pause();
 
-  /// Продолжить подписку
+  /// Resume listening to accelerometer events
   void resume() => _streamSubscription?.resume();
 
   @override

@@ -22,267 +22,152 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "appLocaleCode": MessageLookupByLibrary.simpleMessage("ru"),
-    "appLocaleName": MessageLookupByLibrary.simpleMessage("Русский"),
-    "appTitle": MessageLookupByLibrary.simpleMessage("Заголовок"),
-    "authEmailFieldHint": MessageLookupByLibrary.simpleMessage(
-      "Введите электронную почту",
-    ),
-    "authEmailFieldLabel": MessageLookupByLibrary.simpleMessage(
-      "Электронная почта",
-    ),
-    "authGeneratePasswordTooltip": MessageLookupByLibrary.simpleMessage(
-      "Сгенерировать пароль",
-    ),
-    "authLogoutActionLabel": MessageLookupByLibrary.simpleMessage("Выйти"),
-    "authLogoutConfirmationMessage": MessageLookupByLibrary.simpleMessage(
-      "Вы уверены, что хотите выйти?",
-    ),
-    "authPasswordFieldHint": MessageLookupByLibrary.simpleMessage(
-      "Введите пароль",
-    ),
-    "authPasswordFieldLabel": MessageLookupByLibrary.simpleMessage("Пароль"),
-    "authSignInActionLabel": MessageLookupByLibrary.simpleMessage("Войти"),
-    "authSignUpActionLabel": MessageLookupByLibrary.simpleMessage(
-      "Зарегистрироваться",
-    ),
+    "appLabel": MessageLookupByLibrary.simpleMessage("Приложение"),
+    "localeCode": MessageLookupByLibrary.simpleMessage("ru"),
+    "localeName": MessageLookupByLibrary.simpleMessage("Русский"),
+    "title": MessageLookupByLibrary.simpleMessage("Заголовок"),
+    "authGeneratePasswordTooltip": MessageLookupByLibrary.simpleMessage("Сгенерировать пароль"),
+    "authLogoutConfirmationMessage": MessageLookupByLibrary.simpleMessage("Вы уверены, что хотите выйти?"),
     "authValidationEmailInvalidMessage": MessageLookupByLibrary.simpleMessage(
       "Введите корректный адрес электронной почты.",
     ),
-    "authValidationEmailRequiredMessage": MessageLookupByLibrary.simpleMessage(
-      "Электронная почта обязательна.",
+    "authValidationEmailRequiredMessage": MessageLookupByLibrary.simpleMessage("Электронная почта обязательна."),
+    "authValidationPasswordMissingLowercaseMessage": MessageLookupByLibrary.simpleMessage(
+      "Пароль должен содержать хотя бы одну строчную букву.",
     ),
-    "authValidationPasswordMissingLowercaseMessage":
-        MessageLookupByLibrary.simpleMessage(
-          "Пароль должен содержать хотя бы одну строчную букву.",
-        ),
-    "authValidationPasswordMissingUppercaseMessage":
-        MessageLookupByLibrary.simpleMessage(
-          "Пароль должен содержать хотя бы одну заглавную букву.",
-        ),
-    "authValidationPasswordRequiredMessage":
-        MessageLookupByLibrary.simpleMessage("Пароль обязателен."),
-    "authValidationPasswordTooLongMessage":
-        MessageLookupByLibrary.simpleMessage(
-          "Пароль должен содержать не более 32 символов.",
-        ),
-    "authValidationPasswordTooShortMessage":
-        MessageLookupByLibrary.simpleMessage(
-          "Пароль должен содержать не менее 8 символов.",
-        ),
+    "authValidationPasswordMissingUppercaseMessage": MessageLookupByLibrary.simpleMessage(
+      "Пароль должен содержать хотя бы одну заглавную букву.",
+    ),
+    "authValidationPasswordRequiredMessage": MessageLookupByLibrary.simpleMessage("Пароль обязателен."),
+    "authValidationPasswordTooLongMessage": MessageLookupByLibrary.simpleMessage(
+      "Пароль должен содержать не более 32 символов.",
+    ),
+    "authValidationPasswordTooShortMessage": MessageLookupByLibrary.simpleMessage(
+      "Пароль должен содержать не менее 8 символов.",
+    ),
+    "backButton": MessageLookupByLibrary.simpleMessage("Назад"),
     "bugReportAttachLogsHelpText": MessageLookupByLibrary.simpleMessage(
       "Прикреплённые логи помогают быстрее найти и исправить проблему.",
     ),
-    "bugReportAttachLogsToggleLabel": MessageLookupByLibrary.simpleMessage(
-      "Прикрепить логи",
-    ),
+    "bugReportAttachLogsToggleLabel": MessageLookupByLibrary.simpleMessage("Прикрепить логи"),
     "bugReportDialogDescription": MessageLookupByLibrary.simpleMessage(
       "Опишите проблему, с которой вы столкнулись, и мы постараемся исправить её как можно скорее.",
     ),
-    "bugReportDialogTitle": MessageLookupByLibrary.simpleMessage(
-      "Поделиться ошибкой",
-    ),
+    "bugReportDialogTitle": MessageLookupByLibrary.simpleMessage("Поделиться ошибкой"),
     "bugReportShakeToReportToggleHint": MessageLookupByLibrary.simpleMessage(
       "Отключите это, если не хотите, чтобы диалог отчёта об ошибке открывался при встряхивании устройства.",
     ),
     "bugReportShakeToReportToggleLabel": MessageLookupByLibrary.simpleMessage(
       "Открывать диалог отчёта об ошибке при встряхивании",
     ),
-    "bugReportSubmitActionLabel": MessageLookupByLibrary.simpleMessage(
-      "Отправить отчёт",
+    "cancelButton": MessageLookupByLibrary.simpleMessage("Отмена"),
+    "clearButton": MessageLookupByLibrary.simpleMessage("Очистить"),
+    "clearKVStorageButton": MessageLookupByLibrary.simpleMessage("Очистить key-value хранилище"),
+    "clearLogsButton": MessageLookupByLibrary.simpleMessage("Очистить"),
+    "copiedMessage": MessageLookupByLibrary.simpleMessage("Скопировано"),
+    "copyToClipboardLabel": MessageLookupByLibrary.simpleMessage("Скопировать в буфер обмена"),
+    "ofSeparator": MessageLookupByLibrary.simpleMessage("из"),
+    "contactSupportButton": MessageLookupByLibrary.simpleMessage("Написать в поддержку"),
+    "deleteButton": MessageLookupByLibrary.simpleMessage("Удалить"),
+    "detailsButton": MessageLookupByLibrary.simpleMessage("Подробнее"),
+    "developerAppVersionLabel": MessageLookupByLibrary.simpleMessage("Версия приложения"),
+    "developerApplicationInfoOpenDescription": MessageLookupByLibrary.simpleMessage(
+      "Показать информацию о приложении.",
     ),
-    "commonAppLabel": MessageLookupByLibrary.simpleMessage("Приложение"),
-    "commonBackActionLabel": MessageLookupByLibrary.simpleMessage("Назад"),
-    "commonCancelActionLabel": MessageLookupByLibrary.simpleMessage("Отмена"),
-    "commonClearActionLabel": MessageLookupByLibrary.simpleMessage("Очистить"),
-    "commonCopiedMessage": MessageLookupByLibrary.simpleMessage("Скопировано"),
-    "commonCopyToClipboardTooltip": MessageLookupByLibrary.simpleMessage(
-      "Скопировать в буфер обмена",
+    "developerApplicationInfoTitle": MessageLookupByLibrary.simpleMessage("Информация о приложении"),
+    "developerDatabaseClearFailureMessage": MessageLookupByLibrary.simpleMessage("Не удалось очистить базу данных"),
+    "developerDatabaseClearSuccessMessage": MessageLookupByLibrary.simpleMessage("База данных очищена"),
+    "developerDatabaseDropDescription": MessageLookupByLibrary.simpleMessage("Очистить содержимое базы данных."),
+    "developerDatabaseDropTitle": MessageLookupByLibrary.simpleMessage("Очистить базу данных"),
+    "developerDatabaseOpenDescription": MessageLookupByLibrary.simpleMessage("Показать содержимое базы данных."),
+    "developerDatabaseOpenTitle": MessageLookupByLibrary.simpleMessage("Открыть базу данных"),
+    "developerDependenciesOpenDescription": MessageLookupByLibrary.simpleMessage("Показать зависимости."),
+    "developerDependenciesTitle": MessageLookupByLibrary.simpleMessage("Зависимости"),
+    "developerDevDependenciesOpenDescription": MessageLookupByLibrary.simpleMessage(
+      "Показать зависимости для разработки.",
     ),
-    "commonDeleteActionLabel": MessageLookupByLibrary.simpleMessage("Удалить"),
-    "commonDetailsActionLabel": MessageLookupByLibrary.simpleMessage(
-      "Подробнее",
-    ),
-    "commonEditActionLabel": MessageLookupByLibrary.simpleMessage("Изменить"),
-    "commonNameLabel": MessageLookupByLibrary.simpleMessage("Имя"),
-    "commonOfSeparator": MessageLookupByLibrary.simpleMessage("из"),
-    "commonSelectedLabel": MessageLookupByLibrary.simpleMessage("Выбрано"),
-    "commonSizeLabel": MessageLookupByLibrary.simpleMessage("Размер"),
-    "commonStatusLabel": MessageLookupByLibrary.simpleMessage("Статус"),
-    "commonStorageLabel": MessageLookupByLibrary.simpleMessage("Хранилище"),
-    "commonTimeLabel": MessageLookupByLibrary.simpleMessage("Время"),
-    "commonTypeLabel": MessageLookupByLibrary.simpleMessage("Тип"),
-    "commonVersionLabel": MessageLookupByLibrary.simpleMessage("Версия"),
-    "developerAppVersionLabel": MessageLookupByLibrary.simpleMessage(
-      "Версия приложения",
-    ),
-    "developerApplicationInfoOpenDescription":
-        MessageLookupByLibrary.simpleMessage(
-          "Показать информацию о приложении.",
-        ),
-    "developerApplicationInfoTitle": MessageLookupByLibrary.simpleMessage(
-      "Информация о приложении",
-    ),
-    "developerDatabaseClearFailureMessage":
-        MessageLookupByLibrary.simpleMessage("Не удалось очистить базу данных"),
-    "developerDatabaseClearSuccessMessage":
-        MessageLookupByLibrary.simpleMessage("База данных очищена"),
-    "developerDatabaseDropDescription": MessageLookupByLibrary.simpleMessage(
-      "Очистить содержимое базы данных.",
-    ),
-    "developerDatabaseDropTitle": MessageLookupByLibrary.simpleMessage(
-      "Очистить базу данных",
-    ),
-    "developerDatabaseOpenDescription": MessageLookupByLibrary.simpleMessage(
-      "Показать содержимое базы данных.",
-    ),
-    "developerDatabaseOpenTitle": MessageLookupByLibrary.simpleMessage(
-      "Открыть базу данных",
-    ),
-    "developerDependenciesOpenDescription":
-        MessageLookupByLibrary.simpleMessage("Показать зависимости."),
-    "developerDependenciesTitle": MessageLookupByLibrary.simpleMessage(
-      "Зависимости",
-    ),
-    "developerDevDependenciesOpenDescription":
-        MessageLookupByLibrary.simpleMessage(
-          "Показать зависимости для разработки.",
-        ),
-    "developerDevDependenciesTitle": MessageLookupByLibrary.simpleMessage(
-      "Dev-зависимости",
-    ),
-    "developerDeveloperModeToggleLabel": MessageLookupByLibrary.simpleMessage(
-      "Использовать режим разработчика",
-    ),
+    "developerDevDependenciesTitle": MessageLookupByLibrary.simpleMessage("Dev-зависимости"),
+    "developerDeveloperModeToggleLabel": MessageLookupByLibrary.simpleMessage("Использовать режим разработчика"),
     "developerFeatureFlagsDescription": MessageLookupByLibrary.simpleMessage(
       "Расширенные опции для разработчиков. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.",
     ),
     "developerHapticFeedbackDescription": MessageLookupByLibrary.simpleMessage(
       "Включить тактильную отдачу в приложении. Полезно для тестирования haptic feedback.",
     ),
-    "developerHapticFeedbackToggleLabel": MessageLookupByLibrary.simpleMessage(
-      "Использовать тактильную отдачу",
-    ),
-    "developerInfoOpenActionLabel": MessageLookupByLibrary.simpleMessage(
-      "Информация для разработчика",
-    ),
-    "developerLogsClearActionLabel": MessageLookupByLibrary.simpleMessage(
-      "Очистить",
-    ),
-    "developerLogsEmptyStateMessage": MessageLookupByLibrary.simpleMessage(
-      "Логов пока нет",
-    ),
-    "developerLogsOpenDescription": MessageLookupByLibrary.simpleMessage(
-      "Показать логи.",
-    ),
-    "developerLogsShareActionLabel": MessageLookupByLibrary.simpleMessage(
-      "Отправить логи",
-    ),
+    "developerHapticFeedbackToggleLabel": MessageLookupByLibrary.simpleMessage("Использовать тактильную отдачу"),
+    "developerInfoButton": MessageLookupByLibrary.simpleMessage("Информация для разработчика"),
+    "developerLogsEmptyStateMessage": MessageLookupByLibrary.simpleMessage("Логов пока нет"),
+    "developerLogsOpenDescription": MessageLookupByLibrary.simpleMessage("Показать логи."),
     "developerLogsShareDescription": MessageLookupByLibrary.simpleMessage(
       "Поделиться логами приложения для более удобной поддержки",
     ),
     "developerLogsTitle": MessageLookupByLibrary.simpleMessage("Логи"),
-    "developerNavigationResetDescription": MessageLookupByLibrary.simpleMessage(
-      "Сбросить стек навигации.",
+    "developerNavigationResetDescription": MessageLookupByLibrary.simpleMessage("Сбросить стек навигации."),
+    "developerNavigationResetTitle": MessageLookupByLibrary.simpleMessage("Сбросить навигацию"),
+    "developerNotificationsRefreshDescription": MessageLookupByLibrary.simpleMessage(
+      "Обновить FCM-токен. Полезно для тестирования push-уведомлений в development-сборках.",
     ),
-    "developerNavigationResetTitle": MessageLookupByLibrary.simpleMessage(
-      "Сбросить навигацию",
+    "developerNotificationsRefreshTitle": MessageLookupByLibrary.simpleMessage("Обновить FCM-токен"),
+    "developerSectionApplicationTitle": MessageLookupByLibrary.simpleMessage("Приложение"),
+    "developerSectionAuthenticationTitle": MessageLookupByLibrary.simpleMessage("Аутентификация"),
+    "developerSectionDatabaseTitle": MessageLookupByLibrary.simpleMessage("База данных"),
+    "developerSectionNavigationTitle": MessageLookupByLibrary.simpleMessage("Навигация"),
+    "developerSectionUsefulLinksTitle": MessageLookupByLibrary.simpleMessage("Полезные ссылки"),
+    "developerSessionsLogoutAllConfirmationMessage": MessageLookupByLibrary.simpleMessage(
+      "Вы уверены, что хотите выйти на всех устройствах?",
     ),
-    "developerNotificationsRefreshDescription":
-        MessageLookupByLibrary.simpleMessage(
-          "Обновить FCM-токен. Полезно для тестирования push-уведомлений в development-сборках.",
-        ),
-    "developerNotificationsRefreshTitle": MessageLookupByLibrary.simpleMessage(
-      "Обновить FCM-токен",
-    ),
-    "developerSectionApplicationTitle": MessageLookupByLibrary.simpleMessage(
-      "Приложение",
-    ),
-    "developerSectionAuthenticationTitle": MessageLookupByLibrary.simpleMessage(
-      "Аутентификация",
-    ),
-    "developerSectionDatabaseTitle": MessageLookupByLibrary.simpleMessage(
-      "База данных",
-    ),
-    "developerSectionNavigationTitle": MessageLookupByLibrary.simpleMessage(
-      "Навигация",
-    ),
-    "developerSectionUsefulLinksTitle": MessageLookupByLibrary.simpleMessage(
-      "Полезные ссылки",
-    ),
-    "developerSessionsLogoutAllActionLabel":
-        MessageLookupByLibrary.simpleMessage("Выйти на всех устройствах"),
-    "developerSessionsLogoutAllConfirmationMessage":
-        MessageLookupByLibrary.simpleMessage(
-          "Вы уверены, что хотите выйти на всех устройствах?",
-        ),
     "developerSessionsLogoutAllDescription": MessageLookupByLibrary.simpleMessage(
       "Выйти на всех устройствах. Полезно для тестирования выхода или обновления сессии на всех устройствах.",
-    ),
-    "developerStorageClearActionLabel": MessageLookupByLibrary.simpleMessage(
-      "Очистить key-value хранилище",
     ),
     "developerStorageClearDescription": MessageLookupByLibrary.simpleMessage(
       "Очистить key-value хранилище. Полезно для тестирования онбординга и промокодов.",
     ),
-    "developerStorageClearSuccessMessage": MessageLookupByLibrary.simpleMessage(
-      "Key-value хранилище успешно очищено",
-    ),
+    "developerStorageClearSuccessMessage": MessageLookupByLibrary.simpleMessage("Key-value хранилище успешно очищено"),
     "developerTitle": MessageLookupByLibrary.simpleMessage("Разработчик"),
-    "developerToggleBetaFeaturesLabel": MessageLookupByLibrary.simpleMessage(
-      "Использовать beta-функции",
+    "developerToggleBetaFeaturesLabel": MessageLookupByLibrary.simpleMessage("Использовать beta-функции"),
+    "developerToggleDebugFeaturesLabel": MessageLookupByLibrary.simpleMessage("Использовать debug-функции"),
+    "developerToggleExperimentalFeaturesDescription": MessageLookupByLibrary.simpleMessage(
+      "Экспериментальные функции. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.",
     ),
-    "developerToggleDebugFeaturesLabel": MessageLookupByLibrary.simpleMessage(
-      "Использовать debug-функции",
+    "developerToggleExperimentalFeaturesLabel": MessageLookupByLibrary.simpleMessage(
+      "Использовать экспериментальные функции",
     ),
-    "developerToggleExperimentalFeaturesDescription":
-        MessageLookupByLibrary.simpleMessage(
-          "Экспериментальные функции. Используйте с осторожностью: они могут вызвать непредсказуемое поведение или сбои.",
-        ),
-    "developerToggleExperimentalFeaturesLabel":
-        MessageLookupByLibrary.simpleMessage(
-          "Использовать экспериментальные функции",
-        ),
-    "developerUserAuthenticatedLabel": MessageLookupByLibrary.simpleMessage(
-      "Авторизован",
+    "developerUserAuthenticatedLabel": MessageLookupByLibrary.simpleMessage("Авторизован"),
+    "developerUserCurrentInfoDescription": MessageLookupByLibrary.simpleMessage("Информация о текущем пользователе"),
+    "developerUserCurrentLogoutDescription": MessageLookupByLibrary.simpleMessage("Выйти из текущей учётной записи"),
+    "developerUserRefreshSessionDescription": MessageLookupByLibrary.simpleMessage(
+      "Обновить текущую пользовательскую сессию",
     ),
-    "developerUserCurrentInfoDescription": MessageLookupByLibrary.simpleMessage(
-      "Информация о текущем пользователе",
-    ),
-    "developerUserCurrentLogoutDescription":
-        MessageLookupByLibrary.simpleMessage("Выйти из текущей учётной записи"),
-    "developerUserRefreshSessionDescription":
-        MessageLookupByLibrary.simpleMessage(
-          "Обновить текущую пользовательскую сессию",
-        ),
-    "developerUserRefreshSessionTitle": MessageLookupByLibrary.simpleMessage(
-      "Обновить сессию",
-    ),
-    "errorContactSupportActionLabel": MessageLookupByLibrary.simpleMessage(
-      "Написать в поддержку",
-    ),
-    "errorDetailsDialogTitle": MessageLookupByLibrary.simpleMessage(
-      "Подробности ошибки",
-    ),
-    "errorInternalServerTitle": MessageLookupByLibrary.simpleMessage(
-      "Внутренняя ошибка сервера",
-    ),
-    "errorNotFoundTitle": MessageLookupByLibrary.simpleMessage("Не найдено"),
-    "errorShareActionLabel": MessageLookupByLibrary.simpleMessage(
-      "Поделиться ошибкой",
-    ),
-    "errorShareSuccessMessage": MessageLookupByLibrary.simpleMessage(
-      "Сообщение об ошибке успешно отправлено!",
-    ),
-    "errorTitle": MessageLookupByLibrary.simpleMessage("Ошибка"),
-    "errorUnimplementedTitle": MessageLookupByLibrary.simpleMessage(
-      "Не реализовано",
-    ),
+    "developerUserRefreshSessionTitle": MessageLookupByLibrary.simpleMessage("Обновить сессию"),
+    "editButton": MessageLookupByLibrary.simpleMessage("Изменить"),
+    "emailPlaceholder": MessageLookupByLibrary.simpleMessage("Введите электронную почту"),
+    "emailLabel": MessageLookupByLibrary.simpleMessage("Электронная почта"),
+    "errorDetailsDialogLabel": MessageLookupByLibrary.simpleMessage("Подробности ошибки"),
+    "errorInternalServerLabel": MessageLookupByLibrary.simpleMessage("Внутренняя ошибка сервера"),
+    "errorNotFoundLabel": MessageLookupByLibrary.simpleMessage("Не найдено"),
+    "shareErrorSuccessMessage": MessageLookupByLibrary.simpleMessage("Сообщение об ошибке успешно отправлено!"),
+    "errorLabel": MessageLookupByLibrary.simpleMessage("Ошибка"),
+    "errorUnimplementedLabel": MessageLookupByLibrary.simpleMessage("Не реализовано"),
     "homeTitle": MessageLookupByLibrary.simpleMessage("Главная"),
-    "profileSettingsDescription": MessageLookupByLibrary.simpleMessage(
-      "Изменить настройки",
-    ),
+    "logoutAllDevicesButton": MessageLookupByLibrary.simpleMessage("Выйти на всех устройствах"),
+    "logoutButton": MessageLookupByLibrary.simpleMessage("Выйти"),
+    "nameLabel": MessageLookupByLibrary.simpleMessage("Имя"),
+    "passwordPlaceholder": MessageLookupByLibrary.simpleMessage("Введите пароль"),
+    "passwordLabel": MessageLookupByLibrary.simpleMessage("Пароль"),
+    "profileSettingsDescription": MessageLookupByLibrary.simpleMessage("Изменить настройки"),
     "profileSettingsTitle": MessageLookupByLibrary.simpleMessage("Настройки"),
     "profileTitle": MessageLookupByLibrary.simpleMessage("Профиль"),
+    "selectedLabel": MessageLookupByLibrary.simpleMessage("Выбрано"),
+    "sendLogsButton": MessageLookupByLibrary.simpleMessage("Отправить логи"),
+    "shareErrorButton": MessageLookupByLibrary.simpleMessage("Поделиться ошибкой"),
+    "signInButton": MessageLookupByLibrary.simpleMessage("Войти"),
+    "signUpButton": MessageLookupByLibrary.simpleMessage("Зарегистрироваться"),
+    "sizeLabel": MessageLookupByLibrary.simpleMessage("Размер"),
+    "statusLabel": MessageLookupByLibrary.simpleMessage("Статус"),
+    "storageLabel": MessageLookupByLibrary.simpleMessage("Хранилище"),
+    "submitReportButton": MessageLookupByLibrary.simpleMessage("Отправить отчёт"),
+    "timeLabel": MessageLookupByLibrary.simpleMessage("Время"),
+    "typeLabel": MessageLookupByLibrary.simpleMessage("Тип"),
+    "versionLabel": MessageLookupByLibrary.simpleMessage("Версия"),
   };
 }

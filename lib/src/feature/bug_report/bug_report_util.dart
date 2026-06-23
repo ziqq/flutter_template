@@ -11,7 +11,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_template_name/src/common/api_client/api_exception.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
 import 'package:flutter_template_name/src/common/model/app_metadata.dart';
 import 'package:flutter_template_name/src/common/model/attachment_file.dart';
 import 'package:flutter_template_name/src/common/util/date_util.dart';

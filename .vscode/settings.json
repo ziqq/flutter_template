@@ -84,12 +84,12 @@
     "*.drift": "sql"
   },
   "highlight.regexes": {
-    "(\"@[^\"\\n]+\":\\s*\\{\\},?)": {
+    "(\"@\\s*.+\":\\s{0,1}{},)": {
       "filterFileRegex": ".*\\.arb",
       "decorations": [
         {
           "overviewRulerColor": "#d19a66",
-          "backgroundColor": "#d19a6633",
+          "backgroundColor": "#d19a66",
           "color": "#282c34",
           "fontWeight": "bold"
         }

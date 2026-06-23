@@ -6,11 +6,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_template_name/src/app.dart';
 import 'package:flutter_template_name/src/common/api_client/api_exception.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_scope.dart';
 import 'package:flutter_template_name/src/common/util/error_util.dart';
 import 'package:flutter_template_name/src/feature/initialization/data/initialize_dependencies.dart';
@@ -23,11 +23,7 @@ import 'package:ui/ui.dart' as material;
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-    /* options: Config.environment.isProduction
-        ? DefaultFirebaseOptions$Prod.currentPlatform
-        : DefaultFirebaseOptions$Dev.currentPlatform, */
-  );
+  await Firebase.initializeApp(/* options: Config.firebaseOptions */);
 
   // TODO(ziqq): Before uncommenting this code, check duplicate notifications issue in Android.
   // Anton Ustinoff <a.a.ustinoff@gmail.com>, 17 November 2025
@@ -60,8 +56,8 @@ Future<void> $initializeApp({
   void Function(/* Dependencies dependencies */)? onSuccess,
   void Function(Object error, StackTrace stackTrace)? onError,
 }) async {
-  // final binding = sentry_flutter.SentryWidgetsFlutterBinding.ensureInitialized()..deferFirstFrame();
-  final binding = WidgetsFlutterBinding.ensureInitialized()..deferFirstFrame();
+  final binding = sentry_flutter.SentryWidgetsFlutterBinding.ensureInitialized()..deferFirstFrame();
+  /* final binding = WidgetsFlutterBinding.ensureInitialized()..deferFirstFrame(); */
   /* SemanticsBinding.instance.ensureSemantics(); */
   try {
     // Handle errors that occured in the app
@@ -83,7 +79,7 @@ Future<void> $initializeApp({
         platform_initialization.$removeLoadingWidget();
         l.i('App initialized successfully');
         onSuccess?.call();
-        /* Analytics.instance
+        Analytics.instance
             .logEvent(
               'app',
               'open',
@@ -103,7 +99,7 @@ Future<void> $initializeApp({
                 'processors_count': dependencies.metadata.processorsCount.toString(),
               },
             )
-            .ignore(); */
+            .ignore();
       });
       const child = ConnectivityScope(child: SettingsScope(child: App()));
       material.runApp(

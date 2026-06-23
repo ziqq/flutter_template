@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:control/control.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
 import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:flutter_template_name/src/common/router/app_navigator.dart';
@@ -162,12 +162,12 @@ class _DebugScreenState extends State<DeveloperScreen> {
                         ),
                         if (state.preferences.useDevelopment) ...[
                           /* UICupertinoFormRowSelect(
-                            title: /* l10n.developerInfoOpenActionLabel */ 'Developer info',
+                            title: /* l10n.developerInfoButton */ 'Developer info',
                             showSuffix: false,
                             onTap: () => context.ext.navigator.push(const DeveloperInfoPage()),
                           ), */
                           CupertinoListTile(
-                            title: Text(l10n.developerInfoOpenActionLabel),
+                            title: Text(l10n.developerInfoButton),
                             additionalInfo: CupertinoButton(
                               padding: .zero,
                               onPressed: () => context.ext.navigator.push(const DeveloperInfoPage()),
@@ -255,7 +255,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.developerStorageClearActionLabel,
+                              l10n.clearKVStorageButton,
                               style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
                             ),
                           ),
@@ -331,7 +331,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.developerLogsShareActionLabel,
+                              l10n.sendLogsButton,
                               style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
                             ),
                           ),
@@ -357,7 +357,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                                   context: context,
                                   useRootNavigator: false,
                                   title: Text(l10n.developerSessionsLogoutAllConfirmationMessage),
-                                  cancelButtonText: l10n.commonCancelActionLabel,
+                                  cancelButtonText: l10n.cancelButton,
                                   actions: [
                                     CupertinoActionSheetAction(
                                       isDestructiveAction: true,
@@ -382,7 +382,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                                           // },
                                         );
                                       },
-                                      child: Text(l10n.authLogoutActionLabel),
+                                      child: Text(l10n.logoutButton),
                                     ),
                                   ],
                                 )
@@ -391,7 +391,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.developerSessionsLogoutAllActionLabel,
+                              l10n.logoutAllDevicesButton,
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 color: CupertinoDynamicColor.resolve(CupertinoColors.systemRed, context),
                               ),

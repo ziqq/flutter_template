@@ -2,7 +2,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
 import 'package:flutter_template_name/src/common/util/screen_util.dart' show ScreenUtil;
 import 'package:l/l.dart';
 import 'package:platform_info/platform_info.dart' as platform_info;

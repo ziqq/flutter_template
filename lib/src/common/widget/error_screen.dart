@@ -297,7 +297,7 @@ class CommonErrorWidget$Title extends StatelessWidget {
           switch (error) {
             ApiException(
               code: 'internal_server_error' || 'server_error',
-            ) => /* context.ext.l10n.errors.serverErrorTitle */
+            ) => /* context.ext.l10n.errors.servererrorLabel */
               'Server error',
             ApiException(code: 'network_error') => /* context.ext.l10n.errors.noConnectionTitle */ 'No connection',
             _ => /* context.ext.l10n.errors.somethingWentWrongTitle */ 'Something went wrong',

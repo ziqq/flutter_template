@@ -7,17 +7,17 @@ import 'package:l/l.dart';
 
 Future<void> $platformInitialization() {
   switch (defaultTargetPlatform) {
-    case TargetPlatform.windows:
+    case .windows:
       l.d('Platform is Windows');
-    case TargetPlatform.macOS:
+    case .macOS:
       l.d('Platform is macOS');
-    case TargetPlatform.iOS:
+    case .iOS:
       l.d('Platform is iOS');
-    case TargetPlatform.android:
+    case .android:
       l.d('Platform is Android');
-    case TargetPlatform.linux:
+    case .linux:
       l.d('Platform is Linux');
-    case TargetPlatform.fuchsia:
+    case .fuchsia:
       l.d('Platform is Fuchsia');
   }
 
@@ -42,69 +42,61 @@ Future<void> _mobileInitialization() async {
 Future<void> _desktopInitialization() async {
   l.d('Device is a desktop');
   // Must add this line.
-  // await windowManager.ensureInitialized();
-  // final windowOptions = WindowOptions(
-  //   minimumSize: const Size(360, 480),
-  //   size: const Size(960, 800),
-  //   maximumSize: const Size(1440, 1080),
-  //   center: true,
-  //   backgroundColor: PlatformDispatcher.instance.platformBrightness == Brightness.dark
-  //       ? ThemeData.dark().colorScheme.surfaceContainerHighest
-  //       : ThemeData.light().colorScheme.surfaceContainerHighest,
-  //   skipTaskbar: false,
-  //   titleBarStyle: TitleBarStyle.hidden,
-  //   /* alwaysOnTop: true, */
-  //   fullScreen: false,
-  //   title: 'Vexus',
-  // );
-  // await windowManager.waitUntilReadyToShow(
-  //   windowOptions,
-  //   () async {
-  //     if (io.Platform.isMacOS) {
-  //       await windowManager.setMovable(true);
-  //     }
-  //     await windowManager.setMaximizable(false);
-  //     await windowManager.show();
-  //     await windowManager.focus();
-  //   },
-  // );
+  /* await windowManager.ensureInitialized();
+  final windowOptions = WindowOptions(
+    minimumSize: const Size(360, 480),
+    size: const Size(960, 800),
+    maximumSize: const Size(1440, 1080),
+    center: true,
+    backgroundColor: PlatformDispatcher.instance.platformBrightness == Brightness.dark
+        ? ThemeData.dark().colorScheme.surfaceContainerHighest
+        : ThemeData.light().colorScheme.surfaceContainerHighest,
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.hidden,
+    /* alwaysOnTop: true, */
+    fullScreen: false,
+    title: 'Vexus',
+  );
+  await windowManager.waitUntilReadyToShow(
+    windowOptions,
+    () async {
+      if (io.Platform.isMacOS) {
+        await windowManager.setMovable(true);
+      }
+      await windowManager.setMaximizable(false);
+      await windowManager.show();
+      await windowManager.focus();
+    },
+  ); */
 }
 
 /// Initializes Firebase App Check for Android and iOS platforms.
 Future<void> $firebaseAppCheckInitialization() async {
-  if (io.Platform.isAndroid) {
+  if (defaultTargetPlatform == .android) {
     /* await fb_app_check.FirebaseAppCheck.instance.activate(
-      webProvider: fb_app_check.ReCaptchaV3Provider(
-        '6LdJ88EqAAAAAKrj3kOH2BkDwLb2MLMre5BTYM00',
-      ),
-      androidProvider: switch (config.Environment.current) {
-        config.Environment.production =>
-          fb_app_check.AndroidProvider.playIntegrity,
-        config.Environment.staging =>
-          fb_app_check.AndroidProvider.playIntegrity,
-        config.Environment.development => fb_app_check.AndroidProvider.debug,
-        config.Environment.local => fb_app_check.AndroidProvider.debug,
-        config.Environment.testing => fb_app_check.AndroidProvider.debug,
+      webProvider: fb_app_check.ReCaptchaV3Provider('6LdJ88EqAAAAAKrj3kOH2BkDwLb2MLMre5BTYM00'),
+      androidProvider: switch (Config.environment) {
+        .production => fb_app_check.AndroidProvider.playIntegrity,
+        .staging => fb_app_check.AndroidProvider.playIntegrity,
+        .development => fb_app_check.AndroidProvider.debug,
+        .testing => fb_app_check.AndroidProvider.debug,
+        .local => fb_app_check.AndroidProvider.debug,
       },
     ); */
-  } else if (io.Platform.isIOS || io.Platform.isMacOS) {
+  } else if (defaultTargetPlatform == .iOS || defaultTargetPlatform == .macOS) {
     /* await fb_app_check.FirebaseAppCheck.instance.activate(
-      webProvider: fb_app_check.ReCaptchaV3Provider(
-        '6LdJ88EqAAAAAKrj3kOH2BkDwLb2MLMre5BTYM00',
-      ),
-      appleProvider: switch (config.Environment.current) {
-        config.Environment.production =>
-          fb_app_check.AppleProvider.appAttestWithDeviceCheckFallback,
-        config.Environment.staging =>
-          fb_app_check.AppleProvider.appAttestWithDeviceCheckFallback,
-        config.Environment.development => fb_app_check.AppleProvider.debug,
-        config.Environment.local => fb_app_check.AppleProvider.debug,
-        config.Environment.testing => fb_app_check.AppleProvider.debug,
+      webProvider: fb_app_check.ReCaptchaV3Provider('6LdJ88EqAAAAAKrj3kOH2BkDwLb2MLMre5BTYM00',
+      appleProvider: switch (Config.environment) {
+        Config.environment.production => fb_app_check.AppleProvider.appAttestWithDeviceCheckFallback,
+        Config.environment.staging => fb_app_check.AppleProvider.appAttestWithDeviceCheckFallback,
+        Config.environment.development => fb_app_check.AppleProvider.debug,
+        Config.environment.testing => fb_app_check.AppleProvider.debug,
+        Config.environment.local => fb_app_check.AppleProvider.debug,
       },
     ); */
-  } else if (io.Platform.isLinux) {
+  } else if (defaultTargetPlatform == .linux) {
     // Not supported yet
-  } else if (io.Platform.isWindows) {
+  } else if (defaultTargetPlatform == .windows) {
     // Not supported yet
   }
 }

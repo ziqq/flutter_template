@@ -165,7 +165,7 @@ class _BugReportDialogState extends State<BugReportDialog> {
                             loading: _loading,
                             attachLogs: _attachLogs.value,
                             message: _messageController.text,
-                            text: Localization.of(context).bugReportSubmitActionLabel,
+                            text: Localization.of(context).submitReportButton,
                             onPressed: () => _loading.value = true,
                             onSucceeded: () {
                               _loading.value = false;
@@ -201,7 +201,10 @@ class _BugReportDialogState extends State<BugReportDialog> {
               ),
               Padding(
                 padding: CommonPadding.of(context),
-                child: Text(Localization.of(context).bugReportShakeToReportToggleHint, style: theme.textTheme.labelSmall),
+                child: Text(
+                  Localization.of(context).bugReportShakeToReportToggleHint,
+                  style: theme.textTheme.labelSmall,
+                ),
               ),
               SizedBox(
                 height: CommonBottomSpacer.keyboardIsOpenOf(context)

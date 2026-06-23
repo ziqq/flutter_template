@@ -44,4 +44,4 @@ dependencyResolutionManagement {
     }
 }
 
-include ":app"
+include ":app"screen_retriever

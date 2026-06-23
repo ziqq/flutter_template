@@ -4,7 +4,7 @@ import 'package:control/control.dart';
 import 'package:flutter/foundation.dart' show ValueNotifier;
 import 'package:flutter_template_name/src/common/api_client/api_client.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
 import 'package:flutter_template_name/src/common/controller/controller_observer.dart';
 import 'package:flutter_template_name/src/common/database/database.dart';
 import 'package:flutter_template_name/src/common/model/app_metadata.dart';
@@ -35,7 +35,6 @@ import 'package:l/l.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Initializes the app and returns a [Dependencies] object
 /// Initializes the app and returns a [Dependencies] object
 Future<Dependencies> $initializeDependencies({void Function(int progress, String message)? onProgress}) async {
   final dependencies = Dependencies();
@@ -74,8 +73,8 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
   'Creating app metadata': (d) async => d.metadata = await AppMetadata.platform(),
 
   // Shared preferences and secure storage initialization
-  'Local storage initialization': (d) async {
-    // final prefix = Config.environment.isProduction ? null : Config.environment.toString();
+  'Storages initialization': (d) async {
+    // final prefix = Config.environment.toString();
     // final accountName = '${AppleOptions.defaultAccountName}${prefix == null ? '' : '_$prefix'}}';
     d.sharedPreferences = SharedPreferencesAsync();
     /* ..storage = FlutterSecureStorage(

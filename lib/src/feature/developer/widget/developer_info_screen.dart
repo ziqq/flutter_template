@@ -1,7 +1,7 @@
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' show ClipboardData, Clipboard, HapticFeedback;
-import 'package:flutter_template_name/src/common/constant/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
 import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:flutter_template_name/src/common/widget/common_back_button.dart';
@@ -53,7 +53,7 @@ class DeveloperInfoScreen extends StatelessWidget {
               onError: (e) => AnimatedCheckIcon.error(context, message: ErrorUtil.formatMessage(e)),
             ).ignore() */,
           ),
-          _OpenUriTile(title: l10n.authLogoutActionLabel, description: l10n.developerUserCurrentLogoutDescription),
+          _OpenUriTile(title: l10n.logoutButton, description: l10n.developerUserCurrentLogoutDescription),
           SliverPadding(
             padding: CommonPadding.of(context).copyWith(bottom: theme.uiTheme.padding, top: theme.uiTheme.padding),
             sliver: const SliverToBoxAdapter(child: SizedBox(height: 48, child: Placeholder())),
@@ -177,7 +177,7 @@ class _CopyTile extends StatelessWidget {
       ScaffoldMessenger.of(context)
         ..clearSnackBars()
         ..showSnackBar(
-          SnackBar(content: Text(Localization.of(context).commonCopiedMessage), duration: const Duration(seconds: 3)),
+          SnackBar(content: Text(Localization.of(context).copiedMessage), duration: const Duration(seconds: 3)),
         );
     },
   );
@@ -209,9 +209,9 @@ class _ShowApplicationInfoTile extends StatelessWidget {
               applicationVersion: Pubspec.version.representation,
               applicationIcon: const SizedBox.square(dimension: 64, child: Icon(Icons.apps, size: 64)),
               children: <Widget>[
-                _CopyTile(title: l10n.commonNameLabel, subtitle: Pubspec.name, content: Pubspec.name),
+                _CopyTile(title: l10n.nameLabel, subtitle: Pubspec.name, content: Pubspec.name),
                 _CopyTile(
-                  title: l10n.commonVersionLabel,
+                  title: l10n.versionLabel,
                   subtitle: Pubspec.version.representation,
                   content: Pubspec.version.representation,
                 ),

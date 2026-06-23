@@ -115,7 +115,8 @@ class _WindowTitleState extends State<_WindowTitle> with WindowListener {
                         child: ScaleTransition(scale: animation, child: child),
                       ),
                       child: Text(
-                        context.findAncestorWidgetOfExactType<WindowScope>()?.title ?? Localization.of(context).commonAppLabel,
+                        context.findAncestorWidgetOfExactType<WindowScope>()?.title ??
+                            Localization.of(context).appLabel,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(height: 1),
@@ -140,11 +141,10 @@ class _WindowTitleState extends State<_WindowTitle> with WindowListener {
 
 class _WindowButtons$Windows extends StatelessWidget {
   const _WindowButtons$Windows({
-    required ValueListenable<bool> isFullScreen,
-    required ValueListenable<bool> isAlwaysOnTop,
+    required this._isFullScreen,
+    required this._isAlwaysOnTop,
     required this.setAlwaysOnTop,
-  }) : _isFullScreen = isFullScreen,
-       _isAlwaysOnTop = isAlwaysOnTop;
+  });
 
   // ignore: unused_field
   final ValueListenable<bool> _isFullScreen;

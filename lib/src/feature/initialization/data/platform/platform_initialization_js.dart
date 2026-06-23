@@ -15,7 +15,7 @@ import 'package:web/web.dart' as web;
 
 extension type $JSWindow._(JSObject _) implements JSObject {
   /// Update loading progress.
-  external void updateLoadingProgress(int progress, String text);
+  external void updateLoadingProgress(int progress, String message);
 
   /// Removes the loading indicator.
   external void removeLoadingIndicator();
@@ -60,9 +60,9 @@ Future<void> $platformInitialization() async {
   // Current os check
   try {
     switch (defaultTargetPlatform) {
-      case TargetPlatform.windows:
+      case .windows:
         l.d('Device is Windows.');
-      case TargetPlatform.macOS:
+      case .macOS:
         l.d('Device is macOS.');
         web.window.visualViewport?.addEventListener(
           'resize',
@@ -70,7 +70,7 @@ Future<void> $platformInitialization() async {
             web.window.dispatchEvent(web.Event('resize'));
           }.toJS,
         );
-      case TargetPlatform.iOS:
+      case .iOS:
         l.d('Device is iOS.');
         web.window.visualViewport?.addEventListener(
           'resize',
@@ -78,11 +78,11 @@ Future<void> $platformInitialization() async {
             web.window.dispatchEvent(web.Event('resize'));
           }.toJS,
         );
-      case TargetPlatform.android:
+      case .android:
         l.d('Device is Android.');
-      case TargetPlatform.linux:
+      case .linux:
         l.d('Device is Linux.');
-      case TargetPlatform.fuchsia:
+      case .fuchsia:
         l.d('Device is Fuchsia.');
     }
   } on Object catch (e, s) {
@@ -91,7 +91,9 @@ Future<void> $platformInitialization() async {
 }
 
 /// Update the loading progress on the web platform.
-void $updateLoadingProgress({int progress = 100, String text = ''}) => window.updateLoadingProgress(progress, text);
+void $updateLoadingProgress({int progress = 100, String message = ''}) {
+  window.updateLoadingProgress(progress, message);
+}
 
 /// Remove the loading widget from the web platform.
 void $removeLoadingWidget() => window.removeLoadingIndicator();

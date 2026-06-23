@@ -3,10 +3,11 @@
 import 'dart:io' show HttpException;
 
 import 'package:flutter_template_name/src/common/constant/config.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 /// Converts a map of hints (with arbitrary value types) into a `Hint` object,
 /// formatting each value as a `String`. Returns `null` if the input is `null` or empty.
-/* Hint? _hintFromMap(Map<String, Object?>? hints) {
+Hint? _hintFromMap(Map<String, Object?>? hints) {
   if (hints == null || hints.isEmpty) return null;
   return Hint.withMap({
     for (final entry in hints.entries)
@@ -20,23 +21,22 @@ import 'package:flutter_template_name/src/common/constant/config.dart';
         _ => entry.value.toString(),
       },
   });
-} */
+}
 
 /// Sends an exception to Sentry with optional hints and a fatal flag.
 // ignore: unused_element
 Future<void> _$captureException(Object exception, StackTrace stackTrace, Map<String, Object?>? hints, bool fatal) =>
-    /* Sentry.captureException(exception, stackTrace: stackTrace, hint: _hintFromMap(hints)) */ Future<void>.value();
+    Sentry.captureException(exception, stackTrace: stackTrace, hint: _hintFromMap(hints));
 
 /// Sends a message to Sentry with optional stack trace, hints, and warning flag.
 // ignore: unused_element
 Future<void> _$captureMessage(String message, StackTrace? stackTrace, Map<String, Object?>? hints, bool warning) =>
-    /* Sentry.captureMessage(
+    Sentry.captureMessage(
       message,
       level: warning ? SentryLevel.warning : SentryLevel.info,
       hint: _hintFromMap(hints),
       params: <String>[if (stackTrace != null) 'StackTrace: $stackTrace'],
-    ) */
-    Future<void>.value();
+    );
 
 /*
  * Sentry.captureException(exception, stackTrace: stackTrace, hint: hint);
@@ -50,7 +50,7 @@ Future<void> _$captureMessage(String message, StackTrace? stackTrace, Map<String
  */
 /// Sends an exception to Sentry with optional hints and a fatal flag.
 Future<void> $captureException(Object exception, StackTrace stackTrace, Map<String, Object?>? hints, bool fatal) =>
-    /* Sentry.captureException(exception, stackTrace: stackTrace, hint: _hintFromMap(hints)) */ Future<void>.value();
+    Sentry.captureException(exception, stackTrace: stackTrace, hint: _hintFromMap(hints));
 
 /*
  * Sentry.captureMessage(
@@ -69,13 +69,12 @@ Future<void> $captureException(Object exception, StackTrace stackTrace, Map<Stri
  */
 /// Sends a message to Sentry with optional stack trace, hints, and warning flag.
 Future<void> $captureMessage(String message, StackTrace? stackTrace, Map<String, Object?>? hints, bool warning) =>
-    /* Sentry.captureMessage(
+    Sentry.captureMessage(
       message,
       hint: _hintFromMap(hints),
       level: warning ? SentryLevel.warning : SentryLevel.info,
       params: <String>[if (stackTrace != null) 'StackTrace: $stackTrace'],
-    ) */
-    Future<void>.value();
+    );
 
 /// Converts an error to a user‐friendly string based on environment.
 // ignore: unused_element

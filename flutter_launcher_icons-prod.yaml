@@ -1,0 +1,27 @@
+flutter_launcher_icons:
+  image_path: "assets/app/launcher_icons/icon-512-maskable.png"
+  android: "launcher_icon"
+  min_sdk_android: 21
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/app/launcher_icons/icon-512-maskable.png"
+  ios: true
+  remove_alpha_ios: true
+  image_path_ios: "assets/app/launcher_icons/icon-512-maskable.png"
+  # https://icon.kitchen
+  # https://realfavicongenerator.net
+  web:
+    # generate: false
+    image_path: "assets/app/launcher_icons/icon-512-maskable.png"
+    background_color: "#37474f"
+    theme_color: "#37474f"
+  windows:
+    # generate: false
+    image_path: "assets/app/launcher_icons/icon-512-maskable.png"
+    icon_size: 256
+    default: 48
+    max: 256
+    min: 48
+  macos:
+    # generate: false
+    image_path: "assets/app/launcher_icons/AppIcon~ios-marketing.png"
+
