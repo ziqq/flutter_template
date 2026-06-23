@@ -1,6 +1,6 @@
-# Template App — Agent Instructions
+# AppOrOrgName — Agent Instructions
 
-Mobile Flutter application **Template** — CRM / business tool for the any industry.
+Mobile Flutter application **AppOrOrgName** — CRM / business tool for the any industry.
 Monorepo: Flutter client (`lib/`) + local packages (`packages/`).
 
 Published on `App Store`, `Google Play`, `RuStore`, and `AppGallery`.
@@ -9,7 +9,7 @@ Published on `App Store`, `Google Play`, `RuStore`, and `AppGallery`.
 ## Environment setup
 
 - **Flutter version**: managed via [FVM](https://fvm.app/). Always prefix Flutter/Dart commands with `fvm`.
-- **Dart SDK**: `>=3.11.0`, Flutter `>3.41.0`.
+- **Dart SDK**: `>=3.12.0`, Flutter `>3.44.0`.
 - **Line length**: `120` (enforced by `make format`).
 - **Monorepo workspaces**: root `pubspec.yaml` declares `workspace:` with all packages.
 
@@ -25,17 +25,7 @@ Full project tree: see `README.md` → **Project Structure**.
 
 Key concept: `lib/src/feature/<domain>/` — each domain has `controller/`, `data/`, `model/`, `widget/`.
 
-Transport note: `packages/api/` is the shared networking package. It contains
-the Dio client (`ApiClient$Dio`), the HTTP middleware
-client (`ApiClient$HTTP`), typed API exceptions, fluent response helpers, and
-internal connectivity primitives used by the app.
-
-Prefer `ApiClient$HTTP` for new repositories and when migrating existing data
-repositories. Keep `ApiClient` / `ApiClient$Dio` only for legacy repositories
-that still depend on the old raw `Future<Object?>` transport contract.
-`ApiClient$HTTP` expects backend responses to be JSON objects with an
-`application/json` content type; account for this before migrating endpoints
-that return files, plain text, empty non-JSON bodies, or other formats.
+Packages: `packages/` — shared packages (UI, localization, etc.) are declared in root `pubspec.yaml` workspace.
 
 
 ### Key features (domains)

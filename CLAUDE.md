@@ -1,6 +1,7 @@
-# Template
+# AppOrOrgName
 
-Flutter CRM / business tool for the any industry. Monorepo.
+Small description of the project, its purpose, and any relevant context. This section should provide a high-level overview of what the project is about and why it exists.
+
 
 ## Structure
 
