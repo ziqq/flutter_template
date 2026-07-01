@@ -10,6 +10,7 @@ import 'package:ui/ui.dart';
 
 /// {@template bug_report_dialog}
 /// BugReportDialog widget.
+///
 /// This widget is used to report bugs or issues in the application.
 /// {@endtemplate}
 class BugReportDialog extends StatefulWidget {
@@ -208,7 +209,7 @@ class _BugReportDialogState extends State<BugReportDialog> {
               ),
               SizedBox(
                 height: CommonBottomSpacer.keyboardIsOpenOf(context)
-                    ? CommonBottomSpacer.keyboardOf(context) + theme.uiTheme.size.offset.regular
+                    ? CommonBottomSpacer.keyboardInsetOf(context) + theme.uiTheme.size.offset.regular
                     : CommonBottomSpacer.heightOf(context),
               ),
             ],

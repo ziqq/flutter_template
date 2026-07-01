@@ -6,6 +6,8 @@ import 'package:flutter_template_name/src/feature/authentication/data/authentica
 import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'src/widget_test/src/common/_all.dart' as common_test;
+
 void main() => group('Widget', () {
   testWidgets('Dependencies_are_injected', (tester) async {
     await tester.pumpWidget(FakeDependencies().inject(child: Container()));
@@ -22,4 +24,6 @@ void main() => group('Widget', () {
     expect(find.byType(MaterialApp), findsOneWidget);
     expect(find.byType(InheritedDependencies), findsOneWidget);
   });
+
+  common_test.main();
 });
