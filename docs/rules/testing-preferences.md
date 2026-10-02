@@ -2,11 +2,16 @@
 
 This file contains test structure and test-writing rules.
 
+For evidence, performance experiments, package audits, CI permissions, code generation, and validation ladders, see
+[testing-and-tooling.md](testing-and-tooling.md).
+
 
 ## Test Entry Points
 - App unit and widget tests: `test/unit_test.dart`, `test/widget_test.dart`
-- Full app and packages suite: `make test-unit-all`
-- Integration tests: `make test-integration`
+- Package host tests: `packages/<package>/test/unit_test.dart`, `packages/<package>/test/widget_test.dart`
+- Optional package browser entrypoint: `packages/<package>/test/web_test.dart`
+- Full app and packages suite: `mise exec -- make test-unit-all`; package `web_test.dart` entrypoints run in Chrome
+- Integration tests: `mise exec -- make test-integration DEVICE=<device-id>`
 
 
 ## Testing Best Practices
@@ -169,10 +174,65 @@ void _$controllerTest() => group('ExampleFormController -', () {
 
 
 ## Widget Test Harness
-- Use `WidgetTestUtil.createWidgetUnderTest(...)` as the default wrapper for widget tests.
-- Use `WidgetTestUtil.appContext(...)` when the widget needs project `Dependencies`, `SettingsScope`, or `AuthenticationScope`.
-- Use `WidgetTestUtil.getContextUnderTest(...)` or `WidgetTestUtil.getLocalizationsAndContextUnderTests(...)` for context-only or localization-only assertions.
+- Use `WidgetTester.pumpScreen(...)` from `test/src/util/pump_screen.dart` as the default wrapper for widget tests.
+- Use fixtures from `test/src/util/test_util.dart` when the widget needs project `Dependencies`, `SettingsScope`, or `AuthenticationScope`.
+- Reuse existing localization and scope setup in nearby widget tests for context-only assertions.
 - Do not hand-roll `MaterialApp`, localization delegates, UI theme, settings scope, or authentication scope in each widget test.
-- Keep local harness helpers small and focused on the behavior under test; they should wrap `WidgetTestUtil`, not replace it.
+- Keep local harness helpers small and focused on the behavior under test; they should wrap the existing `pumpScreen` harness, not replace it.
 - Prefer lightweight test pages/widgets over real feature screens when testing infrastructure such as navigation, unless the behavior depends on the real screen.
 - When testing nested navigators, place the nested navigator in normal page content rather than app bar/action slots to avoid testing toolbar `Hero` behavior by accident.
+
+
+## Contract Matrices For Review Skills
+
+When a change matches one of the review skills below, add the smallest focused cases that can falsify its contract. Do
+not create tests only to increase a coverage number.
+
+### Forms and local state
+
+- initial validity after all fields are wired;
+- every cross-field rule and correction after an error;
+- focused, disabled, loading, and localized states;
+- listener disposal and no callback after widget removal;
+- submit success, server failure, cancellation, and stale async results.
+
+Use `Listenable.merge` only at the rebuild boundary that needs the combined state. Assert behavior through the public
+widget or controller API, not private notifier internals.
+
+### Adaptive UI and overlays
+
+- representative narrow, normal, and wide constraints;
+- large text, long localized content, empty/dense data, and orientation changes;
+- safe-area and keyboard insets;
+- overlay following after scroll, resize, transform, and anchor removal;
+- focus order, semantics, dismissal, and no callback after unmount.
+
+Record exact constraints, text scale, locale, platform, and device-pixel ratio for a failing case.
+
+### Rendering and performance
+
+- geometry, hit testing, semantics, and rebuild isolation;
+- repaint invalidation through `repaint` or `markNeedsPaint`;
+- correct behavior after size, theme, zoom, and data changes;
+- profile evidence with build/raster budgets and memory recovery when the claim is performance-related.
+
+Do not treat a golden image or a single debug-mode frame as evidence of production performance. Use the existing
+a focused harness in the owning package example (the source application's performance harness is not included here) for measured frame and memory scenarios.
+
+### Async, isolates, and resources
+
+- success, worker/initialization failure, timeout, cancellation, and late result;
+- port/subscription closure and repeated cleanup;
+- failure after each meaningful acquisition step;
+- rollback versus committed cleanup;
+- preservation of the original error when cleanup also fails.
+
+Test parallel initialization separately from sequential cleanup. `Future.wait` alone does not prove rollback safety.
+
+### Navigation and authentication
+
+- initial authenticated and unauthenticated routes;
+- deep link, unknown route, nested stack, back behavior, duplicate navigation, restoration, and route disposal where
+  applicable;
+- invalid signature, wrong issuer/audience, expiry, missing claims, refresh `401`, timeout/network error, `429`, `5xx`,
+  malformed response, duplicate request, and explicit `Authorization` behavior as applicable.

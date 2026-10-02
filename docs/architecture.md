@@ -2,7 +2,9 @@
 
 ## Related Docs
 
-- [Navigation](common/navigation.md)
+- [Toolchain and automation](automation.md)
+- [Conventions](conventions.md)
+- [Navigation ownership and behavior](common/navigation.md)
 
 ## Future Structure Analysis: Example
 
@@ -32,18 +34,18 @@ example/
 
 Data layer is responsible for data fetching and persisting logic. All repositories should contain an `interface` class like `abstract interface class IExampleRepository {}` which starts with the letter `I` as `interface`, and its implementation like `class ExampleRepository implements IExampleRepository {}`. Fake implementations for testing purposes should also be provided with @visibleForTesting annotation.
 
-When a repository also has fixture-backed unit tests under `test/unit_test/src/feature/<domain>/data/fixtures/`, prefer building fake repository response constants from the same payload shapes. This keeps `Repository$Fake` behavior close to the transport contract validated by tests and reduces silent drift between fake data and mocked API responses. `SaleRepository$Fake` is the reference example for this pattern.
+When a repository also has fixture-backed unit tests under `test/unit_test/src/feature/<domain>/data/fixtures/`, prefer building fake repository response constants from the same payload shapes. This keeps `Repository$Fake` behavior close to the transport contract validated by tests and reduces silent drift between fake data and mocked API responses. Keep each fake next to its repository contract.
 
 ### Transport Layer And Client Selection
 
-The project currently has two transport entrypoints exposed by `packages/api` or the main app `src/common/api_client`
+The template owns its transport in `lib/src/common/api_client/`. There is no separate API workspace package.
 
 - `ApiClient$HTTP`: middleware-based `package:http` transport that returns full response metadata
 
 Repository choice should be explicit:
 
 - use `ApiClient$HTTP` by default for new repositories and when migrating existing repositories
-- keep repository constructors explicit about the transport they need; do not hide HTTP/Dio selection behind feature-local aliases
+- keep repository constructors explicit about the transport they need; do not hide client selection behind feature-local aliases
 - account for the `ApiClient$HTTP` response contract during migration: responses must be JSON objects with an `application/json` content type
 
 Do not migrate endpoints that return files, plain text, binary payloads, or
@@ -51,13 +53,28 @@ other non-JSON bodies to `ApiClient$HTTP` until the backend response format or
 the transport contract is adapted for that use case.
 
 Connectivity guards must represent general internet reachability, not backend
-health. `ConnectivityService` is the shared source for both Dio and HTTP
-preflight checks; backend outages should surface as request/server errors
+health. `ConnectivityService` is the source for HTTP preflight checks; backend outages should surface as request/server errors
 instead of switching the global offline banner on.
 
-Do not place feature/session-specific transport logic inside `packages/api` or the main app `src/common/api_client`.
+Do not place feature/session-specific transport logic inside `lib/src/common/api_client/`.
 App-specific token refresh, logout, app metadata injection, and Sentry binding
 must stay in the main app or the relevant feature module.
+
+### Files and request replay
+
+Use `XFile` across models, pickers, uploads, sharing, and local image widgets. Native storage lives behind conditional
+imports; browser files remain in memory or Blob-backed storage and must not be converted to `dart:io File`.
+`Photo.file` and `FileUtil` use `XFile`; `AttachmentFile.xFile` adapts existing attachment bytes or paths.
+`UILocalImage` renders `XFile` content on native and web platforms.
+
+JSON retries clone request bytes and headers. Multipart requests rebuild file streams for an explicit authorization
+replay, but always disable generic retries and deduplication. Propagate request cancellation into retry backoff.
+Sanitize URLs, query parameters, and headers before attaching transport metadata to Sentry. Apply the same URL
+policy to diagnostic message text in Sentry's beforeSend callback, after exception-cause extraction. This filters
+recognized transport URL credentials; it is not a general-purpose personal-data scrubber or a request-body sanitizer.
+
+`RateLimiter` is a shared rolling-minute admission gate for callers using one quota. Concurrent waiters enter in
+arrival order; failed requests still consume their admission. It does not own HTTP requests or cancel queued work.
 
 ### Local Persistence And Cache Placement
 
@@ -100,7 +117,7 @@ For non-trivial repositories, fake responses should follow the same backend-like
 ### Transport ownership rules
 
 The following transport concerns are considered reusable and belong in
-`packages/api` or the main app `src/common/api_client`:
+`lib/src/common/api_client/`:
 
 - connectivity guards
 - deduplication
@@ -110,7 +127,7 @@ The following transport concerns are considered reusable and belong in
 - shared exceptions and response wrappers
 
 The following concerns are application-owned and should remain outside the
-package or move into feature modules:
+transport core or move into feature modules:
 
 - authentication refresh and logout orchestration
 - app metadata headers based on app models

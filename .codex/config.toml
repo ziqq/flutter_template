@@ -1,0 +1,6 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+
+# Keep repository configuration portable. Model selection, authentication,
+# approval policy, and provider settings remain user- or workspace-owned.
+[agents]
+max_concurrent_threads_per_session = 3

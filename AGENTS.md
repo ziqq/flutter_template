@@ -1,21 +1,21 @@
 # AppOrOrgName — Agent Instructions
 
-Mobile Flutter application **AppOrOrgName** — CRM / business tool for the any industry.
+Flutter application template **AppOrOrgName** for downstream mobile, web, and desktop projects.
 Monorepo: Flutter client (`lib/`) + local packages (`packages/`).
 
-Published on `App Store`, `Google Play`, `RuStore`, and `AppGallery`.
+Configure application identifiers, service integrations, and signing before publishing a downstream application.
 
 
 ## Environment setup
 
-- **Flutter version**: managed via [FVM](https://fvm.app/). Always prefix Flutter/Dart commands with `fvm`.
-- **Dart SDK**: `>=3.12.0`, Flutter `>3.44.0`.
+- **Flutter version**: managed via [Mise](https://mise.jdx.dev/); pinned to `3.47.2` in `mise.toml`. Use `mise exec -- make <target>`.
+- **Dart SDK**: `>=3.13.2`, Flutter `>=3.47.2`.
 - **Line length**: `120` (enforced by `make format`).
 - **Monorepo workspaces**: root `pubspec.yaml` declares `workspace:` with all packages.
 
 ```sh
-fvm flutter pub get
-fvm flutter run --flavor dev --dart-define-from-file=config/development.json
+mise exec -- flutter pub get
+mise exec -- flutter run --flavor dev --dart-define-from-file=config/development.json
 ```
 
 
@@ -25,7 +25,7 @@ Full project tree: see `README.md` → **Project Structure**.
 
 Key concept: `lib/src/feature/<domain>/` — each domain has `controller/`, `data/`, `model/`, `widget/`.
 
-Packages: `packages/` — shared packages (UI, localization, etc.) are declared in root `pubspec.yaml` workspace.
+The root workspace contains `packages/ui/`; localization belongs to the application.
 
 
 ### Key features (domains)
@@ -41,7 +41,7 @@ your_feature/ — e.g. `auth/`, `profile/`, `settings/`, `dashboard/`, etc.
 
 Use `make` targets as the public entrypoint for local CLI commands and VS Code tasks.
 Where a workflow is implemented in `tool/dart/ci.dart`, the Makefile should delegate to `ci.dart` instead of re-implementing orchestration.
-`tool/dart/ci.dart` auto-detects `fvm` first and falls back to system `dart` / `flutter` / `fluttergen` when `fvm` is unavailable.
+`mise.toml` owns tool versions. `tool/dart/ci.dart` uses the Flutter and Dart executables provided by Mise.
 Always run `make get` first if dependencies might be stale.
 
 | Action | Command |
@@ -61,7 +61,7 @@ Always run `make get` first if dependencies might be stale.
 - App tests entry points: `test/unit_test.dart`, `test/widget_test.dart`.
 - Each package has its own `test/unit_test.dart` and `test/widget_test.dart`.
 - Tests are tagged by layer: `controller`, `data`, `model`, `widget`.
-- Run a specific feature tag: `fvm flutter test --tags="<feature>" test/unit_test.dart test/widget_test.dart`.
+- Run a specific feature tag: `mise exec -- flutter test --tags="<feature>" test/unit_test.dart test/widget_test.dart`.
 - Prefer fakes/stubs over mocks. Fake repositories: `FooRepository$Fake` with `@visibleForTesting`.
 
 
@@ -73,7 +73,7 @@ After changing files that affect generated code, always run:
 make gen
 ```
 
-This runs: `fluttergen` (assets) → `l10n` (intl) → `build_runner` → `dart format`.
+This runs localization and pubspec generation, then `build_runner` (including assets), then `dart format`.
 
 build_runner alone: `make build-runner`
 
@@ -82,7 +82,7 @@ build_runner alone: `make build-runner`
 
 ### Do not edit
 
-- `packages/localization/**` — all generated from Google Sheets (see `docs/localization.md`).
+- `lib/src/common/localization/generated/**` — generated from local ARB files (see `docs/localization.md`).
 - `**/generated/**`, `*.g.dart`, `*.gen.dart`, `*.freezed.dart`, `*.mocks.dart`.
 - Vendor/platform: `build/`, `android/.gradle/`, `ios/Pods/`, `.dart_tool/`.
 
@@ -110,21 +110,14 @@ Before starting a task, read the relevant doc:
 
 | Topic | File |
 |---|---|
-| Product goals and priorities | `docs/goals.md` |
-| Milestones and acceptance criteria | `docs/milestones.md` |
-| Architectural memory and long-term decisions | `docs/decisions.md` |
 | Project structure, getting started | `README.md` |
-| API package architecture and ownership boundaries | `packages/api/README.md`, `packages/api/docs/architecture.md` |
 | Architecture, layers, patterns | `docs/architecture.md` |
 | Conventions, generation, icons, prohibitions | `docs/conventions.md` |
-| Contributing, dev principles, coding rules | `docs/contributing.md` |
-| Localization (Google Sheets → generation) | `docs/localization.md` |
-| Firebase, Stripe, external APIs | `docs/integrations.md` |
-| CI/CD, environments, releases | `docs/deployment.md` |
+| Localization (ARB → generation) | `docs/localization.md` |
 | Workspace automation plan | `docs/automation.md` |
-| Feature memory docs | `docs/features/*.md` |
+| Feature documentation, when provided | `docs/features/*.md` |
 | Code templates (state, scope, enums, canvas) | `.github/copilot-instructions.md` |
-| VS Code tasks (generators, authoritative) | `.vscode/tasks.json` |
+| VS Code task launchers | `.vscode/tasks.json` |
 
 
 ## Configuration files
@@ -136,6 +129,7 @@ Before starting a task, read the relevant doc:
 | `build.yaml` | build_runner config (drift, etc.) |
 | `dart_test.yaml` | Test runner config (tags, platforms, reporters) |
 | `config/*.json` | Environment-specific dart-defines (dev/staging/prod) |
+| `mise.toml`, `mise.lock` | Pinned tool versions |
 | `Makefile` | All build/test/gen/format/analyze targets |
 
 
@@ -156,8 +150,8 @@ Before doing anything:
 - Before changing an existing feature, read `docs/features/<FEATURE>.md` if it exists
 - Before adding localization keys, read `docs/localization.md`
 - Before modifying generated code or icons, read `docs/conventions.md`
-- Never edit: `packages/localization/**`, `**/generated/**`, `*.g.dart`, `*.gen.dart`
-- When you've made a major change and completed a task, update the patch version in `pubspec.yaml` (e.g. `0.1.0` → `0.1.1`) and add a note to `CHANGELOG.md` with the version, date, and description of the change.
+- Never edit: `**/generated/**`, `*.g.dart`, `*.gen.dart`
+- This repository is a template: keep `pubspec.yaml` at `0.0.1+1`. Do not bump its version or build number for completed tasks. Record relevant changes under `Unreleased` in `CHANGELOG.md`.
 
 
 ## Before writing code
@@ -184,3 +178,9 @@ Do not consider a task done until verified:
 - `make test-unit-all` — all tests pass
 
 If tests or analysis fail, fix the issue before reporting completion.
+
+## Portable agent configuration
+
+- Skills: [.agents/README.md](.agents/README.md); authoring: [docs/agent-skill-authoring.md](docs/agent-skill-authoring.md).
+- Agent adapters and hooks: [docs/agent-configuration.md](docs/agent-configuration.md).
+- Run `mise exec -- make check-agent-config` after changing agent guidance. `make check` and `make precommit` include it.

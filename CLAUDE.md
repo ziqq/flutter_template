@@ -5,30 +5,21 @@ Small description of the project, its purpose, and any relevant context. This se
 
 ## Structure
 
-- `lib/` — Flutter app (Dart, FVM)
-- `lib/src/common/` — Shared: constants, controller, database (drift), models, router (auto_route), utils, widgets
+- `lib/` — Flutter app (Dart, Mise)
+- `lib/src/common/` — Shared: constants, controller, database (drift), models, Navigator-based router, utils, widgets
 - `lib/src/feature/<domain>/` — Features: `controller/`, `data/`, `model/`, `widget/`
-- `packages/api/` — Shared transport package (Dio V1/V2 + HTTP middleware client + connectivity + exceptions + response helpers)
-- `packages/core/` — Shared models, utilities, validators
+- `lib/src/common/localization/` — Local ARB sources and generated application localization
 - `packages/ui/` — UI kit: widgets, fonts, icons, theme (ThemeExtension)
-- `packages/localization/` — Localization (GENERATED from Google Sheets, never edit)
 - `config/` — Environment configs (dev / staging / prod)
 - `docs/` — Detailed documentation
 
 ## Documentation
 
-- Product goals and priorities: `docs/goals.md`
-- Milestones and acceptance criteria: `docs/milestones.md`
-- Architectural memory and long-term decisions: `docs/decisions.md`
 - Project structure, getting started: `README.md`
-- API package architecture and ownership boundaries: `packages/api/README.md`, `packages/api/docs/architecture.md`
 - Full agent conventions and rules: `AGENTS.md`
 - Architecture, layers, patterns: `docs/architecture.md`
 - Conventions, generation, icons, prohibitions: `docs/conventions.md`
-- Contributing, dev principles, coding rules: `docs/contributing.md`
-- Localization (Google Sheets → generation): `docs/localization.md`
-- Firebase, Stripe, external APIs: `docs/integrations.md`
-- CI/CD, environments, releases: `docs/deployment.md`
+- Localization (ARB → generation): `docs/localization.md`
 - Workspace automation plan: `docs/automation.md`
 - Feature memory docs: `docs/features/*.md`
 
@@ -36,12 +27,12 @@ Small description of the project, its purpose, and any relevant context. This se
 
 ```bash
 # Setup
-fvm flutter pub get                    # Install dependencies
-fvm flutter run --flavor dev --dart-define-from-file=config/development.json
+mise exec -- make get                    # Install dependencies
+mise exec -- flutter run --flavor dev --dart-define-from-file=config/development.json
 
 # Build & validate
 make ci                                # Full CI pipeline (gen + format + analyze + test)
-make gen                               # Code generation (fluttergen + l10n + build_runner + format)
+make gen                               # Code generation (l10n + pubspec + build_runner/assets + format)
 make format                            # Format (line length 120)
 make check                             # Analyze app + packages
 make test-unit                         # Unit tests (app)
@@ -53,7 +44,7 @@ make test-integration                  # Integration tests
 
 - **Communication**: Russian with the user. English for all code, comments, docs, and commits
 - **Commits**: Conventional commits (feat, fix, refactor, docs, chore)
-- **Flutter version**: managed via FVM. Always prefix commands with `fvm`
+- **Flutter version**: managed via Mise. Run commands with `mise exec -- make <target>`
 - **Dart format**: line length **120**, enforced by `make format`
 - **No `print()`** — use `dart:developer` (`dev.log`) or `package:l`
 - **No `dynamic`** in any code — prefer explicit types or `Object`
@@ -67,8 +58,8 @@ make test-integration                  # Integration tests
 - Before changing an existing feature, read `docs/features/<FEATURE>.md` if it exists
 - Before adding localization keys, read `docs/localization.md`
 - Before modifying generated code or icons, read `docs/conventions.md`
-- Never edit: `packages/localization/**`, `**/generated/**`, `*.g.dart`, `*.gen.dart`
-- When you've made a major change and completed a task, update the patch version in `pubspec.yaml` (e.g. `0.1.0` → `0.1.1`) and add a note to `CHANGELOG.md` with the version, date, and description of the change.
+- Never edit: `**/generated/**`, `*.g.dart`, `*.gen.dart`
+- This repository is a template: keep `pubspec.yaml` at `0.0.1+1`. Do not bump its version or build number for completed tasks. Record relevant changes under `Unreleased` in `CHANGELOG.md`.
 
 ## Before Writing Code
 
@@ -94,3 +85,9 @@ Do not consider a task done until verified:
 
 If tests or analysis fail, fix the issue before reporting completion.
 
+
+## Portable agent configuration
+
+- Skills: [.agents/README.md](.agents/README.md); authoring: [docs/agent-skill-authoring.md](docs/agent-skill-authoring.md).
+- Agent adapters and hooks: [docs/agent-configuration.md](docs/agent-configuration.md).
+- Run `mise exec -- make check-agent-config` after changing agent guidance. `make check` and `make precommit` include it.

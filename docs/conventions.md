@@ -4,8 +4,8 @@
 ## Generated artifacts (do not edit)
 The following paths/files are generated and MUST NOT be edited manually:
 
-- `packages/localization/**` — **ALL files** are generated from Google Sheets.
-  Update the sheet and run generation via: `.vscode/tasks.json` → `dart:sheety_localization:generate` (see `docs/localization.md`).
+- `lib/src/common/localization/generated/**` — generated from local ARB files.
+  Update `lib/src/common/localization/translations/*.arb` and run `make gen` (see `docs/localization.md`).
 - `**/generated/**`
 - `**/*.g.dart`
 - `**/*.gen.dart`
@@ -13,7 +13,7 @@ The following paths/files are generated and MUST NOT be edited manually:
 - `**/*.mocks.dart`
 
 If changes are required:
-1) change the authoritative input (Google Sheet / generator),
+1) change the authoritative input (ARB / schema / generator configuration),
 2) run generation,
 3) commit regenerated outputs.
 

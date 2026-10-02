@@ -28,15 +28,15 @@ This file contains project workflow, tooling, and maintenance rules.
 ## Formatting And Linting
 - Use `make` targets as the public entrypoint for local CLI commands and VS Code tasks.
 - For workflows covered by `tool/dart/ci.dart`, `make` delegates to `ci.dart` instead of duplicating orchestration logic.
-- `tool/dart/ci.dart` detects `fvm` first and falls back to system `dart` / `flutter` / `fluttergen` when `fvm` is unavailable.
+- `tool/dart/ci.dart` uses Flutter and Dart from the active Mise environment.
 - Run `make format` for formatting.
 - Run `make analyze` or `make check` for analysis.
 - Respect repo line length of **120**.
 - When available, use automatic fix tools before manual cleanup.
-- Prefer VS Code tasks that call `make`; this keeps toolchain detection in one place and still routes supported workflows through `ci.dart`.
+- Prefer VS Code tasks that call `make`; this keeps command ownership in one place and still routes supported workflows through `ci.dart`.
 - Non-verbose `ci.dart` workflows show the active step with a realtime elapsed timer on one line.
-- Use `VERBOSE=1 make test-unit`, `VERBOSE=1 make test-packages`, or `VERBOSE=1 make test-unit-all` to stream test output immediately. For direct runner usage, pass `--verbose`, for example `fvm dart run tool/dart/ci.dart test-app --verbose`.
-- Use `make ci-pretty`, `make gen-pretty`, `make check-pretty`, or `make test-pretty` when you want grouped CI-style progress logs for local runs.
+- Use `VERBOSE=1 make test-unit`, `VERBOSE=1 make test-packages`, or `VERBOSE=1 make test-unit-all` to stream test output immediately. For direct runner usage, pass `--verbose`, for example `mise exec -- dart run tool/dart/ci.dart test-app --verbose`.
+- Use `make gen-pretty`, `make check-pretty`, or `make test-pretty` when you want grouped CI-style progress logs for local runs.
 
 
 ## Code Generation
@@ -45,3 +45,6 @@ This file contains project workflow, tooling, and maintenance rules.
   - `make build-runner`
   - `make fluttergen`
   - `make pubspec-generator`
+## Agent configuration
+
+Run `mise exec -- make check-agent-config` after changing agent guidance. It is included in `make check` and `make precommit`. See [agent configuration](../agent-configuration.md).

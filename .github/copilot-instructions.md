@@ -12,9 +12,9 @@ mobile platforms.
 - Project overview, structure, commands, conventions: `CLAUDE.md`
 - Full agent instructions (env, build, test, validate, rules): `AGENTS.md`
 - How to write documentation: `docs/rules/documentation.md`
-- How to write tests: `docs/rules/testing.md`
+- How to write tests: `docs/rules/testing-preferences.md`
 - How to write code: `docs/rules/flutter.md`
 - Detailed topic docs: `docs/**/*`
-- Agent skills: `.claude/skills/**/*`
+- Agent skills: `.agents/skills/**/*`
 - Autocompletion instructions: `.github/instructions/**/*`
 

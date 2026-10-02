@@ -48,6 +48,7 @@ specific Flutter API.
 - Every function must be reachable through visible controls and focus traversal; shortcuts may enhance but not replace navigation.
 - Touch targets should remain reachable and stable across normal, pressed, loading, disabled, and selected states.
 - Modal sheets, pickers, dialogs, loading overlays, and nested navigation must provide a clear exit path.
+- Use `UIShowcaseSequence` and stable step identifiers for multi-step anchored onboarding. Add localized tooltip CTAs through `UIShowcaseAction.next` or `UIShowcaseAction.dismiss`; do not build nested ad-hoc buttons. Do not coordinate showcase overlays with uncancelled delayed callbacks; unavailable or permission-gated targets must time out safely.
 - For Cupertino contextual menus, prefer `CupertinoMenuAnchor` over `PullDownButton`.
 - When migrating an existing `PullDownButton`, preserve current labels, icons, haptic feedback, selected-state affordances, and action handlers instead of redesigning the interaction.
 
@@ -57,3 +58,22 @@ specific Flutter API.
 - Fixed app bars, bottom bars, sheets, and CTA regions must respect safe areas and must not cover scrollable content.
 - For large lists or frequently updating surfaces, prefer lazy lists and stable item dimensions to reduce jank.
 - Extract shared UI primitives into `packages/ui` only after the same-intent pattern appears repeatedly; do not create abstractions for hypothetical reuse.
+
+
+## Adaptive Layout Contract
+
+Adaptive layout starts from the constraints supplied by the parent and the job of the component. A numeric screen-width
+check is not, by itself, a layout contract.
+
+- Use `LayoutBuilder`, `MediaQuery.sizeOf`, and existing `packages/ui` responsive primitives when the decision genuinely
+  depends on available constraints.
+- Describe breakpoints as real layout modes, not as a way to hide an overflow or clipped content bug.
+- Keep logical layout pixels separate from physical pixels. Use `devicePixelRatio` for rendering and pixel-snapping
+  concerns, not for ordinary responsive placement.
+- Check narrow, normal, and wide constraints, orientation changes, large text, long localized strings, empty and dense
+  data, loading, disabled, selected, and error states.
+- Preserve safe areas, semantics, focus order, and stable bounds when a layout mode changes.
+- Prefer existing theme tokens and shared UI components before introducing feature-local responsive constants.
+
+Every adaptive change should record representative constraints, text scale, locale, platform, and the expected layout
+mode. A focused widget test is preferred over an undocumented collection of device screenshots.

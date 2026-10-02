@@ -28,7 +28,8 @@ Examples:
 
 ### 4. Run checks locally before committing
 
-This repo uses **FVM** and a **Makefile pipeline**.
+This repo uses pinned **Mise** tools and a **Makefile pipeline**. Run `mise install`, then use
+`mise exec -- make <target>` unless Mise is already activated in your shell.
 
 Recommended (matches CI locally):
 - Full precommit pipeline: `make precommit`
@@ -37,8 +38,8 @@ Useful targets:
 | Action | Command |
 |---|---|
 | Install deps | `make get` |
-| Codegen | `make gen` (fluttergen + l10n + build_runner + format) |
-| Format check | `make format` |
+| Codegen | `make gen` (l10n + pubspec + build_runner/assets + format) |
+| Format check | `make format-check` |
 | Analyze | `make analyze` / `make check` |
 | Unit tests (app) | `make test-unit` |
 | Unit tests (app + packages) | `make test-unit-all` |

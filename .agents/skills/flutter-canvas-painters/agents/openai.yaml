@@ -1,0 +1,4 @@
+interface:
+  display_name: "Canvas Painters"
+  short_description: "Build fast Flutter canvas renderers"
+  default_prompt: "Use $flutter-canvas-painters to implement or review this Flutter painter for correctness and frame performance."

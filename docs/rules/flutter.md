@@ -10,6 +10,8 @@ Related rule files:
 - [testing-preferences.md](testing-preferences.md) for test strategy
 - [documentation.md](documentation.md) for comments and API docs
 - [ui.md](ui.md) for visual design, color, and typography
+- [flutter-patterns.md](flutter-patterns.md) for feature ownership, adaptive layout, renderer selection, lifecycle, and
+  rendering review examples
 
 
 ## Flutter Style Guide
@@ -281,10 +283,16 @@ StateConsumer<ExampleController, ExampleState>(
 
 ### Scope (InheritedModel) Pattern
 Feature-level state is exposed to the widget tree through **Scope** widgets.
-Each Scope is a `StatefulWidget` that owns a controller, listens to its changes,
-and re-publishes selected slices of state via a private `InheritedModel`.
+Each Scope is a `StatefulWidget` that usually owns a controller, listens to its
+changes, and re-publishes selected slices of state via a private `InheritedModel`.
 Consumers subscribe to **aspects** so they rebuild only when the slice they
 depend on actually changes.
+
+An explicitly documented application-lifetime controller may instead be owned
+by `Dependencies` when non-widget infrastructure must await its commands. In
+that case, the Scope owns only its listeners and platform subscriptions: it
+must neither recreate nor dispose the shared controller. Do not introduce a
+callback registry merely to make such a controller appear Scope-owned.
 
 #### File layout
 `lib/src/feature/<domain>/widget/<domain>_scope.dart`
@@ -309,7 +317,8 @@ depend on actually changes.
      controller — no aspect needed.
 
 - **`_<Feature>ScopeState`**
-   * Creates / disposes the controller.
+   * Creates / disposes the controller by default, or reads a documented
+     application-owned controller without disposing it.
    * Listens via `_onStateChanged`: diff previous vs next state, call
      `setState` only when something actually changed.
    * Caches the last known state for `identical` checks.
@@ -543,12 +552,12 @@ class _InheritedExample extends InheritedModel<_ExampleAspect> {
   matching aspect.
 
 ### Routing
-- **AppNavigator:** Use the app-owned `AppNavigator` and typed `AppPage`
-  classes for app page navigation. Keep app page definitions in
-  `lib/src/common/router/app_pages.dart`.
-- **Feature navigation:** Use `context.ext.pushPage`, `context.ext.pushPage`,
-  `context.ext.replacePage`, `context.ext.replaceWithAnimation`,
-  `context.ext.resetPages`, and `context.ext.pop` for app-owned pages.
+- **AppNavigator:** Import reusable navigation from `common/router/router.dart`.
+  Keep app-wide pages in `lib/src/common/router/app_pages.dart`, internal pages
+  in their feature, and analytics or UI sheet adapters outside router mechanics.
+  See [Navigation](../common/navigation.md) for the complete contract.
+- **Feature navigation:** Use `context.ext.navigator.push`, `replace`,
+  `replaceWithAnimation`, `reset`, and `pop` for app-owned pages.
 - **Nested flows:** Host nested app flows with `AppNavigator.controlled(...)` and
   a local `ValueNotifier<AppNavigationState>` controller. Do not write internal
   nested steps into the root app stack.
@@ -556,9 +565,9 @@ class _InheritedExample extends InheritedModel<_ExampleAspect> {
   furthest app-owned stack.
 
   ```dart
-  context.ext.pushPage(SaleCardPage(id: sale.id.toString()));
-  context.ext.replaceWithAnimation(SaleCardPage(id: sale.id.toString()));
-  context.ext.pop(rootNavigator: true);
+  context.ext.navigator.push(const DeveloperInfoPage());
+  context.ext.navigator.replaceWithAnimation(const DeveloperPage());
+  context.ext.navigator.pop(rootNavigator: true);
   ```
 - **Authentication Redirects:** Configured intro `AuthenticationScope` widget to
   handle authentication flows, ensuring users are redirected to the login screen
@@ -572,6 +581,36 @@ class _InheritedExample extends InheritedModel<_ExampleAspect> {
   ```dart
   Navigator.of(context, rootNavigator: true).pop<void>();
   ```
+
+### Form State
+Use Flutter SDK primitives for local form state before adding a form-management dependency.
+
+- Use `TextEditingController`, `FocusNode`, `ValueNotifier`, `ChangeNotifier`, `Listenable.merge`, `ListenableBuilder`,
+  and `ValueListenableBuilder` for local field state.
+- Keep one explicit form-level validation boundary for cross-field rules. Do not scatter a rule such as password
+  confirmation across unrelated builders.
+- Merge field listenables only where a parent value genuinely depends on several fields. The merged listenable observes
+  its inputs; it does not own or dispose them.
+- Keep rebuilds narrow: a submit button listens to validity, an error view listens to its error value, and a preview
+  listens only to the combined state it renders.
+- The widget, Scope, or controller that creates a controller, notifier, focus node, timer, or subscription owns its
+  disposal. Application workflows use `AppController$Sequential`; individual fields do not become application
+  controllers without a contract requiring it.
+- Async validation must define debounce, cancellation, stale-result protection, loading, and server-error behavior
+  before it is connected to a form listener.
+
+```dart
+ListenableBuilder(
+  listenable: Listenable.merge(<Listenable>[emailController, emailError]),
+  builder: (context, _) => TextField(
+    controller: emailController,
+    decoration: InputDecoration(errorText: emailError.value),
+  ),
+)
+```
+
+Use `lib/src/feature/authentication/widget/signup_screen.dart` as an existing local form reference. Keep examples focused on ownership and rebuild scope.
+
 ### Theming
 
 - **Centralized Theme:** Define a centralized `ThemeData` object to ensure a
@@ -797,18 +836,26 @@ Implement accessibility features to empower all users:
 
 
 ## High-Performance Canvas Rendering
-Guidelines based on [plugfox.dev/high-performance-canvas-rendering](https://plugfox.dev/high-performance-canvas-rendering/).
 Apply these rules when writing `CustomPainter`, custom `RenderObject`, or any code that draws directly on `Canvas`.
 
 ### Choosing the Rendering Strategy
-| Approach                                        | When to Use                                           |
-|-------------------------------------------------|-------------------------------------------------------|
-| `CustomPaint` + `CustomPainter`                 | Simple-to-moderate complexity, few repaints           |
-| `LeafRenderObjectWidget` + custom `RenderBox`   | Complex scenes, precise lifecycle control, game loops |
-| `repaint` package (`RePaint` / `RePainterBase`) | Optimised fine-grained repaint logic                  |
+| Approach | Use when |
+|---|---|
+| Ordinary Flutter widgets | The problem is standard layout, semantics, focus, forms, or ordinary interaction. |
+| `CustomPaint` + `CustomPainter` | Painting is custom but layout, hit testing, and lifecycle are simple and bounded. |
+| `RenderObject` / `LeafRenderObjectWidget` | The component owns custom layout, hit testing, semantics, pointer forwarding, continuous per-frame state, or independent invalidation. |
+| `repaint` package (`RePaint` / `RePainterBase`) | A measured fine-grained repaint need is not expressed by the existing SDK primitives. |
 
 - For most calendar / event painting tasks, `CustomPainter` with a `repaint` listenable is sufficient.
-- Promote to `LeafRenderObjectWidget` when you need vsync tickers, pointer-event forwarding, or per-frame updates.
+- Promote to a custom render object only when the component's ownership or interaction contract requires it, or when a
+  measured bottleneck remains after the simpler implementation is correct.
+- “Always use `RenderObject`” is not a valid project rule. Choose the renderer from constraints, layout ownership,
+  interaction, semantics, update frequency, scene size, and measured build/layout/paint/raster cost.
+- A render object must own rendering mechanics, not become a hidden controller, repository, service locator, or business
+  state store.
+
+Before choosing a custom render object, record the scene size, update frequency, layout and hit-testing requirements,
+semantics needs, rejected simpler option, invalidation path, and the measurement or test that could disprove the choice.
 
 ### Repaint Strategy
 - **Never** wrap `CustomPaint` inside `AnimatedBuilder`, `BlocBuilder`, `ValueListenableBuilder`, or any builder solely to trigger repaints.
@@ -933,6 +980,11 @@ abstract class ScenePainter {
 - Keep `paint()` body under ~80 lines. Extract helpers (`_paintHeader`, `_paintAvatars`, `_paintGrid`, etc.).
 - Measure with `flutter run --profile` and DevTools timeline before and after optimisations.
 
+For performance claims, also record build mode, device, renderer, device-pixel ratio, refresh rate, workload, warm-up,
+iteration count, variance, correctness guard, and whether the observed cost is VM, allocation/GC, build, layout, paint,
+raster, I/O, or a platform plugin. Keep repeatable experiments in the owning package example; see
+[the native UI performance harness](../ui-performance.md) for measurement helpers and evidence limits.
+
 ### SVG → Flutter LeafRenderObject Icons
 Icons from SVG are implemented uniformly for predictability, simple diffs, and absence of hidden optimizations.
 
@@ -944,7 +996,9 @@ Icons from SVG are implemented uniformly for predictability, simple diffs, and a
 - **Picture Naming:** Picture builder function by icon name: `UIIcon$Example -> _$examplePicture(Canvas canvas, Color color, double opacity)`.
 - **Multiple Layers:** If multiple layers/opacities — draw sequentially inside the build function.
 - **Parameters Only:** ONLY size, color, opacity supported. No alignment/fit/contentScale.
-- **No Caching:** Do not cache picture / dynamic path calculations; static paths allowed, picture recreated every paint.
+- **Icon-specific caching rule:** The generated SVG icon template currently recreates its picture every paint and allows
+  static paths. This is a deliberate icon-template constraint, not a general canvas rule. Other painters should cache
+  static or infrequently-changing pictures when measurement shows that regeneration is a cost.
 - **Prohibited:** imports inside snippet, comments, fixed viewBox, extra state fields, external optimizations.
 
 ### LeafRenderObject Icon Template
