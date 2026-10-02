@@ -169,7 +169,6 @@ class _AuthenticationScopeState extends State<AuthenticationScope> {
       if (u.isAuthenticated) {
         _analytics
           ..setUserID(u.id.toString())
-          ..setConsent(u.isAuthenticated).ignore()
           ..logEvent(
             'authentication',
             'authenticated',
@@ -181,7 +180,6 @@ class _AuthenticationScopeState extends State<AuthenticationScope> {
       } else {
         _analytics
           ..setUserID(null)
-          ..setConsent(false).ignore()
           ..logEvent('authentication', 'not_unauthenticated').ignore();
       }
     }

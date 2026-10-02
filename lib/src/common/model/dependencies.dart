@@ -1,8 +1,9 @@
+import 'package:flutter_template_name/src/feature/initialization/model/initialization_stats.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_template_name/src/common/api_client/api_client.dart';
 import 'package:flutter_template_name/src/common/database/database.dart';
 import 'package:flutter_template_name/src/common/model/app_metadata.dart';
-import 'package:flutter_template_name/src/common/router/app_navigator.dart';
+import 'package:flutter_template_name/src/common/router/router.dart';
 import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_service.dart';
 import 'package:flutter_template_name/src/feature/authentication/controller/authentication_controller.dart';
@@ -22,6 +23,9 @@ class Dependencies {
 
   /// App navigator state
   late final ValueNotifier<AppNavigationState> navigator;
+
+  /// Measured steps from this launch.
+  InitializationStats initializationStats = const InitializationStats.empty();
 
   /// App metadata
   late final AppMetadata metadata;
@@ -71,6 +75,9 @@ class FakeDependencies implements Dependencies {
   /// App navigator state
   @override
   late final ValueNotifier<AppNavigationState> navigator;
+
+  @override
+  InitializationStats initializationStats = const InitializationStats.empty();
 
   /// App metadata
   @override

@@ -130,7 +130,7 @@ void main() => group('AuthenticationMiddleware -', () {
 
     final response = await handler(_postRequest(requestUri), <String, Object?>{});
 
-    expect(storedToken, refreshedToken);
+    expect(storedToken, refreshedToken.accessToken);
     expect(response.statusCode, 200);
     expect(requestCalls, 2);
     expect(refreshCalls, 1);
@@ -177,7 +177,7 @@ void main() => group('AuthenticationMiddleware -', () {
 
     expect(response.statusCode, 200);
     expect(requestCalls, 2);
-    expect(storedToken, refreshedToken);
+    expect(storedToken, refreshedToken.accessToken);
   });
 
   test('shares one refresh attempt and logs out once when refresh fails', () async {
@@ -263,7 +263,7 @@ void main() => group('AuthenticationMiddleware -', () {
     expect(refreshCalls, 3);
     expect(updateCalls, 1);
     expect(requestCalls, 2);
-    expect(storedToken, refreshedToken);
+    expect(storedToken, refreshedToken.accessToken);
   });
 
   test('logs out when refresh response payload is invalid', () async {
@@ -394,7 +394,7 @@ void main() => group('AuthenticationMiddleware -', () {
     expect(refreshCalls, 2);
     expect(requestCalls, 2);
     expect(updateCalls, 1);
-    expect(storedToken, refreshedToken);
+    expect(storedToken, refreshedToken.accessToken);
   });
 
   test('does not retry refresh request when refresh endpoint returns 401', () async {
@@ -490,7 +490,7 @@ void main() => group('AuthenticationMiddleware -', () {
     expect(results.every((response) => response.statusCode == 200), isTrue);
     expect(refreshCalls, 1);
     expect(updateCalls, 1);
-    expect(storedToken, refreshedToken);
+    expect(storedToken, refreshedToken.accessToken);
     expect(seenAuthHeaders, <String>['Bearer ${refreshedToken.accessToken}', 'Bearer ${refreshedToken.accessToken}']);
   });
 
@@ -632,7 +632,7 @@ void main() => group('AuthenticationMiddleware -', () {
     expect(response.statusCode, 200);
     expect(refreshCalls, 2);
     expect(logoutCalls, 1);
-    expect(storedToken, refreshedToken);
+    expect(storedToken, refreshedToken.accessToken);
   });
 });
 
@@ -654,10 +654,8 @@ ApiClient$HTTP$Response _successResponse(ApiClient$HTTP$Request request) => ApiC
 const _successResponseBody = <String, Object?>{'data': 'ok', 'errors': null};
 
 const _refreshSuccessResponse = <String, Object?>{
-  'access_token':
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYmVhdXR5Ym94LXN0YWdlLnJ1L2FwaS9hdXRoL3YyL3JlZnJlc2gtdG9rZW4iLCJqdGkiOiIya2tWbzRxMkdURDhma1FWIiwiaWF0IjoxNzc0NDE4OTU2LCJuYmYiOjE3NzQ0MTg5NTYsImV4cCI6MTc3NTI4Mjk1Niwic3ViIjoiNDgxODgiLCJwcnYiOiI0ZDNkNjlmZGJhNGExMGZhMjc4YjgxZmM3ZmVkMzdmNjVmN2RjMDIwIiwidXNlcklEIjo0ODE4OCwiYWRkcmVzc0lEIjo0MTIwNywic2VjcmV0IjoiQXVYSmZIWmJzTXp4Q0FLUCJ9.HWf23yTtcYQV5lEz-2BlobWbPjOzvV6L0Nb4JNteEp8',
-  'refresh_token':
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYmVhdXR5Ym94LXN0YWdlLnJ1L2FwaS9hdXRoL3YyL3JlZnJlc2gtdG9rZW4iLCJqdGkiOiIya2tWbzRxMkdURDhma1FWIiwiaWF0IjoxNzc0NDE4OTU2LCJuYmYiOjE3NzQ0MTg5NTYsImV4cCI6MTc3NTI4Mjk1Niwic3ViIjoiNDgxODgiLCJwcnYiOiI0ZDNkNjlmZGJhNGExMGZhMjc4YjgxZmM3ZmVkMzdmNjVmN2RjMDIwIiwidXNlcklEIjo0ODE4OCwiYWRkcmVzc0lEIjo0MTIwNywic2VjcmV0IjoiQXVYSmZIWmJzTXp4Q0FLUCJ9.HWf23yTtcYQV5lEz-2BlobWbPjOzvV6L0Nb4JNteEp8',
+  'access_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYmVhdXR5Ym94LXN0YWdlLnJ1L2FwaS9hdXRoL3YyL3JlZnJlc2gtdG9rZW4iLCJqdGkiOiIya2tWbzRxMkdURDhma1FWIiwiaWF0IjoxNzc0NDE4OTU2LCJuYmYiOjE3NzQ0MTg5NTYsImV4cCI6MTc3NTI4Mjk1Niwic3ViIjoiNDgxODgiLCJwcnYiOiI0ZDNkNjlmZGJhNGExMGZhMjc4YjgxZmM3ZmVkMzdmNjVmN2RjMDIwIiwidXNlcklEIjo0ODE4OCwiYWRkcmVzc0lEIjo0MTIwNywic2VjcmV0IjoiQXVYSmZIWmJzTXp4Q0FLUCJ9.HWf23yTtcYQV5lEz-2BlobWbPjOzvV6L0Nb4JNteEp8',
+  'refresh_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYmVhdXR5Ym94LXN0YWdlLnJ1L2FwaS9hdXRoL3YyL3JlZnJlc2gtdG9rZW4iLCJqdGkiOiIya2tWbzRxMkdURDhma1FWIiwiaWF0IjoxNzc0NDE4OTU2LCJuYmYiOjE3NzQ0MTg5NTYsImV4cCI6MTc3NTI4Mjk1Niwic3ViIjoiNDgxODgiLCJwcnYiOiI0ZDNkNjlmZGJhNGExMGZhMjc4YjgxZmM3ZmVkMzdmNjVmN2RjMDIwIiwidXNlcklEIjo0ODE4OCwiYWRkcmVzc0lEIjo0MTIwNywic2VjcmV0IjoiQXVYSmZIWmJzTXp4Q0FLUCJ9.HWf23yTtcYQV5lEz-2BlobWbPjOzvV6L0Nb4JNteEp8',
   'token_type': 'bearer',
   'expires_in': 14400,
   'expires_refresh_in': 24400,

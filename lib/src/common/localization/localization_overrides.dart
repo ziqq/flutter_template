@@ -10,6 +10,12 @@ class OverrideUILocalizations extends UILocalizations {
   final UILocalizations _fallback;
 
   @override
+  String get showPasswordButton => _fallback.showPasswordButton;
+
+  @override
+  String get hidePasswordButton => _fallback.hidePasswordButton;
+
+  @override
   String get backButton => _l10n.backButton;
 
   @override

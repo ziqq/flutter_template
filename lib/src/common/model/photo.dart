@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:io' as io;
+
+import 'package:cross_file/cross_file.dart' show XFile;
 
 import 'package:meta/meta.dart';
 
@@ -148,7 +149,7 @@ class Photo {
   final bool isUpdate;
 
   /// This file use for uploading.
-  final io.File? file;
+  final XFile? file;
 
   /// This is showing image.
   final String? image;
@@ -181,7 +182,7 @@ class Photo {
     'uploadFilesID': uploadFilesID,
   };
 
-  /// This method return [Map<String, Object?>] with [File].
+  /// This method return [Map<String, Object?>] with [XFile].
   @useResult
   Map<String, Object?> toJsonWithFile() => <String, Object?>{
     'isDelete': isDelete,
@@ -202,7 +203,7 @@ class Photo {
     String? blurhash,
     int? rotate,
     int? uploadFilesID,
-    io.File? file,
+    XFile? file,
     Crop? crop,
   }) => Photo(
     isDelete: isDelete ?? this.isDelete,

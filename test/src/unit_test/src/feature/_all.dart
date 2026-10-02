@@ -1,3 +1,4 @@
+import 'initialization/initialization_stats_test.dart' as initialization_stats_test;
 /*
  * Date: 22 August 2024
  */
@@ -10,4 +11,5 @@ import 'settings/_all.dart' as settings_feature_test;
 void main() => group('Feature - ', () {
   home_feature_test.main();
   settings_feature_test.main();
+  initialization_stats_test.main();
 });

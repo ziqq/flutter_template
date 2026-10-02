@@ -4,8 +4,8 @@ publish_to: 'none'
 version: 1.0.0
 
 environment:
-  sdk: '>=3.12.0 <4.0.0'
-  flutter: ">=3.44.0"
+  sdk: '>=3.13.2 <4.0.0'
+  flutter: ">=3.47.2"
 
 # https://dart.dev/tools/pub/workspaces
 resolution: workspace
@@ -20,7 +20,16 @@ dependencies:
     sdk: flutter
   intl: any
 
+  # UI and image cropping
+  extended_image: ^10.1.0
+  cupertino_icons: ^1.0.9
+  rive: ^0.14.11
+  flutter_svg: ^2.3.0
+  flutter_slidable: ^4.0.3
+
   # Utility
+  cross_file: ^0.3.5+4
+  platform_info: ^5.0.0
   meta: any
   collection: any
   # google_fonts: any
@@ -42,8 +51,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # assets:
-  #   - assets/
+  assets:
+    - assets/check_error.riv
 
   # fonts:
   # - family: icomoon
@@ -51,4 +60,4 @@ flutter:
   #     - asset: packages/ui/fonts/icomoon.ttf
 
   shaders:
-    - packages/ui/shaders/shimmer.frag
+    - lib/shaders/shimmer.frag

@@ -53,10 +53,10 @@ class InAppReviewService implements IInAppReviewService {
         isBeforeDate = days.isNegative && days <= -15;
       }
 
-      return Future.value(!isBeforeDate);
+      return !isBeforeDate;
     } on Object catch (error, stackTrace) {
       ErrorUtil.logError(error, stackTrace).ignore();
-      return Future.value(false);
+      return false;
     }
   }
 
@@ -64,10 +64,10 @@ class InAppReviewService implements IInAppReviewService {
   Future<bool> openStoreListing() async {
     try {
       await InAppReview.instance.openStoreListing(appStoreId: /* AppStoreAndGooglePlay.appStoreID */ '');
-      return Future.value(true);
+      return true;
     } on Object catch (error, stackTrace) {
       ErrorUtil.logError(error, stackTrace).ignore();
-      return Future.value(false);
+      return false;
     }
   }
 
@@ -85,10 +85,10 @@ class InAppReviewService implements IInAppReviewService {
 
       await _sharedPreferences.setString(_openDateKey, _dateFormat.format(DateTime.now()));
 
-      return Future.value(result);
+      return result;
     } on Object catch (error, stackTrace) {
       ErrorUtil.logError(error, stackTrace).ignore();
-      return Future.value(false);
+      return false;
     }
   }
 }

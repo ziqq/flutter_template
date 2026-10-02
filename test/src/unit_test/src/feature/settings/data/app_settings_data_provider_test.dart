@@ -1,17 +1,18 @@
 /*
+ * Author: Anton Ustinoff <https://github.com/ziqq> | <a.a.ustinoff@gmail.com>
  * Date: 20 November 2025
  */
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/feature/settings/data/mappers/app_settings_codec.dart';
 import 'package:flutter_template_name/src/feature/settings/data/providers/app_settings_data_provider.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_settings.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_theme.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 
 import '../../../../../util/test_util.mocks.dart';
 
@@ -80,7 +81,7 @@ void main() {
           textScale: 1.4,
         );
         final stored = jsonEncode(const AppSettingsCodec().encoder.convert(original));
-        await provider.save(original);
+        await provider.save(settings: original);
         expect(stored, isNotNull);
         final decoded = jsonDecode(stored);
         expect(decoded, isA<Map<String?, Object?>>());
@@ -101,7 +102,7 @@ void main() {
         );
         final stored = jsonEncode(const AppSettingsCodec().encoder.convert(original));
         when(sharedPreferences.getString(key)).thenAnswer((_) async => stored);
-        await provider.save(original);
+        await provider.save(settings: original);
         final loaded = await provider.read();
         expect(loaded.textScale, original.textScale);
         expect(loaded.theme.accent, original.theme.accent);

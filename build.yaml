@@ -8,7 +8,7 @@ targets:
     builders:
       pubspec_generator:
         options:
-          output: lib/src/common/constant/pubspec.yaml.g.dart
+          output: lib/src/common/constant/generated/pubspec.yaml.g.dart
       drift_dev:
         generate_for:
           include:

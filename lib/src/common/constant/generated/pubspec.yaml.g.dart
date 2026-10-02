@@ -2,19 +2,18 @@
 // ignore_for_file: use_raw_strings, avoid_classes_with_only_static_members
 // ignore_for_file: avoid_escaping_inner_quotes, prefer_single_quotes
 
-/// GENERATED CODE - DO NOT MODIFY BY HAND
-
-library pubspec;
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
+// dart format off
+// coverage:ignore-file
 
 // *****************************************************************************
-// *                             pubspec_generator                             *
+// *                https://pub.dev/packages/pubspec_generator                 *
 // *****************************************************************************
 
 /*
 
   MIT License
-
-  Copyright (c) 2025 Plague Fox
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -123,14 +122,14 @@ sealed class Pubspec {
 
   /// Build date and time (UTC)
   static final DateTime timestamp = DateTime.utc(
-    2025,
+    2026,
+    10,
     2,
-    20,
-    13,
-    19,
-    26,
-    21,
-    187,
+    11,
+    24,
+    41,
+    738,
+    622,
   );
 
   /// Name
@@ -186,7 +185,7 @@ sealed class Pubspec {
   /// Repository
   /// The optional repository field should contain the URL for your package’s
   /// source code repository—for example,
-  /// https://github.com/<user>/<repository>.
+  /// https://github.com/user/repository
   /// If you publish your package to the pub.dev site,
   /// then your package’s page displays the repository URL.
   /// While providing a repository is optional,
@@ -204,7 +203,7 @@ sealed class Pubspec {
   /// to each package’s issue tracker, using the value of this field.
   /// If issue_tracker is missing but repository is present and points to GitHub,
   /// then the pub.dev site uses the default issue tracker
-  /// (https://github.com/<user>/<repository>/issues).
+  /// https://github.com/user/repository/issues
   static const String issueTracker = r'';
 
   /// Documentation
@@ -348,8 +347,8 @@ sealed class Pubspec {
 
   /// Environment
   static const Map<String, String> environment = <String, String>{
-    'sdk': '>=3.7.0 <4.0.0',
-    'flutter': '>=3.7.0 <4.0.0',
+    'sdk': '>=3.13.2 <4.0.0',
+    'flutter': '>=3.47.2',
   };
 
   /// Platforms
@@ -412,31 +411,51 @@ sealed class Pubspec {
     'flutter': <String, Object>{
       'sdk': r'flutter',
     },
+    'flutter_web_plugins': <String, Object>{
+      'sdk': r'flutter',
+    },
     'flutter_localizations': <String, Object>{
       'sdk': r'flutter',
     },
     'intl': r'any',
-    'octopus': r'^0.0.9',
     'meta': r'any',
-    'json_annotation': r'^4.9.0',
+    'json_annotation': r'^4.12.0',
+    'firebase_core': r'^4.11.0',
+    'firebase_messaging': r'^16.4.0',
+    'l': r'^5.0.1',
+    'win32': r'any',
+    'window_manager': r'^0.5.1',
+    'control': r'1.0.0-dev.1',
+    'shared_preferences': r'^2.5.5',
+    'drift': r'^2.34.0',
+    'drift_db_viewer': r'^2.1.0',
+    'cross_file': r'^0.3.5+4',
+    'http': r'^1.6.0',
+    'mime': r'^2.1.0',
+    'sentry_flutter': r'^9.22.0',
+    'firebase_analytics': r'^12.4.3',
     'collection': r'any',
+    'convert': r'any',
     'async': r'any',
     'path': r'any',
-    'convert': r'any',
-    'path_provider': r'^2.1.5',
+    'flutter_in_store_app_version_checker': r'^3.0.0',
+    'flutter_badge_manager': r'^0.3.2',
+    'in_app_review': r'^2.0.12',
+    'path_provider': r'^2.1.6',
     'platform_info': r'^5.0.0',
+    'crypto': r'^3.0.7',
+    'money2': r'^6.3.0',
     'rxdart': r'^0.28.0',
-    'url_launcher': r'^6.3.1',
-    'l': r'^5.0.0',
-    'win32': r'^5.11.0',
-    'window_manager': r'^0.4.3',
-    'control': r'^0.2.0',
-    'shared_preferences': r'^2.5.2',
-    'drift': r'^2.25.1',
-    'sqlite3_flutter_libs': r'^0.5.30',
-    'http': r'^1.3.0',
-    'cupertino_icons': r'^1.0.8',
-    'web': r'^1.1.0',
+    'url_launcher': r'^6.3.2',
+    'connectivity_plus': r'^7.1.1',
+    'device_info_plus': r'^13.2.0',
+    'sensors_plus': r'^7.0.0',
+    'share_plus': r'^13.3.0',
+    'flutter_easyloading': r'^4.0.2',
+    'cupertino_icons': r'^1.0.9',
+    'file_picker': r'^12.1.2',
+    'image_picker': r'^1.2.2',
+    'web': r'^1.1.1',
     'ui': <String, Object>{
       'path': r'./packages/ui',
     },
@@ -450,15 +469,26 @@ sealed class Pubspec {
     'integration_test': <String, Object>{
       'sdk': r'flutter',
     },
-    'flutter_lints': r'^5.0.0',
+    'flutter_lints': r'^6.0.0',
     'test': r'any',
-    'build_runner': r'^2.4.15',
-    'drift_dev': r'^2.25.2',
-    'pubspec_generator': r'^4.1.0-pre.1',
-    'flutter_gen_runner': r'^5.9.0',
-    'json_serializable': r'^6.9.4',
-    'flutter_launcher_icons': r'^0.14.3',
-    'flutter_native_splash': r'^2.4.5',
+    'faker': r'any',
+    'mockito': r'any',
+    'plugin_platform_interface': r'^2.1.8',
+    'firebase_core_platform_interface': r'^8.1.1',
+    'firebase_analytics_platform_interface': r'^6.0.7',
+    'in_app_review_platform_interface': r'^2.0.5',
+    'path_provider_platform_interface': r'^2.1.2',
+    'url_launcher_platform_interface': r'^2.3.2',
+    'firebase_messaging_platform_interface': r'^4.9.0',
+    'shared_preferences_platform_interface': r'^2.4.2',
+    'build_runner': r'^2.15.0',
+    'drift_dev': r'^2.34.0',
+    'json_serializable': r'^6.14.0',
+    'pubspec_generator': r'^5.0.2',
+    'intl_utils': r'^2.8.0',
+    'flutter_gen_runner': r'^5.14.1',
+    'flutter_launcher_icons': r'^0.14.4',
+    'flutter_native_splash': r'^2.4.7',
   };
 
   /// Dependency overrides
@@ -519,9 +549,6 @@ sealed class Pubspec {
     'flutter': <String, Object>{
       'generate': true,
       'uses-material-design': true,
-      'shaders': <Object>[
-        r'packages/ui/shaders/shimmer.frag',
-      ],
       'assets': <Object>[
         r'assets/icons/',
       ],
@@ -530,12 +557,12 @@ sealed class Pubspec {
       'enabled': true,
       'class_name': r'GeneratedLocalization',
       'main_locale': r'en',
-      'arb_dir': r'lib/src/common/localization',
+      'arb_dir': r'lib/src/common/localization/translations',
       'output_dir': r'lib/src/common/localization/generated',
       'use_deferred_loading': false,
     },
     'flutter_gen': <String, Object>{
-      'output': r'lib/src/common/constant/',
+      'output': r'lib/src/common/constant/generated',
       'line_length': 120,
     },
   };

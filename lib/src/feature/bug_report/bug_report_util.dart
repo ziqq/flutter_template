@@ -6,7 +6,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_template_name/src/common/api_client/api_exception.dart';
@@ -312,9 +311,7 @@ final class BugReportUtil {
 
   /// Appends the provided text to a local file.
   Future<void> toFile(String text, String fileName) async {
-    final dir = await FileUtil.getDirectory();
-    final file = File('${dir.path}/$fileName');
-    await file.writeAsString('$text\n', mode: .append);
+    await FileUtil.appendText('$text\n', fileName);
   }
 
   Future<bool> _sendToTelegramMessage(String text) async {
@@ -501,33 +498,19 @@ final class BugReportUtil {
     BugReportID? reportID,
     User? user,
   }) async {
-    final tempFiles = <File>[];
-
     try {
-      final dir = await FileUtil.getDirectory();
-      final reportFile = File('${dir.path}/$fileName.txt');
-      await reportFile.writeAsString(reportText, flush: true);
-      tempFiles.add(reportFile);
-
-      final files = <XFile>[XFile(reportFile.path, name: reportFile.uri.pathSegments.last, mimeType: 'text/plain')];
-
-      if (attachLogs) {
-        final logsFile = File('${dir.path}/$fileName-logs.csv');
-        final logs = logsToCSV(user: user, metadata: metadata);
-        await logsFile.writeAsString(logs, flush: true);
-        tempFiles.add(logsFile);
-        files.add(XFile(logsFile.path, name: logsFile.uri.pathSegments.last, mimeType: 'text/csv'));
-      }
-
-      for (final attachment in attachments) {
-        final path = attachment.path;
-        if (path == null || path.isEmpty) continue;
-
-        final file = File(path);
-        if (!file.existsSync()) continue;
-
-        files.add(XFile(path, name: attachment.name, mimeType: attachment.mimeType));
-      }
+      final files = <XFile>[
+        XFile.fromData(utf8.encode(reportText), path: '$fileName.txt', name: '$fileName.txt', mimeType: 'text/plain'),
+        if (attachLogs)
+          XFile.fromData(
+            utf8.encode(logsToCSV(user: user, metadata: metadata)),
+            path: '$fileName-logs.csv',
+            name: '$fileName-logs.csv',
+            mimeType: 'text/csv',
+          ),
+        for (final attachment in attachments)
+          if (attachment.xFile case final XFile file) file,
+      ];
 
       final result = await SharePlus.instance.share(
         ShareParams(
@@ -535,6 +518,7 @@ final class BugReportUtil {
           title: '${Pubspec.name.toCapitilize()} bug report${reportID != null ? ' #$reportID' : ''}',
           text: '${Pubspec.name.toCapitilize()} bug report${reportID != null ? ' #$reportID' : ''}',
           files: files,
+          fileNameOverrides: <String>[for (final file in files) file.name],
         ),
       );
 
@@ -544,8 +528,6 @@ final class BugReportUtil {
     } on Object catch (e, st) {
       l.w('Error sharing bug report to Discord: $e', st);
       return false;
-    } finally {
-      await FileUtil.deleteFiles(tempFiles);
     }
   }
 
@@ -970,7 +952,7 @@ final class BugReportUtil {
     void Function()? onSuccess,
     void Function()? onError,
   }) async => runZonedGuarded<void>(() async {
-    File? file;
+    XFile? file;
     try {
       onProcess?.call();
 
@@ -978,15 +960,13 @@ final class BugReportUtil {
       final fileNameWithTimestamp = _buildExportFileName(fileName);
       l.i('Preparing log file to send to Telegram: $fileNameWithTimestamp.csv');
 
-      final dir = await FileUtil.getDirectory();
       final logs = logsToCSV(user: user, metadata: metadata);
-      file = File('${dir.path}/$fileNameWithTimestamp.csv');
-      await file.writeAsString(logs, flush: true, mode: FileMode.append);
-
-      if (!file.existsSync()) {
-        l.i('No log file to send.');
-        return;
-      }
+      file = XFile.fromData(
+        utf8.encode(logs),
+        path: '$fileNameWithTimestamp.csv',
+        name: '$fileNameWithTimestamp.csv',
+        mimeType: 'text/csv',
+      );
 
       final caption = switch (message) {
         final String m when m.trim().isNotEmpty => _truncate(m, _telegramSettings.captionLimit),
@@ -996,9 +976,7 @@ final class BugReportUtil {
       final request = http_package.MultipartRequest('POST', _telegramSettings.sendDocumentURL)
         ..fields['chat_id'] = Config.telegramErrorBotChatID.toString()
         ..fields['parse_mode'] = 'Markdown'
-        ..files.add(
-          await http_package.MultipartFile.fromPath('document', file.path, filename: file.path.split('/').last),
-        );
+        ..files.add(http_package.MultipartFile('document', file.openRead(), await file.length(), filename: file.name));
 
       if (caption != null) {
         request.fields['caption'] = caption;
@@ -1034,11 +1012,9 @@ final class BugReportUtil {
     } on Object catch (e, s) {
       l.w('Error sending file to telegram: $e', s);
       try {
-        final logs = file != null && file.existsSync()
-            ? await file.readAsString()
-            : logsToCSV(user: user, metadata: metadata);
+        final logs = file != null ? await file.readAsString() : logsToCSV(user: user, metadata: metadata);
         final ok = await _sendToSentryFile(
-          fileName: file?.uri.pathSegments.last.replaceAll('.csv', '') ?? '${Config.storageNamespace}-logs',
+          fileName: file?.name.replaceAll('.csv', '') ?? '${Config.storageNamespace}-logs',
           logs: logs,
           message: message,
           user: user,
@@ -1055,9 +1031,6 @@ final class BugReportUtil {
         l.w('Error sending file to sentry: $fallbackError', fallbackStackTrace);
       }
       onError?.call();
-    } finally {
-      // Remove the temporary export file after the transport attempt completes.
-      if (file != null && file.existsSync()) file.delete().ignore();
     }
   }, l.e);
 

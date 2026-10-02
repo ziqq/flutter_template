@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS log_prefix_tbl (
         REFERENCES log_tbl (id)
             ON UPDATE CASCADE
             ON DELETE CASCADE
-) STRICT WITHOUT ROWID;
+) STRICT, WITHOUT ROWID;
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS log_prefix_prefix_idx ON log_prefix_tbl (prefix);

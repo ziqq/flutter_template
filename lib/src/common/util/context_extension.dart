@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart' show BuildContext, Locale, Localizations;
 import 'package:flutter/services.dart' show HapticFeedback;
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
-import 'package:flutter_template_name/src/common/router/app_navigator.dart';
+import 'package:flutter_template_name/src/common/router/router.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
 import 'package:flutter_template_name/src/feature/authentication/widget/authentication_scope.dart';
 import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';

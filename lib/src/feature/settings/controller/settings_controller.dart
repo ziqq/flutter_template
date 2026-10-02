@@ -1,12 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_template_name/src/common/controller/app_controller.dart';
+/*
+ * Author: Anton Ustinoff <https://github.com/ziqq> | <a.a.ustinoff@gmail.com>
+ * Date: 05 January 2024
+ */
+
 import 'package:flutter_template_name/src/common/model/option.dart';
+import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
+import 'package:flutter_template_name/src/common/controller/app_controller.dart';
+import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/error_util.dart';
 import 'package:flutter_template_name/src/feature/settings/data/settings_repository.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_settings.dart';
 import 'package:flutter_template_name/src/feature/settings/model/user_preferences.dart';
-import 'package:l/l.dart';
-import 'package:meta/meta.dart';
 
 /// {@template settings_state}
 /// SettingsState is a base class
@@ -14,64 +19,97 @@ import 'package:meta/meta.dart';
 /// {@endtemplate}
 sealed class SettingsState extends _$SettingsStateBase {
   /// {@macro settings_state}
-  const SettingsState({required super.preferences, required super.settings, required super.message});
+  const SettingsState({
+    required super.preferences,
+    required super.settings,
+    required super.message,
+    super.error,
+    super.stackTrace,
+  });
 
-  /// Idling state
+  /// Creates an idle state — no operation is in progress.
   /// {@macro settings_state}
   const factory SettingsState.idle({
     required UserPreferences preferences,
     required AppSettings settings,
     String message,
+    Object? error,
+    StackTrace? stackTrace,
   }) = SettingsState$Idle;
 
-  /// Failed state
+  /// Creates a failed state — the last operation threw an error.
   /// {@macro settings_state}
   const factory SettingsState.failed({
     required UserPreferences preferences,
     required AppSettings settings,
     String message,
+    Object? error,
+    StackTrace? stackTrace,
   }) = SettingsState$Failed;
 
-  /// Processing
+  /// Creates a processing state — an operation is currently running.
   /// {@macro settings_state}
   const factory SettingsState.processing({
     required UserPreferences preferences,
     required AppSettings settings,
     String message,
+    Object? error,
+    StackTrace? stackTrace,
   }) = SettingsState$Processing;
 }
 
-/// Idling state
+/// Failed state: the last settings/preferences operation ended with an error.
+///
+/// [error] and [stackTrace] describe the failure.
 /// {@macro settings_state}
 final class SettingsState$Failed extends SettingsState {
   /// {@macro settings_state}
-  const SettingsState$Failed({required super.preferences, required super.settings, super.message = 'Failed'});
+  const SettingsState$Failed({
+    required super.preferences,
+    required super.settings,
+    super.message = 'Failed',
+    super.error,
+    super.stackTrace,
+  });
 
   @override
   String get type => 'failed';
 }
 
-/// Idling state
+/// Idle state: nothing is in progress and the settings are ready to use.
 /// {@macro settings_state}
 final class SettingsState$Idle extends SettingsState {
   /// {@macro settings_state}
-  const SettingsState$Idle({required super.preferences, required super.settings, super.message = 'Idle'});
+  const SettingsState$Idle({
+    required super.preferences,
+    required super.settings,
+    super.message = 'Idle',
+    super.error,
+    super.stackTrace,
+  });
 
   @override
   String get type => 'idle';
 }
 
-/// Processing
+/// Processing state: a settings/preferences operation is currently running.
 /// {@macro settings_state}
 final class SettingsState$Processing extends SettingsState {
   /// {@macro settings_state}
-  const SettingsState$Processing({required super.preferences, required super.settings, super.message = 'Processing'});
+  const SettingsState$Processing({
+    required super.preferences,
+    required super.settings,
+    super.message = 'Processing',
+    super.error,
+    super.stackTrace,
+  });
 
   @override
   String get type => 'processing';
 }
 
-/// Pattern matching for [SettingsState].
+/// Signature of a callback that maps a concrete [SettingsState] subtype [S]
+/// to a result of type [R]; used by [SettingsState] pattern-matching helpers.
 typedef _SettingsStateMatch<R, S extends SettingsState> = R Function(S state);
 
 /// Base class for [SettingsState] to provide common properties and methods.
@@ -79,7 +117,13 @@ typedef _SettingsStateMatch<R, S extends SettingsState> = R Function(S state);
 @immutable
 abstract base class _$SettingsStateBase {
   /// {@macro settings_state}
-  const _$SettingsStateBase({required this.preferences, required this.settings, required this.message});
+  const _$SettingsStateBase({
+    required this.preferences,
+    required this.settings,
+    required this.message,
+    this.error,
+    this.stackTrace,
+  });
 
   /// The current state type.
   abstract final String type;
@@ -96,16 +140,25 @@ abstract base class _$SettingsStateBase {
   @nonVirtual
   final String message;
 
-  /// Check if is Idle.
+  /// The error object, if any.
+  @nonVirtual
+  final Object? error;
+
+  /// Stack trace of the error, if any.
+  @nonVirtual
+  final StackTrace? stackTrace;
+
+  /// Whether the controller is idle.
   bool get isIdle => this is SettingsState$Idle;
 
-  /// Check if is Processing.
-  bool get isProcessing => this is SettingsState$Processing;
-
-  /// Check if is Failed.
+  /// Whether the last operation failed.
   bool get isFailed => this is SettingsState$Failed;
 
-  /// Pattern matching for [SettingsState].
+  /// Whether this state is [SettingsState$Processing].
+  bool get isProcessing => this is SettingsState$Processing;
+
+  /// Exhaustively map this state to [R] by providing a callback for every
+  /// [SettingsState] variant.
   R map<R>({
     required _SettingsStateMatch<R, SettingsState$Processing> processing,
     required _SettingsStateMatch<R, SettingsState$Failed> failed,
@@ -117,7 +170,8 @@ abstract base class _$SettingsStateBase {
     _ => throw AssertionError(), // coverage:ignore-line
   };
 
-  /// Pattern matching for [SettingsState].
+  /// Map this state to [R], falling back to [orElse] for any variant whose
+  /// callback is omitted.
   R maybeMap<R>({
     required R Function() orElse,
     _SettingsStateMatch<R, SettingsState$Processing>? processing,
@@ -129,7 +183,8 @@ abstract base class _$SettingsStateBase {
     idle: idle ?? (_) => orElse(),
   );
 
-  /// Pattern matching for [SettingsState].
+  /// Map this state to [R], returning `null` for any variant whose callback
+  /// is omitted.
   R? mapOrNull<R>({
     _SettingsStateMatch<R, SettingsState$Processing>? processing,
     _SettingsStateMatch<R, SettingsState$Failed>? failed,
@@ -137,7 +192,7 @@ abstract base class _$SettingsStateBase {
   }) => map<R?>(processing: processing ?? (_) => null, failed: failed ?? (_) => null, idle: idle ?? (_) => null);
 
   @override
-  int get hashCode => Object.hashAll([preferences, settings, message, type]);
+  int get hashCode => Object.hash(preferences, settings, message, type, error, stackTrace);
 
   @override
   bool operator ==(Object other) {
@@ -145,8 +200,10 @@ abstract base class _$SettingsStateBase {
     return other is _$SettingsStateBase &&
         other.preferences == preferences &&
         other.settings == settings &&
+        other.type == type &&
         other.message == message &&
-        other.type == type;
+        other.error == error &&
+        other.stackTrace == stackTrace;
   }
 
   @override
@@ -159,27 +216,35 @@ abstract base class _$SettingsStateBase {
 final class SettingsController extends AppController$Sequential<SettingsState> {
   /// {@macro settings_controller}
   SettingsController({
-    required ISettingsRepository repository,
-    super.initialState = const SettingsState.idle(preferences: UserPreferences.empty(), settings: AppSettings.empty()),
-  }) : _repository = repository,
-       super(name: 'SettingsController');
+    required this._repository,
+    super.initialState = const SettingsState.idle(
+      preferences: UserPreferences.empty(),
+      settings: AppSettings.empty(),
+      message: 'Initial',
+    ),
+  }) : super(name: 'SettingsController');
 
   /// The repository to fetch settings data.
   final ISettingsRepository _repository;
 
-  /// Restore settings from cache.
-  Future<void> restore() => handle(
+  /// Restore [AppSettings] and [UserPreferences] from the local cache.
+  ///
+  /// Emits [SettingsState$Processing] while reading, then [SettingsState$Idle]
+  /// on success or [SettingsState$Failed] if the repository throws.
+  ///
+  /// [appmetadata] — optional metadata attached to the operation for logging.
+  Future<void> restore({Object? appmetadata}) => handle(
     () async {
       setState(
         SettingsState.processing(
           preferences: state.preferences,
           settings: state.settings,
-          message: 'Restoring settings',
+          message: 'Restoring settings' /* 'Restoring settings & remote config' */,
         ),
       );
-      l.i('Restore settings from cache...');
+
       final settings = await _repository.readSettings();
-      l.i('Restore user preferences from cache...');
+
       final preferences = await _repository.readPreferences();
       setState(SettingsState.processing(preferences: preferences, settings: settings, message: 'Settings restored'));
     },
@@ -187,14 +252,29 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
       SettingsState.failed(
         preferences: state.preferences,
         settings: state.settings,
+        error: e,
+        stackTrace: s,
         message: 'Failed to restore settings: ${ErrorUtil.formatMessage(e)}',
       ),
     ),
-    done: () async => setState(SettingsState.idle(preferences: state.preferences, settings: state.settings)),
+    done: () async => setState(
+      SettingsState.idle(
+        preferences: state.preferences,
+        settings: state.settings,
+        error: state.error,
+        stackTrace: state.stackTrace,
+      ),
+    ),
     name: 'restore',
+    meta: <String, Object?>{'app_metadata': appmetadata},
   );
 
-  /// Change theme mode.
+  /// Change the app [ThemeMode] (system/light/dark).
+  ///
+  /// Persists the updated [AppSettings] and logs a `theme_mode_changed`
+  /// analytics event. Emits processing → idle, or failed on error.
+  ///
+  /// [themeMode] — the theme mode to apply.
   Future<void> setThemeMode(ThemeMode themeMode) => handle(
     () async {
       setState(
@@ -204,17 +284,32 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
           message: 'Seting theme mode to: $themeMode',
         ),
       );
-      l.i('Seting theme mode...');
+
       final newSettings = state.settings.copyWith(theme: state.settings.theme.copyWith(themeMode: themeMode));
-      await _repository.saveSettings(newSettings);
+      await _repository.saveSettings(settings: newSettings);
       setState(
         SettingsState.processing(preferences: state.preferences, settings: newSettings, message: 'Theme mode changed'),
       );
+      Analytics.instance
+          .logEvent(
+            'settings',
+            'theme_mode_changed',
+            parameters: {
+              'theme_mode': switch (themeMode) {
+                .system => 'system',
+                .light => 'light',
+                .dark => 'dark',
+              },
+            },
+          )
+          .ignore();
     },
-    error: (e, _) async => setState(
+    error: (e, s) async => setState(
       SettingsState.failed(
         preferences: state.preferences,
         settings: state.settings,
+        error: e,
+        stackTrace: s,
         message: 'Failed to set theme mode: ${ErrorUtil.formatMessage(e)}',
       ),
     ),
@@ -223,27 +318,35 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
     meta: <String, Object?>{'theme_mode': themeMode.toString()},
   );
 
-  /// Change locale.
+  /// Change the app [Locale].
+  ///
+  /// Persists the updated [AppSettings] and logs a `locale_changed` analytics
+  /// event. Emits processing → idle, or failed on error.
+  ///
+  /// [locale] — the locale to apply.
   Future<void> setLocale(Locale locale) => handle(
     () async {
       setState(
         SettingsState.processing(
           preferences: state.preferences,
           settings: state.settings,
-          message: 'Seting locale to: $locale',
+          message: 'Seting locale (old: ${state.settings.locale}, new: $locale)',
         ),
       );
-      l.i('Seting locale...');
+
       final newSettings = state.settings.copyWith(locale: locale);
-      await _repository.saveSettings(newSettings);
+      await _repository.saveSettings(settings: newSettings);
       setState(
         SettingsState.processing(preferences: state.preferences, settings: newSettings, message: 'Locale changed'),
       );
+      Analytics.instance.logEvent('settings', 'locale_changed', parameters: {'locale': locale.languageCode}).ignore();
     },
-    error: (e, _) async => setState(
+    error: (e, s) async => setState(
       SettingsState.failed(
         preferences: state.preferences,
         settings: state.settings,
+        error: e,
+        stackTrace: s,
         message: 'Failed to set locale: ${ErrorUtil.formatMessage(e)}',
       ),
     ),
@@ -252,40 +355,94 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
     meta: <String, Object?>{'locale': locale.toString()},
   );
 
-  /// Change accent color.
-  Future<void> setAccentColor(Color? color) => handle(
+  /// Change the theme accent [color], or reset it to the default when `null`.
+  ///
+  /// Persists the updated [AppSettings] and logs a `settings_accent_color_changed`
+  /// analytics event. Emits processing → idle, or failed on error.
+  ///
+  /// [color] — the accent color to apply, or `null` to use the default.
+  /// [onProcessing] — called when saving starts.
+  /// [onSucceeded] — called after the color is saved successfully.
+  /// [onError] — called with the error if persistence fails.
+  /// [onDone] — called once the operation completes (success or failure).
+  Future<void> setAccentColor(
+    Color? color, {
+    void Function()? onDone,
+    void Function()? onSucceeded,
+    void Function()? onProcessing,
+    void Function(Object error)? onError,
+  }) => handle(
     () async {
       setState(
         SettingsState.processing(
           preferences: state.preferences,
           settings: state.settings,
-          message: 'Seting accent color to: ${color == null ? 'null' : color.toString()}',
+          message: 'Setting accent color to: ${color == null ? 'Default' : color.toString()}',
         ),
       );
-      l.i('Seting accent color...');
+      onProcessing?.call();
+
       final newSettings = state.settings.copyWith(theme: state.settings.theme.copyWith(accent: Option<Color?>(color)));
-      await _repository.saveSettings(newSettings);
+      await _repository.saveSettings(settings: newSettings);
       setState(
         SettingsState.processing(
-          preferences: state.preferences,
           settings: newSettings,
+          preferences: state.preferences,
           message: 'Accent color changed',
         ),
       );
+      Analytics.instance
+          .logEvent('settings', 'accent_color_changed', parameters: {'has_custom_color': (color != null).toString()})
+          .ignore();
+      onSucceeded?.call();
     },
-    error: (e, _) async => setState(
-      SettingsState.failed(
-        preferences: state.preferences,
-        settings: state.settings,
-        message: 'Failed to set accent color: ${ErrorUtil.formatMessage(e)}',
-      ),
-    ),
-    done: () async => setState(SettingsState.idle(preferences: state.preferences, settings: state.settings)),
+    error: (e, s) async {
+      setState(
+        SettingsState.failed(
+          preferences: state.preferences,
+          settings: state.settings,
+          error: e,
+          stackTrace: s,
+          message: 'Failed to set accent color: ${ErrorUtil.formatMessage(e)}',
+        ),
+      );
+      onError?.call(e);
+    },
+    done: () async {
+      setState(SettingsState.idle(preferences: state.preferences, settings: state.settings));
+      onDone?.call();
+    },
     name: 'setAccentColor',
     meta: <String, Object?>{'accent_color': color?.toString()},
   );
 
-  /// Change use beta version.
+  /// Persists the device-level product analytics sending override.
+  Future<void> setAnalyticsDataSendingEnabled(bool enabled) => handle(
+    () async {
+      setState(SettingsState.processing(preferences: state.preferences, settings: state.settings));
+      final preferences = state.preferences.copyWith(analyticsDataSendingEnabled: enabled);
+      await _repository.savePreferences(preferences);
+      setState(SettingsState.processing(preferences: preferences, settings: state.settings));
+    },
+    error: (e, s) async => setState(
+      SettingsState.failed(
+        preferences: state.preferences,
+        settings: state.settings,
+        error: e,
+        stackTrace: s,
+        message: 'Failed to save analytics data sending preference: ${ErrorUtil.formatMessage(e)}',
+      ),
+    ),
+    done: () async => setState(SettingsState.idle(preferences: state.preferences, settings: state.settings)),
+    name: 'setAnalyticsDataSendingEnabled',
+  );
+
+  /// Toggle the beta app version preference.
+  ///
+  /// Persists [UserPreferences.useBeta] via the repository. Emits
+  /// processing → idle, or failed on error.
+  ///
+  /// [useBeta] — `true` enables the beta version, `false` disables it.
   Future<void> setUseBeta(bool useBeta) => handle(
     () async {
       setState(
@@ -295,17 +452,19 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
           message: 'Seting useBeta to: $useBeta',
         ),
       );
-      l.i('Seting use beta...');
+
       final newPreferences = state.preferences.copyWith(useBeta: useBeta);
       await _repository.savePreferences(newPreferences);
       setState(
         SettingsState.processing(preferences: newPreferences, settings: state.settings, message: 'Use beta changed'),
       );
     },
-    error: (e, _) async => setState(
+    error: (e, s) async => setState(
       SettingsState.failed(
         preferences: state.preferences,
         settings: state.settings,
+        error: e,
+        stackTrace: s,
         message: 'Failed to set use beta: ${ErrorUtil.formatMessage(e)}',
       ),
     ),
@@ -314,7 +473,12 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
     meta: <String, Object?>{'use_beta': useBeta.toString()},
   );
 
-  /// Change use debug.
+  /// Toggle the debug mode preference.
+  ///
+  /// Persists [UserPreferences.useDebug] via the repository. Emits
+  /// processing → idle, or failed on error.
+  ///
+  /// [useDebug] — `true` enables debug mode, `false` disables it.
   Future<void> setUseDebug(bool useDebug) => handle(
     () async {
       setState(
@@ -324,17 +488,19 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
           message: 'Seting useDebug: $useDebug',
         ),
       );
-      l.i('Seting use debug...');
+
       final newPreferences = state.preferences.copyWith(useDebug: useDebug);
       await _repository.savePreferences(newPreferences);
       setState(
         SettingsState.processing(preferences: newPreferences, settings: state.settings, message: 'Use debug changed'),
       );
     },
-    error: (e, _) async => setState(
+    error: (e, s) async => setState(
       SettingsState.failed(
         preferences: state.preferences,
         settings: state.settings,
+        error: e,
+        stackTrace: s,
         message: 'Failed to set use debug: ${ErrorUtil.formatMessage(e)}',
       ),
     ),
@@ -343,7 +509,12 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
     meta: <String, Object?>{'use_debug': useDebug.toString()},
   );
 
-  /// Change use development mode.
+  /// Toggle the development mode preference.
+  ///
+  /// Persists [UserPreferences.useDevelopment] via the repository. Emits
+  /// processing → idle, or failed on error.
+  ///
+  /// [useDevelopment] — `true` enables development mode, `false` disables it.
   Future<void> setUseDevelompent(bool useDevelopment) => handle(
     () async {
       setState(
@@ -353,7 +524,7 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
           message: 'Seting useDevelopment: $useDevelopment',
         ),
       );
-      l.i('Seting use development...');
+
       final newPreferences = state.preferences.copyWith(useDevelopment: useDevelopment);
       await _repository.savePreferences(newPreferences);
       setState(
@@ -364,10 +535,12 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
         ),
       );
     },
-    error: (e, _) async => setState(
+    error: (e, s) async => setState(
       SettingsState.failed(
         preferences: state.preferences,
         settings: state.settings,
+        error: e,
+        stackTrace: s,
         message: 'Failed to set use development: ${ErrorUtil.formatMessage(e)}',
       ),
     ),
@@ -376,7 +549,12 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
     meta: <String, Object?>{'use_development': useDevelopment.toString()},
   );
 
-  /// Change use expiremental app functions.
+  /// Toggle the experimental app functions preference.
+  ///
+  /// Persists [UserPreferences.useExpiremental] via the repository. Emits
+  /// processing → idle, or failed on error.
+  ///
+  /// [useExpiremental] — `true` enables experimental functions, `false` disables them.
   Future<void> setUseExpiremental(bool useExpiremental) => handle(
     () async {
       setState(
@@ -386,7 +564,7 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
           message: 'Seting useExpiremental: $useExpiremental',
         ),
       );
-      l.i('Seting use expiremental...');
+
       final newPreferences = state.preferences.copyWith(useExpiremental: useExpiremental);
       await _repository.savePreferences(newPreferences);
       setState(
@@ -397,10 +575,12 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
         ),
       );
     },
-    error: (e, _) async => setState(
+    error: (e, s) async => setState(
       SettingsState.failed(
         preferences: state.preferences,
         settings: state.settings,
+        error: e,
+        stackTrace: s,
         message: 'Failed to set use expiremental: ${ErrorUtil.formatMessage(e)}',
       ),
     ),
@@ -409,7 +589,12 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
     meta: <String, Object?>{'use_expiremental': useExpiremental.toString()},
   );
 
-  /// Change use haptic feedback.
+  /// Toggle the haptic feedback preference.
+  ///
+  /// Persists [UserPreferences.useHapticFeedback] via the repository. Emits
+  /// processing → idle, or failed on error.
+  ///
+  /// [useHapticFeedback] — `true` enables haptic feedback, `false` disables it.
   Future<void> setUseHapticFeedback(bool useHapticFeedback) => handle(
     () async {
       setState(
@@ -419,7 +604,7 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
           message: 'Seting use [HapticFeedback] to: $useHapticFeedback',
         ),
       );
-      l.i('Seting use [HapticFeedback]...');
+
       final newPreferences = state.preferences.copyWith(useHapticFeedback: useHapticFeedback);
       await _repository.savePreferences(newPreferences);
       setState(
@@ -430,15 +615,60 @@ final class SettingsController extends AppController$Sequential<SettingsState> {
         ),
       );
     },
-    error: (e, _) async => setState(
+    error: (e, s) async => setState(
       SettingsState.failed(
         preferences: state.preferences,
         settings: state.settings,
+        error: e,
+        stackTrace: s,
         message: 'Failed to set use [HapticFeedback]: ${ErrorUtil.formatMessage(e)}',
       ),
     ),
     done: () async => setState(SettingsState.idle(preferences: state.preferences, settings: state.settings)),
     name: 'setUseHapticFeedback',
     meta: <String, Object?>{'use_haptic_feedback': useHapticFeedback.toString()},
+  );
+
+  /// Toggle the iOS 26+ liquid (glass) theme.
+  ///
+  /// Persists [UserPreferences.useIOS26LiquidTheme] via the repository and
+  /// republishes the updated [SettingsState].
+  ///
+  /// Emits [SettingsState$Processing] while saving, then [SettingsState$Idle]
+  /// on success or [SettingsState$Failed] if persistence throws.
+  ///
+  /// [useIOS26LiquidTheme] — `true` enables the liquid theme, `false` disables it.
+  Future<void> setUseIOS26LiquidTheme(bool useIOS26LiquidTheme) => handle(
+    () async {
+      setState(
+        SettingsState.processing(
+          preferences: state.preferences,
+          settings: state.settings,
+          message: 'Seting useIOS26LiquidTheme: $useIOS26LiquidTheme',
+        ),
+      );
+
+      final newPreferences = state.preferences.copyWith(useIOS26LiquidTheme: useIOS26LiquidTheme);
+      await _repository.savePreferences(newPreferences);
+      setState(
+        SettingsState.processing(
+          preferences: newPreferences,
+          settings: state.settings,
+          message: 'Use iOS 26+ liquid theme changed',
+        ),
+      );
+    },
+    error: (e, s) async => setState(
+      SettingsState.failed(
+        preferences: state.preferences,
+        settings: state.settings,
+        error: e,
+        stackTrace: s,
+        message: 'Failed to set use iOS 26+ liquid theme: ${ErrorUtil.formatMessage(e)}',
+      ),
+    ),
+    done: () async => setState(SettingsState.idle(preferences: state.preferences, settings: state.settings)),
+    name: 'setUseIOS26LiquidTheme',
+    meta: <String, Object?>{'use_ios26_liquid_theme': useIOS26LiquidTheme.toString()},
   );
 }

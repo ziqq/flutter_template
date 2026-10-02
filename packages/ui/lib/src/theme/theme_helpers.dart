@@ -205,6 +205,9 @@ ThemeData $createThemeData({required Brightness brightness, Color? accent}) {
       brightness: brightness,
       surface: colors.surface,
       onSurface: colors.onSurface,
+      onSurfaceVariant: colors.textSecondary,
+      outline: colors.border,
+      outlineVariant: colors.border,
       surfaceContainerHighest: isDark ? UIColors.dark.background : UIColors.light.secondaryBackground,
       tertiary: colors.tertiaryBackground,
     ),
@@ -290,8 +293,8 @@ ThemeData $createThemeData({required Brightness brightness, Color? accent}) {
       thumbShape: RoundSliderThumbShape(
         elevation: 0,
         pressedElevation: 0,
-        enabledThumbRadius: uiTheme.size.button.medium,
-        disabledThumbRadius: uiTheme.size.button.medium,
+        enabledThumbRadius: uiTheme.size.icon.regular / 2,
+        disabledThumbRadius: uiTheme.size.icon.regular / 2,
       ),
     ),
     snackBarTheme: SnackBarThemeData(

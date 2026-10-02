@@ -64,9 +64,9 @@ final class _LocalizationView extends LocalizationsDelegate<Localization> {
   bool isSupported(Locale locale) => _delegate.isSupported(locale);
 
   @override
-  Future<Localization> load(Locale locale) => generated.GeneratedLocalization.load(
-    locale,
-  ).then<Localization>((localization) => Localization._current = Localization._(locale));
+  Future<Localization> load(Locale locale) =>
+      generated.GeneratedLocalization.load(locale)
+          .then<Localization>((localization) => Localization._current = Localization._(locale));
 
   @override
   bool shouldReload(covariant _LocalizationView old) => _delegate.shouldReload(old._delegate);

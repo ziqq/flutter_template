@@ -17,6 +17,15 @@ base class ApiException implements Exception {
     this.data,
   });
 
+  /// Returns the existing transport error category for an HTTP status.
+  static String codeForStatus(int statusCode) => switch (statusCode) {
+    >= 500 => 'internal_server_error',
+    401 || 403 => 'unauthorized_error',
+    >= 400 => 'bad_request_error',
+    >= 300 => 'redirection_error',
+    _ => 'unknown_error',
+  };
+
   /// HTTP status code.
   /// If the request was not sent, this will be 0.
   @nonVirtual

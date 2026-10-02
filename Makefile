@@ -28,16 +28,8 @@ VERBOSE_ENABLED := $(filter 1 true TRUE yes YES on ON,$(strip $(VERBOSE)))
 CI_FLAGS := $(if $(VERBOSE_ENABLED),--verbose,)
 FEATURE_TEST_FLAGS := --color --coverage --platform=tester --reporter=expanded --timeout=30s $(if $(VERBOSE_ENABLED),--concurrency=1,--concurrency=50)
 
-FVM := $(shell command -v fvm 2>/dev/null)
-ifeq ($(strip $(FVM)),)
 DART := dart
 FLUTTER := flutter
-FLUTTERGEN := fluttergen
-else
-DART := fvm dart
-FLUTTER := fvm flutter
-FLUTTERGEN := fvm fluttergen
-endif
 
 define require_macos
 	@if [ "$(HOST_OS)" != "macos" ]; then \
@@ -111,6 +103,10 @@ analyze-packages-only:
 .PHONY: format
 format: ## Format code
 				@$(DART) run tool/dart/ci.dart format $(CI_FLAGS)
+
+.PHONY: format-check
+format-check: ## Check code formatting without edits
+	@$(DART) run tool/dart/ci.dart format-check $(CI_FLAGS)
 
 .PHONY: format-path
 format-path: ## Format Dart files inside DIR
@@ -198,7 +194,7 @@ build-runner-dir: get ## Run build_runner for DIR
 				@if [ -z "$(DIR)" ]; then echo "$(LOG_PREFIX) Error: DIR is required for build-runner-dir"; exit 1; fi
 				@echo "$(LOG_PREFIX) Running build_runner for $(DIR)..."
 				@$(DART) run build_runner build --build-filter "$(DIR)/*.dart" || (echo "$(LOG_PREFIX) Error: build_runner failed for $(DIR)"; exit 1)
-				@$(DART) format --fix -l 120 "$(DIR)" || (echo "$(LOG_PREFIX) Error: dart format failed for $(DIR)"; exit 1)
+				@$(DART) format --line-length 120 "$(DIR)" || (echo "$(LOG_PREFIX) Error: dart format failed for $(DIR)"; exit 1)
 				@echo "$(LOG_PREFIX) build_runner completed for $(DIR)."
 
 .PHONY: build-runner-watch
@@ -210,10 +206,6 @@ build-runner-watch: get ## Watch build_runner for DIR
 .PHONY: pubspec-generator
 pubspec-generator: ## Generate pubspec.g.dart using pubspec_generator
 				@$(DART) run tool/dart/ci.dart pubspec-generator $(CI_FLAGS)
-
-.PHONY: sheety-localization
-sheety-localization: ## Generate localization from Google Sheets
-				@$(DART) run tool/dart/ci.dart sheety-localization $(CI_FLAGS)
 
 .PHONY: icons
 icons: ## Generate app icons used https://pub.dev/packages/flutter_launcher_icons
@@ -232,7 +224,7 @@ init-firebase: ## Init firebase
 				@npm install -g firebase-tools
 				@firebase login
 				@firebase init
-#				@fvm dart pub global activate flutterfire_cli
+#				@dart pub global activate flutterfire_cli
 #				@flutterfire configure \
 #				-i tld.domain.app \
 #				-m tld.domain.app \
@@ -385,13 +377,13 @@ build-android-and-install-prod: build-android-prod ## Build and install for Andr
 .PHONY: build-android-for-google
 build-android-for-google: analyze test-unit-all ## Build for Android with GMS & production environment
 				@echo "$(LOG_PREFIX) Building Android APK for Google services flavor..."
-				@$(FLUTTER) build apk --flavor google || (echo "$(LOG_PREFIX) Error: Google services Android build failed"; exit 1)
+				@$(FLUTTER) build apk --flavor gms || (echo "$(LOG_PREFIX) Error: Google services Android build failed"; exit 1)
 				@echo "$(LOG_PREFIX) Google services Android build completed."
 
 .PHONY: build-android-for-huawei
 build-android-for-huawei: analyze test-unit-all ## Build for Android with HMS & production environment
 				@echo "$(LOG_PREFIX) Building Android APK for Huawei services flavor..."
-				@$(FLUTTER) build apk --flavor huawei || (echo "$(LOG_PREFIX) Error: Huawei services Android build failed"; exit 1)
+				@$(FLUTTER) build apk --flavor hms || (echo "$(LOG_PREFIX) Error: Huawei services Android build failed"; exit 1)
 				@echo "$(LOG_PREFIX) Huawei services Android build completed."
 
 # build-web:
@@ -401,7 +393,7 @@ build-android-for-huawei: analyze test-unit-all ## Build for Android with HMS & 
 # 	@firebase deploy
 
 #build-web-wasm: # https://docs.flutter.dev/platform-integration/web/wasm
-#	@fvm spawn main build web --wasm --release --dart-define-from-file=config/development.json --no-source-maps --pwa-strategy offline-first --web-renderer skwasm --web-resources-cdn --base-href /
+#	@flutter build web --wasm --release --dart-define-from-file=config/development.json --no-source-maps --pwa-strategy offline-first --web-renderer skwasm --web-resources-cdn --base-href /
 
 #deploy-web-wasm: build-web-wasm
 #	@firebase hosting:channel:deploy wasm --expires 14d
@@ -411,3 +403,7 @@ build-android-for-huawei: analyze test-unit-all ## Build for Android with HMS & 
 
 # build-windows:
 # 	@flutter build windows --release --dart-define-from-file=config/production.json
+
+.PHONY: check-agent-config
+check-agent-config: ## Validate portable skills and agent settings
+	@$(DART) run tool/dart/ci.dart check-agent-config

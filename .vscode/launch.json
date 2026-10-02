@@ -19,7 +19,6 @@
         "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
       }
       /* "preLaunchTask": "dart:build_runner:pubspec", */
-      /* "toolArgs": ["${env:HOME}/.pub-cache/bin/fvm", "flutter"], */
     },
     {
       "name": "debug:fake",
@@ -33,7 +32,6 @@
         "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
       }
       /* "preLaunchTask": "dart:build_runner:pubspec", */
-      /* "toolArgs": ["${env:HOME}/.pub-cache/bin/fvm", "flutter"], */
     },
     {
       "name": "debug:dev:web_server",

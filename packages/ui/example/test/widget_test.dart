@@ -9,7 +9,10 @@ import 'package:example/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'keyboard_layout_test.dart' as keyboard_layout_test;
+
 void main() {
+  keyboard_layout_test.main();
   testWidgets('UI example app test', (tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(UIExampleApp(controller: ValueNotifier<List<Page<Object?>>>([])));

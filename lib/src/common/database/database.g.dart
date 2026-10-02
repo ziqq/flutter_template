@@ -59,8 +59,7 @@ class SettingsTbl extends Table with TableInfo<SettingsTbl, SettingsTblData> {
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
+    $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
     defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'),
   );
   @override
@@ -858,6 +857,8 @@ class LogPrefixTbl extends Table
   }
 
   @override
+  bool get withoutRowId => true;
+  @override
   bool get isStrict => true;
   @override
   List<String> get customConstraints => const [
@@ -978,20 +979,17 @@ class LogPrefixTblCompanion extends UpdateCompanion<LogPrefixTblData> {
   final Value<int> logId;
   final Value<String> word;
   final Value<int> len;
-  final Value<int> rowid;
   const LogPrefixTblCompanion({
     this.prefix = const Value.absent(),
     this.logId = const Value.absent(),
     this.word = const Value.absent(),
     this.len = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   LogPrefixTblCompanion.insert({
     required String prefix,
     required int logId,
     required String word,
     required int len,
-    this.rowid = const Value.absent(),
   }) : prefix = Value(prefix),
        logId = Value(logId),
        word = Value(word),
@@ -1001,14 +999,12 @@ class LogPrefixTblCompanion extends UpdateCompanion<LogPrefixTblData> {
     Expression<int>? logId,
     Expression<String>? word,
     Expression<int>? len,
-    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (prefix != null) 'prefix': prefix,
       if (logId != null) 'log_id': logId,
       if (word != null) 'word': word,
       if (len != null) 'len': len,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
@@ -1017,14 +1013,12 @@ class LogPrefixTblCompanion extends UpdateCompanion<LogPrefixTblData> {
     Value<int>? logId,
     Value<String>? word,
     Value<int>? len,
-    Value<int>? rowid,
   }) {
     return LogPrefixTblCompanion(
       prefix: prefix ?? this.prefix,
       logId: logId ?? this.logId,
       word: word ?? this.word,
       len: len ?? this.len,
-      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -1043,9 +1037,6 @@ class LogPrefixTblCompanion extends UpdateCompanion<LogPrefixTblData> {
     if (len.present) {
       map['len'] = Variable<int>(len.value);
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
     return map;
   }
 
@@ -1055,8 +1046,7 @@ class LogPrefixTblCompanion extends UpdateCompanion<LogPrefixTblData> {
           ..write('prefix: $prefix, ')
           ..write('logId: $logId, ')
           ..write('word: $word, ')
-          ..write('len: $len, ')
-          ..write('rowid: $rowid')
+          ..write('len: $len')
           ..write(')'))
         .toString();
   }
@@ -1118,8 +1108,7 @@ class CharacteristicTbl extends Table
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
+    $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
     defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'),
   );
   @override
@@ -1522,8 +1511,7 @@ class KvTbl extends Table with TableInfo<KvTbl, KvTblData> {
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
-    $customConstraints:
-        'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
+    $customConstraints: 'NOT NULL DEFAULT (strftime(\'%s\', \'now\')) CHECK (meta_updated_at >= meta_created_at)',
     defaultValue: const CustomExpression('strftime(\'%s\', \'now\')'),
   );
   @override
@@ -1640,6 +1628,8 @@ class KvTbl extends Table with TableInfo<KvTbl, KvTblData> {
     return KvTbl(attachedDatabase, alias);
   }
 
+  @override
+  bool get withoutRowId => true;
   @override
   bool get isStrict => true;
   @override
@@ -1824,7 +1814,6 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
   final Value<int?> vbool;
   final Value<int> metaCreatedAt;
   final Value<int> metaUpdatedAt;
-  final Value<int> rowid;
   const KvTblCompanion({
     this.k = const Value.absent(),
     this.vstring = const Value.absent(),
@@ -1833,7 +1822,6 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
     this.vbool = const Value.absent(),
     this.metaCreatedAt = const Value.absent(),
     this.metaUpdatedAt = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   KvTblCompanion.insert({
     required String k,
@@ -1843,7 +1831,6 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
     this.vbool = const Value.absent(),
     this.metaCreatedAt = const Value.absent(),
     this.metaUpdatedAt = const Value.absent(),
-    this.rowid = const Value.absent(),
   }) : k = Value(k);
   static Insertable<KvTblData> custom({
     Expression<String>? k,
@@ -1853,7 +1840,6 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
     Expression<int>? vbool,
     Expression<int>? metaCreatedAt,
     Expression<int>? metaUpdatedAt,
-    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (k != null) 'k': k,
@@ -1863,7 +1849,6 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
       if (vbool != null) 'vbool': vbool,
       if (metaCreatedAt != null) 'meta_created_at': metaCreatedAt,
       if (metaUpdatedAt != null) 'meta_updated_at': metaUpdatedAt,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
@@ -1875,7 +1860,6 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
     Value<int?>? vbool,
     Value<int>? metaCreatedAt,
     Value<int>? metaUpdatedAt,
-    Value<int>? rowid,
   }) {
     return KvTblCompanion(
       k: k ?? this.k,
@@ -1885,7 +1869,6 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
       vbool: vbool ?? this.vbool,
       metaCreatedAt: metaCreatedAt ?? this.metaCreatedAt,
       metaUpdatedAt: metaUpdatedAt ?? this.metaUpdatedAt,
-      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -1913,9 +1896,6 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
     if (metaUpdatedAt.present) {
       map['meta_updated_at'] = Variable<int>(metaUpdatedAt.value);
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
     return map;
   }
 
@@ -1928,8 +1908,7 @@ class KvTblCompanion extends UpdateCompanion<KvTblData> {
           ..write('vdouble: $vdouble, ')
           ..write('vbool: $vbool, ')
           ..write('metaCreatedAt: $metaCreatedAt, ')
-          ..write('metaUpdatedAt: $metaUpdatedAt, ')
-          ..write('rowid: $rowid')
+          ..write('metaUpdatedAt: $metaUpdatedAt')
           ..write(')'))
         .toString();
   }
@@ -2054,24 +2033,22 @@ abstract class _$Database extends GeneratedDatabase {
   ]);
 }
 
-typedef $SettingsTblCreateCompanionBuilder =
-    SettingsTblCompanion Function({
-      required String userId,
-      required String jsonData,
-      Value<String?> memo,
-      Value<int> metaCreatedAt,
-      Value<int> metaUpdatedAt,
-      Value<int> rowid,
-    });
-typedef $SettingsTblUpdateCompanionBuilder =
-    SettingsTblCompanion Function({
-      Value<String> userId,
-      Value<String> jsonData,
-      Value<String?> memo,
-      Value<int> metaCreatedAt,
-      Value<int> metaUpdatedAt,
-      Value<int> rowid,
-    });
+typedef $SettingsTblCreateCompanionBuilder = SettingsTblCompanion Function({
+  required String userId,
+  required String jsonData,
+  Value<String?> memo,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+  Value<int> rowid,
+});
+typedef $SettingsTblUpdateCompanionBuilder = SettingsTblCompanion Function({
+  Value<String> userId,
+  Value<String> jsonData,
+  Value<String?> memo,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+  Value<int> rowid,
+});
 
 class $SettingsTblFilterComposer extends Composer<_$Database, SettingsTbl> {
   $SettingsTblFilterComposer({
@@ -2255,22 +2232,20 @@ typedef $SettingsTblProcessedTableManager =
       SettingsTblData,
       PrefetchHooks Function()
     >;
-typedef $LogTblCreateCompanionBuilder =
-    LogTblCompanion Function({
-      Value<int> id,
-      Value<int> time,
-      required int level,
-      required String message,
-      Value<String?> stack,
-    });
-typedef $LogTblUpdateCompanionBuilder =
-    LogTblCompanion Function({
-      Value<int> id,
-      Value<int> time,
-      Value<int> level,
-      Value<String> message,
-      Value<String?> stack,
-    });
+typedef $LogTblCreateCompanionBuilder = LogTblCompanion Function({
+  Value<int> id,
+  Value<int> time,
+  required int level,
+  required String message,
+  Value<String?> stack,
+});
+typedef $LogTblUpdateCompanionBuilder = LogTblCompanion Function({
+  Value<int> id,
+  Value<int> time,
+  Value<int> level,
+  Value<String> message,
+  Value<String?> stack,
+});
 
 class $LogTblFilterComposer extends Composer<_$Database, LogTbl> {
   $LogTblFilterComposer({
@@ -2440,22 +2415,18 @@ typedef $LogTblProcessedTableManager =
       LogTblData,
       PrefetchHooks Function()
     >;
-typedef $LogPrefixTblCreateCompanionBuilder =
-    LogPrefixTblCompanion Function({
-      required String prefix,
-      required int logId,
-      required String word,
-      required int len,
-      Value<int> rowid,
-    });
-typedef $LogPrefixTblUpdateCompanionBuilder =
-    LogPrefixTblCompanion Function({
-      Value<String> prefix,
-      Value<int> logId,
-      Value<String> word,
-      Value<int> len,
-      Value<int> rowid,
-    });
+typedef $LogPrefixTblCreateCompanionBuilder = LogPrefixTblCompanion Function({
+  required String prefix,
+  required int logId,
+  required String word,
+  required int len,
+});
+typedef $LogPrefixTblUpdateCompanionBuilder = LogPrefixTblCompanion Function({
+  Value<String> prefix,
+  Value<int> logId,
+  Value<String> word,
+  Value<int> len,
+});
 
 class $LogPrefixTblFilterComposer extends Composer<_$Database, LogPrefixTbl> {
   $LogPrefixTblFilterComposer({
@@ -2572,13 +2543,11 @@ class $LogPrefixTblTableManager
                 Value<int> logId = const Value.absent(),
                 Value<String> word = const Value.absent(),
                 Value<int> len = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => LogPrefixTblCompanion(
                 prefix: prefix,
                 logId: logId,
                 word: word,
                 len: len,
-                rowid: rowid,
               ),
           createCompanionCallback:
               ({
@@ -2586,13 +2555,11 @@ class $LogPrefixTblTableManager
                 required int logId,
                 required String word,
                 required int len,
-                Value<int> rowid = const Value.absent(),
               }) => LogPrefixTblCompanion.insert(
                 prefix: prefix,
                 logId: logId,
                 word: word,
                 len: len,
-                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -2827,28 +2794,24 @@ typedef $CharacteristicTblProcessedTableManager =
       CharacteristicTblData,
       PrefetchHooks Function()
     >;
-typedef $KvTblCreateCompanionBuilder =
-    KvTblCompanion Function({
-      required String k,
-      Value<String?> vstring,
-      Value<int?> vint,
-      Value<double?> vdouble,
-      Value<int?> vbool,
-      Value<int> metaCreatedAt,
-      Value<int> metaUpdatedAt,
-      Value<int> rowid,
-    });
-typedef $KvTblUpdateCompanionBuilder =
-    KvTblCompanion Function({
-      Value<String> k,
-      Value<String?> vstring,
-      Value<int?> vint,
-      Value<double?> vdouble,
-      Value<int?> vbool,
-      Value<int> metaCreatedAt,
-      Value<int> metaUpdatedAt,
-      Value<int> rowid,
-    });
+typedef $KvTblCreateCompanionBuilder = KvTblCompanion Function({
+  required String k,
+  Value<String?> vstring,
+  Value<int?> vint,
+  Value<double?> vdouble,
+  Value<int?> vbool,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+});
+typedef $KvTblUpdateCompanionBuilder = KvTblCompanion Function({
+  Value<String> k,
+  Value<String?> vstring,
+  Value<int?> vint,
+  Value<double?> vdouble,
+  Value<int?> vbool,
+  Value<int> metaCreatedAt,
+  Value<int> metaUpdatedAt,
+});
 
 class $KvTblFilterComposer extends Composer<_$Database, KvTbl> {
   $KvTblFilterComposer({
@@ -3007,7 +2970,6 @@ class $KvTblTableManager
                 Value<int?> vbool = const Value.absent(),
                 Value<int> metaCreatedAt = const Value.absent(),
                 Value<int> metaUpdatedAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => KvTblCompanion(
                 k: k,
                 vstring: vstring,
@@ -3016,7 +2978,6 @@ class $KvTblTableManager
                 vbool: vbool,
                 metaCreatedAt: metaCreatedAt,
                 metaUpdatedAt: metaUpdatedAt,
-                rowid: rowid,
               ),
           createCompanionCallback:
               ({
@@ -3027,7 +2988,6 @@ class $KvTblTableManager
                 Value<int?> vbool = const Value.absent(),
                 Value<int> metaCreatedAt = const Value.absent(),
                 Value<int> metaUpdatedAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => KvTblCompanion.insert(
                 k: k,
                 vstring: vstring,
@@ -3036,7 +2996,6 @@ class $KvTblTableManager
                 vbool: vbool,
                 metaCreatedAt: metaCreatedAt,
                 metaUpdatedAt: metaUpdatedAt,
-                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

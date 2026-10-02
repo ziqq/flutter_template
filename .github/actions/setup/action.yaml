@@ -2,10 +2,6 @@ name: Setup
 description: Sets up the Flutter environment
 
 inputs:
-  flutter-version:
-    description: 'The version of Flutter to use'
-    required: false
-    default: '3.35.5'
   pub-cache:
     description: 'The name of the pub cache variable'
     required: false
@@ -29,11 +25,8 @@ runs:
         sed -i "s/^version: .*/version: ${VERSION}/" pubspec.yaml
         echo "Version set to $VERSION"
 
-    - name: 🚂 Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '${{ inputs.flutter-version }}'
-        channel: "stable"
+    - name: 🚂 Setup project tools
+      uses: jdx/mise-action@v3
 
     - name: 📤 Restore Pub modules
       id: cache-pub-restore
@@ -49,12 +42,12 @@ runs:
         echo /home/runner/.pub-cache/bin >> $GITHUB_PATH
         dart --disable-analytics
         flutter config --no-cli-animations --no-analytics
-        flutter pub get --no-example
+        mise exec -- make get
 
     - name: ⏲️ Run build runner
       shell: bash
       run: |
-        dart run build_runner build --delete-conflicting-outputs --release
+        mise exec -- make gen
 
     - name: 📥 Save Pub modules
       id: cache-pub-save

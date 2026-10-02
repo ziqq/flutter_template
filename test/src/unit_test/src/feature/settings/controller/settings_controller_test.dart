@@ -1,18 +1,26 @@
+import 'package:flutter_template_name/src/common/api_client/api_exception.dart' show ApiException;
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/feature/settings/controller/settings_controller.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_settings.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_theme.dart';
 import 'package:flutter_template_name/src/feature/settings/model/user_preferences.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 
 import '../../../../../util/test_util.dart';
+import '../../../../../util/test_util.mocks.dart';
 
+/// Unit tests for the settings feature: the [SettingsController] behaviour
+/// (restore and every preference/settings setter, incl. `setUseIOS26LiquidTheme`)
+/// and the [SettingsState] value semantics.
 void main() {
   _$controllerTest();
   _$stateTest();
 }
 
+/// Tests for [SettingsController]: success and failure paths of `restore()`
+/// and each setter, verifying the emitted state and repository interactions.
 void _$controllerTest() => group('SettingsController -', () {
   late MockSettingsRepository repository;
   late SettingsController controller;
@@ -31,11 +39,23 @@ void _$controllerTest() => group('SettingsController -', () {
     expect(controller.name, 'SettingsController');
   });
 
+  test('analytics sending preference is persisted', () async {
+    when(repository.savePreferences(any)).thenAnswer((_) async {});
+    await controller.setAnalyticsDataSendingEnabled(false);
+    expect(controller.state.preferences.analyticsDataSendingEnabled, isFalse);
+    verify(repository.savePreferences(const UserPreferences(analyticsDataSendingEnabled: false))).called(1);
+  });
+
+  test('failed analytics preference save preserves the previous setting', () async {
+    when(repository.savePreferences(any)).thenThrow(MockService.exceptions.api);
+    await controller.setAnalyticsDataSendingEnabled(false);
+    expect(controller.state.preferences.analyticsDataSendingEnabled, isTrue);
+  });
+
   group('initial state -', () {
     test('defaults', () {
       expect(controller.state.settings, const AppSettings.empty());
       expect(controller.state.preferences, const UserPreferences.empty());
-      expect(controller.state.isIdle, isTrue);
     });
   });
 
@@ -59,7 +79,6 @@ void _$controllerTest() => group('SettingsController -', () {
 
       await controller.restore();
 
-      expect(controller.state.isIdle, isTrue);
       expect(controller.state.settings, restoredSettings);
       expect(controller.state.preferences, restoredPrefs);
       expect(controller.state.message, anyOf('Settings restored', 'Idle'));
@@ -71,24 +90,23 @@ void _$controllerTest() => group('SettingsController -', () {
       when(repository.readSettings()).thenThrow(MockService.exceptions.api);
       controller.restore().ignore();
       await untilCalled(repository.readSettings());
-      expect(controller.state.isFailed, isTrue);
+      expect(controller.state.error, isA<ApiException>());
     });
   });
 
   group('setThemeMode() -', () {
     test('success', () async {
-      when(repository.saveSettings(any)).thenAnswer((_) async {});
+      when(repository.saveSettings(settings: anyNamed('settings'))).thenAnswer((_) async {});
       await controller.setThemeMode(ThemeMode.dark);
       expect(controller.state.settings.theme.themeMode, ThemeMode.dark);
-      expect(controller.state.isIdle, isTrue);
-      verify(repository.saveSettings(any)).called(1);
+      verify(repository.saveSettings(settings: anyNamed('settings'))).called(1);
     });
 
     test('failure', () async {
-      when(repository.saveSettings(any)).thenThrow(MockService.exceptions.api);
+      when(repository.saveSettings(settings: anyNamed('settings'))).thenThrow(MockService.exceptions.api);
       controller.setThemeMode(ThemeMode.dark).ignore();
-      await untilCalled(repository.saveSettings(any));
-      expect(controller.state.isFailed, isTrue);
+      await untilCalled(repository.saveSettings(settings: anyNamed('settings')));
+      expect(controller.state.error, isA<ApiException>());
       expect(controller.state.message, contains(MockService.exceptions.messageError));
     });
   });
@@ -96,40 +114,41 @@ void _$controllerTest() => group('SettingsController -', () {
   group('setLocale() -', () {
     test('success', () async {
       const locale = Locale('ru');
-      when(repository.saveSettings(any)).thenAnswer((_) async {});
+      when(repository.saveSettings(settings: anyNamed('settings'))).thenAnswer((_) async {});
       await controller.setLocale(locale);
       expect(controller.state.settings.locale, locale);
-      verify(repository.saveSettings(any)).called(1);
+      verify(repository.saveSettings(settings: anyNamed('settings'))).called(1);
     });
 
     test('failure', () async {
-      when(repository.saveSettings(any)).thenThrow(MockService.exceptions.api);
+      when(repository.saveSettings(settings: anyNamed('settings'))).thenThrow(MockService.exceptions.api);
       controller.setLocale(const Locale('ru')).ignore();
-      await untilCalled(repository.saveSettings(any));
-      expect(controller.state.isFailed, isTrue);
+      await untilCalled(repository.saveSettings(settings: anyNamed('settings')));
+
+      expect(controller.state.error, isA<ApiException>());
     });
   });
 
   group('setAccentColor() -', () {
     test('set color', () async {
       const color = Color(0xFF336699);
-      when(repository.saveSettings(any)).thenAnswer((_) async {});
+      when(repository.saveSettings(settings: anyNamed('settings'))).thenAnswer((_) async {});
       await controller.setAccentColor(color);
       expect(controller.state.settings.theme.accent, color);
-      verify(repository.saveSettings(any)).called(1);
+      verify(repository.saveSettings(settings: anyNamed('settings'))).called(1);
     });
 
     test('remove color', () async {
-      when(repository.saveSettings(any)).thenAnswer((_) async {});
+      when(repository.saveSettings(settings: anyNamed('settings'))).thenAnswer((_) async {});
       await controller.setAccentColor(null);
       expect(controller.state.settings.theme.accent, isNull);
     });
 
     test('failure', () async {
-      when(repository.saveSettings(any)).thenThrow(MockService.exceptions.api);
+      when(repository.saveSettings(settings: anyNamed('settings'))).thenThrow(MockService.exceptions.api);
       controller.setAccentColor(const Color(0xFF000000)).ignore();
-      await untilCalled(repository.saveSettings(any));
-      expect(controller.state.isFailed, isTrue);
+      await untilCalled(repository.saveSettings(settings: anyNamed('settings')));
+      expect(controller.state.error, isA<ApiException>());
     });
   });
 
@@ -145,7 +164,7 @@ void _$controllerTest() => group('SettingsController -', () {
       when(repository.savePreferences(any)).thenThrow(MockService.exceptions.api);
       controller.setUseBeta(true).ignore();
       await untilCalled(repository.savePreferences(any));
-      expect(controller.state.isFailed, isTrue);
+      expect(controller.state.error, isA<ApiException>());
     });
   });
 
@@ -160,7 +179,7 @@ void _$controllerTest() => group('SettingsController -', () {
       when(repository.savePreferences(any)).thenThrow(MockService.exceptions.api);
       controller.setUseDebug(true).ignore();
       await untilCalled(repository.savePreferences(any));
-      expect(controller.state.isFailed, isTrue);
+      expect(controller.state.error, isA<ApiException>());
     });
   });
 
@@ -176,7 +195,7 @@ void _$controllerTest() => group('SettingsController -', () {
       when(repository.savePreferences(any)).thenThrow(MockService.exceptions.api);
       controller.setUseDevelompent(true).ignore();
       await untilCalled(repository.savePreferences(any));
-      expect(controller.state.isFailed, isTrue);
+      expect(controller.state.error, isA<ApiException>());
     });
   });
 
@@ -191,7 +210,7 @@ void _$controllerTest() => group('SettingsController -', () {
       when(repository.savePreferences(any)).thenThrow(MockService.exceptions.api);
       controller.setUseExpiremental(true).ignore();
       await untilCalled(repository.savePreferences(any));
-      expect(controller.state.isFailed, isTrue);
+      expect(controller.state.error, isA<ApiException>());
     });
   });
 
@@ -206,20 +225,38 @@ void _$controllerTest() => group('SettingsController -', () {
       when(repository.savePreferences(any)).thenThrow(MockService.exceptions.api);
       controller.setUseHapticFeedback(false).ignore();
       await untilCalled(repository.savePreferences(any));
-      expect(controller.state.isFailed, isTrue);
+      expect(controller.state.error, isA<ApiException>());
+    });
+  });
+
+  // Toggling the iOS 26+ liquid theme persists the flag and reflects it in state.
+  group('setUseIOS26LiquidTheme() -', () {
+    test('success', () async {
+      when(repository.savePreferences(any)).thenAnswer((_) async {});
+      await controller.setUseIOS26LiquidTheme(false);
+      expect(controller.state.preferences.useIOS26LiquidTheme, isFalse);
+      verify(repository.savePreferences(any)).called(1);
+    });
+
+    test('failure', () async {
+      when(repository.savePreferences(any)).thenThrow(MockService.exceptions.api);
+      controller.setUseIOS26LiquidTheme(true).ignore();
+      await untilCalled(repository.savePreferences(any));
+      expect(controller.state.error, isA<ApiException>());
     });
   });
 });
 
+/// Tests for [SettingsState]: construction of each variant, pattern-matching
+/// helpers (`map`/`maybeMap`/`mapOrNull`), equality, `hashCode` and `toString`.
 void _$stateTest() => group('SettingsState -', () {
-  const locale = Locale('ru');
-  const themeMode = ThemeMode.dark;
+  const message = MockService.message;
+  const locale = Config.locale;
   const useBeta = true;
   const useDebug = true;
   const useDevelopment = true;
   const useExpiremental = true;
   const useHapticFeedback = true;
-  const message = MockService.message;
 
   const preferences = UserPreferences(
     useBeta: useBeta,
@@ -228,11 +265,7 @@ void _$stateTest() => group('SettingsState -', () {
     useExpiremental: useExpiremental,
     useHapticFeedback: useHapticFeedback,
   );
-  const settings = AppSettings(
-    theme: AppTheme(themeMode: themeMode, accent: null),
-    locale: locale,
-    textScale: 1,
-  );
+  const settings = AppSettings(theme: .empty(), locale: locale, textScale: 1);
 
   const processingState = SettingsState.processing(preferences: preferences, settings: settings);
   const failedState = SettingsState.failed(preferences: preferences, settings: settings);
@@ -240,37 +273,29 @@ void _$stateTest() => group('SettingsState -', () {
 
   test('Processing state should be created correctly', () {
     expect(processingState, isA<SettingsState$Processing>());
-    expect(processingState.type, 'processing');
     expect(processingState.isProcessing, isTrue);
-    expect(processingState.isFailed, isFalse);
-    expect(processingState.isIdle, isFalse);
+    expect(processingState.type, 'processing');
   });
 
   test('Failed state should be created correctly', () {
     expect(failedState, isA<SettingsState$Failed>());
-    expect(failedState.type, 'failed');
-    expect(failedState.isFailed, isTrue);
-    expect(failedState.isIdle, isFalse);
     expect(failedState.isProcessing, isFalse);
+    expect(failedState.type, 'failed');
   });
 
   test('Idle state should be created correctly', () {
     expect(idleState, isA<SettingsState$Idle>());
-    expect(idleState.type, 'idle');
-    expect(idleState.isIdle, isTrue);
-    expect(idleState.isFailed, isFalse);
     expect(idleState.isProcessing, isFalse);
     expect(idleState.message, 'Idle');
+    expect(idleState.type, 'idle');
   });
 
   test('map should correctly handle all states', () {
     expect(idleState.map(processing: (_) => 'processing', failed: (_) => 'failed', idle: (_) => 'idle'), 'idle');
-
     expect(
       processingState.map(processing: (_) => 'processing', failed: (_) => 'failed', idle: (_) => 'idle'),
       'processing',
     );
-
     expect(failedState.map(processing: (_) => 'processing', failed: (_) => 'failed', idle: (_) => 'idle'), 'failed');
   });
 
@@ -278,7 +303,6 @@ void _$stateTest() => group('SettingsState -', () {
     expect(processingState.maybeMap<String?>(processing: (_) => 'processing', orElse: () => 'other'), 'processing');
     expect(failedState.maybeMap<String?>(failed: (_) => 'failed', orElse: () => 'other'), 'failed');
     expect(idleState.maybeMap<String?>(idle: (_) => 'idle', orElse: () => 'other'), 'idle');
-
     expect(processingState.maybeMap<String?>(failed: (_) => 'failed', orElse: () => 'other'), 'other');
     expect(failedState.maybeMap<String?>(processing: (_) => 'processing', orElse: () => 'other'), 'other');
     expect(idleState.maybeMap<String?>(processing: (_) => 'processing', orElse: () => 'other'), 'other');
@@ -288,7 +312,6 @@ void _$stateTest() => group('SettingsState -', () {
     expect(processingState.mapOrNull<String?>(processing: (_) => 'processing'), 'processing');
     expect(failedState.mapOrNull<String?>(failed: (_) => 'failed'), 'failed');
     expect(idleState.mapOrNull<String?>(idle: (_) => 'idle'), 'idle');
-
     expect(processingState.mapOrNull<String?>(failed: (_) => 'failed', idle: (_) => 'idle'), null);
     expect(failedState.mapOrNull<String?>(processing: (_) => 'processing', idle: (_) => 'idle'), null);
     expect(idleState.mapOrNull<String?>(processing: (_) => 'processing', failed: (_) => 'failed'), null);
@@ -307,7 +330,6 @@ void _$stateTest() => group('SettingsState -', () {
         settings: settings.copyWith(locale: const Locale('fr')),
         message: message,
       );
-
       expect(idleState.hashCode != processingState.hashCode, isTrue);
       expect(idleState.hashCode != failedState.hashCode, isTrue);
       expect(processingState.hashCode != failedState.hashCode, isTrue);
@@ -330,6 +352,17 @@ void _$stateTest() => group('SettingsState -', () {
       );
       expect(idleState, isNot(equals(otherState)));
       expect(idleState.hashCode, isNot(equals(otherState.hashCode)));
+    });
+
+    test('Should treat states with same preferences settings and type as equal', () {
+      const first = SettingsState.idle(preferences: .empty(), settings: settings);
+      const second = SettingsState.idle(preferences: .empty(), settings: settings);
+      expect(first == first, isTrue);
+      expect(first, equals(second));
+
+      const third = SettingsState.idle(preferences: .empty(), settings: .empty());
+      const fourth = SettingsState.processing(preferences: .empty(), settings: .empty());
+      expect(third, isNot(equals(fourth)));
     });
   });
 });

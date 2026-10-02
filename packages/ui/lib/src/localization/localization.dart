@@ -18,6 +18,10 @@ abstract class UILocalizations {
   String get closeButton;
   String get doneButton;
   String get moreLabel;
+  String get lessLabel => 'Less';
+  String get clearLabel => 'Clear';
+  String get hourShortLabel => 'h';
+  String get minuteShortLabel => 'min';
   String get actionNext;
   String get cancelButton;
   String get selectLabel;
@@ -46,6 +50,8 @@ abstract class UILocalizations {
   String get requestPermissionTitle;
   String get requestPermissionPhotos;
   String get screenEditPhotoTitle;
+  String get showPasswordButton;
+  String get hidePasswordButton;
 
   /// UILocalizations delegate.
   static const LocalizationsDelegate<UILocalizations> delegate = _LocalizationView();
@@ -81,6 +87,12 @@ abstract class UILocalizations {
 class UILocalizations$Default extends UILocalizations {
   /// Creates a default English localization.
   const UILocalizations$Default();
+
+  @override
+  String get showPasswordButton => 'Show password';
+
+  @override
+  String get hidePasswordButton => 'Hide password';
 
   @override
   String get language => 'English';
@@ -190,6 +202,21 @@ class UILocalizations$Default extends UILocalizations {
 class UILocalizations$RU extends UILocalizations {
   /// Creates a Russian localization.
   const UILocalizations$RU();
+
+  @override
+  String get lessLabel => 'Свернуть';
+  @override
+  String get clearLabel => 'Очистить';
+  @override
+  String get hourShortLabel => 'ч';
+  @override
+  String get minuteShortLabel => 'мин';
+
+  @override
+  String get showPasswordButton => 'Показать пароль';
+
+  @override
+  String get hidePasswordButton => 'Скрыть пароль';
 
   @override
   String get language => 'Русский';

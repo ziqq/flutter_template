@@ -12,7 +12,7 @@ import 'package:ui/ui.dart';
 /// {@endtemplate}
 class CommonPadding extends EdgeInsets {
   /// {@macro common_padding}
-  const CommonPadding._(final double value) : super.symmetric(horizontal: value);
+  const CommonPadding._(double value) : super.symmetric(horizontal: value);
 
   /// {@macro common_padding}
   factory CommonPadding.of(BuildContext context) => CommonPadding._(

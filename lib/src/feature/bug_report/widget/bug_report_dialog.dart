@@ -94,8 +94,8 @@ class _BugReportDialogState extends State<BugReportDialog> {
                       ),
                       SizedBox(height: theme.uiTheme.size.offset.large),
                       // --- Form with attached logs --- //
-                      UIListSection.secodary(
-                        textFooter: Localization.of(context).bugReportAttachLogsHelpText,
+                      UIListSection.secondary(
+                        footer: Localization.of(context).bugReportAttachLogsHelpText,
                         children: <Widget>[
                           Stack(
                             children: <Widget>[
@@ -140,18 +140,10 @@ class _BugReportDialogState extends State<BugReportDialog> {
                           ),
                           ValueListenableBuilder<bool>(
                             valueListenable: _attachLogs,
-                            builder:
-                                (_, value, _) => /* UICupertinoFormRow.withSwitch(
-                              value: value,
-                              title: context.ext.l10n.errors.sendLogsButton,
-                              onChanged: (value) => _attachLogs.value = value,
-                            ) */ CupertinoListTile(
-                                  title: Text(Localization.of(context).bugReportAttachLogsToggleLabel),
-                                  additionalInfo: UISwitch(
-                                    value: value,
-                                    onChanged: (value) => _attachLogs.value = value,
-                                  ),
-                                ),
+                            builder: (_, value, _) => CupertinoListTile(
+                              title: Text(Localization.of(context).bugReportAttachLogsToggleLabel),
+                              additionalInfo: UISwitch(value: value, onChanged: (value) => _attachLogs.value = value),
+                            ),
                           ),
                         ],
                       ),

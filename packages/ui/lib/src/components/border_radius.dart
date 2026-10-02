@@ -7,7 +7,7 @@ import 'package:ui/ui.dart';
 /// {@endtemplate}
 class UIBorderRadius extends BorderRadius {
   /// {@macro border_radius}
-  UIBorderRadius._(final double value) : super.all(Radius.circular(value));
+  UIBorderRadius._(double value) : super.all(Radius.circular(value));
 
   /// Regular border radius.
   ///

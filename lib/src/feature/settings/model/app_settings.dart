@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_theme.dart';
-import 'package:meta/meta.dart';
 
 /// {@template app_settings}
 /// Application settings

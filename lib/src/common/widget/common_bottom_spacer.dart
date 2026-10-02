@@ -58,6 +58,7 @@ class CommonBottomSpacer extends StatelessWidget {
     if (defaultTargetPlatform != .android) return false;
     final safeInset = bottomSafeInsetOf(context);
     final gestureInset = bottomGestureInsetOf(context);
+    if (safeInset > .0 && gestureInset == .0) return true;
     return safeInset >= _kAndroidNavigationBarThreshold || gestureInset >= _kAndroidNavigationBarThreshold;
   }
 

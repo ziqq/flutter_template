@@ -80,3 +80,5 @@ integration_test/screenshots
 temp/
 .tmp/
 tmp/
+# Personal agent permissions stay local.
+.claude/settings.local.json

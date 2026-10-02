@@ -1,9 +1,14 @@
+/*
+ * Author: Anton Ustinoff <https://github.com/ziqq> | <a.a.ustinoff@gmail.com>
+ * Date: 05 January 2024
+ */
+
+import 'package:flutter/material.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:flutter_template_name/src/feature/settings/controller/settings_controller.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_settings.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_theme.dart';
 import 'package:flutter_template_name/src/feature/settings/model/user_preferences.dart';
-import 'package:ui/ui.dart';
 
 /// The aspect of the [SettingsScope].
 enum SettingsAspect {
@@ -127,12 +132,15 @@ class _SettingsScopeState extends State<SettingsScope> {
 
   void _onStateChanged() {
     if (!mounted) return;
-    if (_controller.state.isProcessing) return;
 
     final newState = _controller.state;
     final prevState = _state;
 
     if (identical(newState, prevState)) return;
+
+    if (newState.preferences.analyticsDataSendingEnabled != prevState.preferences.analyticsDataSendingEnabled) {
+      Dependencies.of(context).analytics.setConsent(newState.preferences.analyticsDataSendingEnabled).ignore();
+    }
 
     _state = newState;
     setState(() {});
@@ -220,8 +228,7 @@ class _InheritedSettings extends InheritedModel<SettingsAspect> {
       maybeOf(context, aspect: aspect) ?? _notFoundInheritedWidgetOfExactType();
 
   @override
-  bool updateShouldNotify(covariant _InheritedSettings oldWidget) =>
-      !identical(oldWidget.settings, settings) || !identical(oldWidget.userPreferences, userPreferences);
+  bool updateShouldNotify(covariant _InheritedSettings oldWidget) => !identical(oldWidget.state, state);
 
   @override
   bool updateShouldNotifyDependent(_InheritedSettings oldWidget, Set<Object> dependencies) {

@@ -78,6 +78,17 @@ void main() => group('CommonBottomSpacer -', () {
   });
 
   group('system inset helpers -', () {
+    testWidgets('recognizes button navigation with a small safe inset and no gesture inset', (tester) async {
+      await _resolvePlatform(TargetPlatform.android, () async {
+        final result = await _pumpWidget(
+          tester,
+          mediaQueryData: const MediaQueryData(viewPadding: EdgeInsets.only(bottom: 24)),
+          builder: CommonBottomSpacer.hasAndroidNavigationBarOf,
+        );
+        expect(result, isTrue);
+      });
+    });
+
     testWidgets('builder bottom gesture, safe and keyboard insets from MediaQuery', (tester) async {
       final result = await _pumpWidget(
         tester,

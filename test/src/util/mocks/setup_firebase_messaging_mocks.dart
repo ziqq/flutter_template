@@ -31,9 +31,8 @@ void setupFirebaseMessagingMocks() {
   // Mock Platform Interface Methods
   when(kMockMessagingPlatform.delegateFor(app: anyNamed('app'))).thenReturn(kMockMessagingPlatform);
 
-  when(
-    kMockMessagingPlatform.setInitialValues(isAutoInitEnabled: anyNamed('isAutoInitEnabled')),
-  ).thenReturn(kMockMessagingPlatform);
+  when(kMockMessagingPlatform.setInitialValues(isAutoInitEnabled: anyNamed('isAutoInitEnabled')))
+      .thenReturn(kMockMessagingPlatform);
 }
 
 // Platform Interface Mock Classes
@@ -53,67 +52,53 @@ class MockFirebaseMessaging extends Mock with MockPlatformInterfaceMixin impleme
           as bool;
 
   @override
-  FirebaseMessagingPlatform delegateFor({FirebaseApp? app}) =>
-      super.noSuchMethod(
-            Invocation.method(#delegateFor, [], {#app: app}),
-            returnValue: TestFirebaseMessagingPlatform(),
-            returnValueForMissingStub: TestFirebaseMessagingPlatform(),
-          )
-          as FirebaseMessagingPlatform;
+  FirebaseMessagingPlatform delegateFor({FirebaseApp? app}) => super.noSuchMethod(
+    Invocation.method(#delegateFor, [], {#app: app}),
+    returnValue: TestFirebaseMessagingPlatform(),
+    returnValueForMissingStub: TestFirebaseMessagingPlatform(),
+  ) as FirebaseMessagingPlatform;
 
   @override
-  FirebaseMessagingPlatform setInitialValues({bool? isAutoInitEnabled}) =>
-      super.noSuchMethod(
-            Invocation.method(#setInitialValues, [], {#isAutoInitEnabled: isAutoInitEnabled}),
-            returnValue: TestFirebaseMessagingPlatform(),
-            returnValueForMissingStub: TestFirebaseMessagingPlatform(),
-          )
-          as FirebaseMessagingPlatform;
+  FirebaseMessagingPlatform setInitialValues({bool? isAutoInitEnabled}) => super.noSuchMethod(
+    Invocation.method(#setInitialValues, [], {#isAutoInitEnabled: isAutoInitEnabled}),
+    returnValue: TestFirebaseMessagingPlatform(),
+    returnValueForMissingStub: TestFirebaseMessagingPlatform(),
+  ) as FirebaseMessagingPlatform;
 
   @override
-  Future<void> deleteToken() =>
-      super.noSuchMethod(
-            Invocation.method(#deleteToken, []),
-            returnValue: Future<void>.value(),
-            returnValueForMissingStub: Future<void>.value(),
-          )
-          as Future<void>;
+  Future<void> deleteToken() => super.noSuchMethod(
+    Invocation.method(#deleteToken, []),
+    returnValue: Future<void>.value(),
+    returnValueForMissingStub: Future<void>.value(),
+  ) as Future<void>;
 
   @override
-  Future<String?> getAPNSToken() =>
-      super.noSuchMethod(
-            Invocation.method(#getAPNSToken, []),
-            returnValue: Future<String>.value(''),
-            returnValueForMissingStub: Future<String>.value(''),
-          )
-          as Future<String?>;
+  Future<String?> getAPNSToken() => super.noSuchMethod(
+    Invocation.method(#getAPNSToken, []),
+    returnValue: Future<String>.value(''),
+    returnValueForMissingStub: Future<String>.value(''),
+  ) as Future<String?>;
 
   @override
-  Future<String> getToken({String? serviceWorkerScriptPath, String? vapidKey}) =>
-      super.noSuchMethod(
-            Invocation.method(#getToken, [], {#vapidKey: vapidKey}),
-            returnValue: Future<String>.value(''),
-            returnValueForMissingStub: Future<String>.value(''),
-          )
-          as Future<String>;
+  Future<String> getToken({String? serviceWorkerScriptPath, String? vapidKey}) => super.noSuchMethod(
+    Invocation.method(#getToken, [], {#vapidKey: vapidKey}),
+    returnValue: Future<String>.value(''),
+    returnValueForMissingStub: Future<String>.value(''),
+  ) as Future<String>;
 
   @override
-  Future<void> setAutoInitEnabled(bool? enabled) =>
-      super.noSuchMethod(
-            Invocation.method(#setAutoInitEnabled, [enabled]),
-            returnValue: Future<void>.value(),
-            returnValueForMissingStub: Future<void>.value(),
-          )
-          as Future<void>;
+  Future<void> setAutoInitEnabled(bool? enabled) => super.noSuchMethod(
+    Invocation.method(#setAutoInitEnabled, [enabled]),
+    returnValue: Future<void>.value(),
+    returnValueForMissingStub: Future<void>.value(),
+  ) as Future<void>;
 
   @override
-  Stream<String> get onTokenRefresh =>
-      super.noSuchMethod(
-            Invocation.getter(#onTokenRefresh),
-            returnValue: const Stream<String>.empty(),
-            returnValueForMissingStub: const Stream<String>.empty(),
-          )
-          as Stream<String>;
+  Stream<String> get onTokenRefresh => super.noSuchMethod(
+    Invocation.getter(#onTokenRefresh),
+    returnValue: const Stream<String>.empty(),
+    returnValueForMissingStub: const Stream<String>.empty(),
+  ) as Stream<String>;
 
   @override
   Future<NotificationSettings> requestPermission({
@@ -125,40 +110,34 @@ class MockFirebaseMessaging extends Mock with MockPlatformInterfaceMixin impleme
     bool providesAppNotificationSettings = false,
     bool provisional = false,
     bool sound = true,
-  }) =>
-      super.noSuchMethod(
-            Invocation.method(#requestPermission, [], {
-              #alert: alert,
-              #announcement: announcement,
-              #badge: badge,
-              #carPlay: carPlay,
-              #criticalAlert: criticalAlert,
-              #providesAppNotificationSettings: providesAppNotificationSettings, // Новый параметр
-              #provisional: provisional,
-              #sound: sound,
-            }),
-            returnValue: neverEndingFuture<NotificationSettings>(),
-            returnValueForMissingStub: neverEndingFuture<NotificationSettings>(),
-          )
-          as Future<NotificationSettings>;
+  }) => super.noSuchMethod(
+    Invocation.method(#requestPermission, [], {
+      #alert: alert,
+      #announcement: announcement,
+      #badge: badge,
+      #carPlay: carPlay,
+      #criticalAlert: criticalAlert,
+      #providesAppNotificationSettings: providesAppNotificationSettings, // Новый параметр
+      #provisional: provisional,
+      #sound: sound,
+    }),
+    returnValue: neverEndingFuture<NotificationSettings>(),
+    returnValueForMissingStub: neverEndingFuture<NotificationSettings>(),
+  ) as Future<NotificationSettings>;
 
   @override
-  Future<void> subscribeToTopic(String? topic) =>
-      super.noSuchMethod(
-            Invocation.method(#subscribeToTopic, [topic]),
-            returnValue: Future<void>.value(),
-            returnValueForMissingStub: Future<void>.value(),
-          )
-          as Future<void>;
+  Future<void> subscribeToTopic(String? topic) => super.noSuchMethod(
+    Invocation.method(#subscribeToTopic, [topic]),
+    returnValue: Future<void>.value(),
+    returnValueForMissingStub: Future<void>.value(),
+  ) as Future<void>;
 
   @override
-  Future<void> unsubscribeFromTopic(String? topic) =>
-      super.noSuchMethod(
-            Invocation.method(#unsubscribeFromTopic, [topic]),
-            returnValue: Future<void>.value(),
-            returnValueForMissingStub: Future<void>.value(),
-          )
-          as Future<void>;
+  Future<void> unsubscribeFromTopic(String? topic) => super.noSuchMethod(
+    Invocation.method(#unsubscribeFromTopic, [topic]),
+    returnValue: Future<void>.value(),
+    returnValueForMissingStub: Future<void>.value(),
+  ) as Future<void>;
 }
 
 class TestFirebaseMessagingPlatform extends FirebaseMessagingPlatform {

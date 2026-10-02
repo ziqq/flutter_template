@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT="$(fvm flutter analyze --fatal-warnings --no-fatal-infos lib/ test/)"
+OUTPUT="$(flutter analyze --fatal-warnings --no-fatal-infos lib/ test/)"
 echo "$OUTPUT"
 echo
 if grep -q "error •" echo "$OUTPUT"; then

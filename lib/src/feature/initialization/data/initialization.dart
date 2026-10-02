@@ -13,8 +13,9 @@ import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml
 import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_scope.dart';
 import 'package:flutter_template_name/src/common/util/error_util.dart';
+import 'package:flutter_template_name/src/common/util/sentry_log_breadcrumbs_processor.dart';
 import 'package:flutter_template_name/src/feature/initialization/data/initialize_dependencies.dart';
-import 'package:flutter_template_name/src/feature/initialization/data/platform/platform_initialization_vm.dart'
+import 'package:flutter_template_name/src/feature/initialization/data/platform/platform_initialization.dart'
     as platform_initialization;
 import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';
 import 'package:l/l.dart';
@@ -211,7 +212,7 @@ Future<void> $initializeApp({
           final error = event.throwable;
           if (isNetworkNoise(error)) return null; // Если throwable доступен — фильтруем по типам.
           if (isNetworkNoiseByEvent(event)) return null; // Фолбэк: фильтруем по SentryException type/value.
-          return event;
+          return sanitizeSentryEventTransportDiagnostics(event);
         }
         ..beforeCaptureScreenshot = (event, hint, debounce) {
           final error = event.throwable;

@@ -26,15 +26,15 @@ base class AppController$Sequential<S extends Object> extends StateController<S>
   final String name;
 
   @override
-  Future<void> handle(
-    Future<void> Function() handler, {
+  Future<T?> handle<T>(
+    Future<T> Function() handler, {
     Future<void> Function(Object e, StackTrace s)? error,
     Future<void> Function()? done,
     String? name,
     Map<String, Object?>? meta,
   }) async {
     final container = _AppContextContainer(); // ignore: unused_local_variable
-    return super.handle(
+    return super.handle<T>(
       () async {
         // Start transaction
         /* container.transaction =
@@ -48,7 +48,7 @@ base class AppController$Sequential<S extends Object> extends StateController<S>
               )
               ..setTag('controller', this.name)
               ..setTag('handler', name ?? 'unknown'); */
-        await handler();
+        return await handler();
       },
       error: (e, s) async {
         // Handle error
@@ -70,22 +70,22 @@ base class AppController$Sequential<S extends Object> extends StateController<S>
 
 /// Concurrent [StateController] for use with your app.
 /// This controller is used to manage the application state.
-base class AppController$Concurrent<S extends Object> extends StateController<S> with ConcurrentControllerHandler {
+base class AppController$Concurrent<S extends Object> extends StateController<S> {
   AppController$Concurrent({required super.initialState, required this.name});
 
   @override
   final String name;
 
   @override
-  Future<void> handle(
-    Future<void> Function() handler, {
+  Future<T?> handle<T>(
+    Future<T> Function() handler, {
     Future<void> Function(Object e, StackTrace s)? error,
     Future<void> Function()? done,
     String? name,
     Map<String, Object?>? meta,
   }) async {
     final container = _AppContextContainer(); // ignore: unused_local_variable
-    return super.handle(
+    return super.handle<T>(
       () async {
         // Start transaction
         /* container.transaction =
@@ -99,7 +99,7 @@ base class AppController$Concurrent<S extends Object> extends StateController<S>
               )
               ..setTag('controller', this.name)
               ..setTag('handler', name ?? 'unknown'); */
-        await handler();
+        return await handler();
       },
       error: (e, s) async {
         // Handle error

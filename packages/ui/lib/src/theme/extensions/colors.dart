@@ -108,7 +108,7 @@ class UIColors implements ThemeExtension<UIColors> {
     onAccent: Colors.white,
     ring: kAccentColor,
     surface: const Color(0xFF2C2C2E),
-    onSurface: const Color(0xFF3A3A3C),
+    onSurface: Colors.white,
     selected: const Color.fromARGB(255, 56, 56, 58),
     snackbarBackgroundColor: const Color.fromRGBO(11, 11, 11, 1), // const Color.fromRGBO(28, 28, 28, 1)
     text: const Color(0xFFFFFFFF),

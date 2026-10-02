@@ -121,8 +121,6 @@ final class AuthenticationMiddleware {
           Error.throwWithStackTrace(error, stackTrace);
         }
         Error.throwWithStackTrace(retryError, retryStackTrace);
-      } finally {
-        _loggedOut = false;
       }
     }
   };
@@ -131,6 +129,7 @@ final class AuthenticationMiddleware {
   Future<void> _authorize(ApiClient$HTTP$Request request) async {
     final token = await _getToken();
     if (token != null && token.isNotEmpty) {
+      _loggedOut = false;
       request.headers['Authorization'] = 'Bearer $token';
     }
   }

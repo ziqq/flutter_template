@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:cross_file/cross_file.dart' show XFile;
+
 import 'package:flutter_template_name/src/common/util/file_util.dart';
 import 'package:meta/meta.dart';
 
@@ -193,6 +195,17 @@ class AttachmentFile {
 
   /// The blurhash of the file, if available.
   final String? blurhash;
+
+  /// Exposes local attachment content without relying on a native filesystem.
+  XFile? get xFile {
+    if (bytes case final Uint8List data) {
+      return XFile.fromData(data, path: name, name: name, mimeType: mimeType, lastModified: updatedAt ?? createdAt);
+    }
+    if (path case final String location when location.isNotEmpty) {
+      return XFile(location, name: name, mimeType: mimeType);
+    }
+    return null;
+  }
 
   /// The size of the attachment_file in MB.
   String get sizeInMb => (size / (1024 * 1024)).toStringAsFixed(2);

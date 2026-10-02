@@ -1,6 +1,3 @@
-//import 'dart:js_interop';
-//import 'dart:js_interop_unsafe';
-
 import 'dart:async' show Timer;
 import 'dart:js_interop';
 
@@ -91,9 +88,8 @@ Future<void> $platformInitialization() async {
 }
 
 /// Update the loading progress on the web platform.
-void $updateLoadingProgress({int progress = 100, String message = ''}) {
-  window.updateLoadingProgress(progress, message);
-}
+void $updateLoadingProgress({int progress = 100, String message = ''}) =>
+    window.updateLoadingProgress(progress, message);
 
 /// Remove the loading widget from the web platform.
 void $removeLoadingWidget() => window.removeLoadingIndicator();

@@ -1,14 +1,14 @@
 // autor - <a.a.ustinoff@gmail.com> Anton Ustinoff
 
 import 'package:flutter/widgets.dart' show Locale;
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:flutter_template_name/src/feature/settings/data/settings_repository.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_settings.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_theme.dart';
 import 'package:flutter_template_name/src/feature/settings/model/user_preferences.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 
-import '../../../../../util/mocks/mock_service.dart';
+import '../../../../../util/test_util.dart';
 import '../../../../../util/test_util.mocks.dart';
 
 void main() {
@@ -55,16 +55,16 @@ void main() {
     group('saveSettings()', () {
       test('delegates to provider.save()', () async {
         const stub = MockService.appSettings;
-        when(appSettingsDataProvider.save(stub)).thenAnswer((_) async {});
-        await repository.saveSettings(stub);
-        verify(appSettingsDataProvider.save(stub)).called(1);
+        when(appSettingsDataProvider.save(settings: stub)).thenAnswer((_) async {});
+        await repository.saveSettings(settings: stub);
+        verify(appSettingsDataProvider.save(settings: stub)).called(1);
         verifyNoMoreInteractions(appSettingsDataProvider);
       });
 
       test('propagates exception (Future.error)', () async {
         const stub = MockService.appSettings;
-        when(appSettingsDataProvider.save(stub)).thenAnswer((_) => Future<void>.error(ArgumentError('bad')));
-        expect(repository.saveSettings(stub), throwsArgumentError);
+        when(appSettingsDataProvider.save(settings: stub)).thenAnswer((_) => Future<void>.error(ArgumentError('bad')));
+        expect(repository.saveSettings(settings: stub), throwsArgumentError);
       });
     });
 

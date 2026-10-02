@@ -1,9 +1,11 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/feature/settings/data/mappers/user_preferences_codec.dart';
 import 'package:flutter_template_name/src/feature/settings/model/user_preferences.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /// {@template user_preferences_data_provider}
 /// [IUserPreferencesDataProvider] is an entry point to the user preferences data layer.
@@ -42,7 +44,7 @@ class UserPreferencesDataProvider implements IUserPreferencesDataProvider {
       return codec.decoder.convert(decoded);
     }
 
-    throw const FormatException('Stored value is not a JSON object');
+    throw const FormatException('Stored value is not a Map<String, Object?> object');
   }
 
   @override

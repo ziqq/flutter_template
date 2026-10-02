@@ -2,6 +2,16 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "agents:check",
+      "detail": "Validate portable skills and agent configuration",
+      "type": "shell",
+      "command": "mise exec -- make check-agent-config",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
       "label": "flutter:pub:get",
       "detail": "Get dependencies for the project",
       "icon": {
@@ -10,7 +20,7 @@
       },
       "dependsOn": [],
       "type": "shell",
-      "command": ["fvm dart run tool/dart/ci.dart get"],
+      "command": "mise exec -- make get",
       "args": [],
       "group": {
         "kind": "none",
@@ -39,9 +49,7 @@
       },
       "dependsOn": [],
       "type": "shell",
-      "command": [
-        "rm -rf build && rm -rf ios/Podfile.lock && fvm flutter clean && fvm flutter pub get && cd ios && pod install --repo-update"
-      ],
+      "command": "mise exec -- make ios-pods-install",
       "args": [],
       "group": {
         "kind": "none",
@@ -69,7 +77,7 @@
         "id": "code"
       },
       "type": "shell",
-      "command": ["fvm dart run tool/dart/ci.dart build-runner"],
+      "command": "mise exec -- make build-runner",
       "dependsOn": [],
       "args": [],
       "group": {
@@ -98,16 +106,15 @@
         "color": "terminal.ansiGreen",
         "id": "code"
       },
-      "command": [
-        "fvm dart run build_runner build --build-filter '${fileDirname}/*.dart'",
-        "&& fvm dart format --fix -l 120 '${fileDirname}'"
-      ],
+      "command": "mise exec -- dart run build_runner build --build-filter '${fileDirname}/*.dart' && mise exec -- dart format -l 120 '${fileDirname}'",
       "group": {
         "kind": "none",
         "isDefault": true
       },
       "problemMatcher": [],
-      "dependsOn": ["flutter:pub:get"],
+      "dependsOn": [
+        "flutter:pub:get"
+      ],
       "isBackground": false,
       "presentation": {
         "reveal": "silent",
@@ -126,15 +133,15 @@
         "color": "terminal.ansiGreen",
         "id": "code"
       },
-      "command": [
-        "fvm dart run build_runner watch --build-filter \"${input:directory}/**/*.dart\""
-      ],
+      "command": "mise exec -- dart run build_runner watch --build-filter \"${input:directory}/**/*.dart\"",
       "group": {
         "kind": "none",
         "isDefault": true
       },
       "problemMatcher": [],
-      "dependsOn": ["flutter:pub:get"],
+      "dependsOn": [
+        "flutter:pub:get"
+      ],
       "isBackground": false,
       "presentation": {
         "reveal": "silent",
@@ -153,40 +160,12 @@
         "id": "file-text"
       },
       "type": "shell",
-      "command": ["fvm dart run tool/dart/ci.dart pubspec-generator"],
+      "command": "mise exec -- make pubspec-generator",
       "dependsOn": [],
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
-    },
-    {
-      "label": "dart:sheety_localization:generate",
-      "detail": "Localization from Google Sheets",
-      "icon": {
-        "color": "terminal.ansiGreen",
-        "id": "comment-discussion"
-      },
-      "type": "shell",
-      "command": ["fvm dart run tool/dart/ci.dart sheety-localization"],
-      "args": [],
-      "group": {
-        "kind": "none",
-        "isDefault": true
-      },
-      "problemMatcher": [],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "isBackground": false,
-      "presentation": {
-        "reveal": "silent",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": false,
-        "group": "dart"
-      }
     },
     {
       "label": "dart:format",
@@ -196,15 +175,7 @@
         "id": "lightbulb-autofix"
       },
       "type": "shell",
-      "command": [
-        "find lib test ",
-        "-path '*/generated/*' -prune -o ",
-        "-type f -name '*.dart' ",
-        "! -name '*.*.dart' ",
-        "! -name 'messages_.*.dart' ",
-        "! -name 'l10n.dart' ",
-        "-print0 | xargs -0 fvm dart format --set-exit-if-changed --line-length 120"
-      ],
+      "command": "mise exec -- make format",
       "dependsOn": [],
       "args": [],
       "group": {
@@ -233,15 +204,7 @@
         "id": "lightbulb-autofix"
       },
       "type": "shell",
-      "command": [
-        "find lib test ",
-        "-path '*/generated/*' -prune -o ",
-        "-type f -name '*.dart' ",
-        "! -name '*.*.dart' ",
-        "! -name 'messages_.*.dart' ",
-        "! -name 'l10n.dart' ",
-        "-print0 | xargs -0 fvm dart format --set-exit-if-changed --line-length 120"
-      ],
+      "command": "mise exec -- make format-path DIR=packages/ui",
       "dependsOn": [],
       "args": [],
       "group": {
@@ -250,7 +213,7 @@
       },
       "problemMatcher": [],
       "options": {
-        "cwd": "${workspaceFolder}/packages/ui"
+        "cwd": "${workspaceFolder}"
       },
       "isBackground": false,
       "presentation": {
@@ -271,7 +234,7 @@
       },
       "dependsOn": [],
       "type": "shell",
-      "command": ["fvm dart run tool/dart/ci.dart test-app"],
+      "command": "mise exec -- make test-unit",
       "args": [],
       "group": {
         "kind": "test",
@@ -300,7 +263,7 @@
       },
       "dependsOn": [],
       "type": "shell",
-      "command": "fvm dart run tool/dart/ci.dart test",
+      "command": "mise exec -- make test-unit-all",
       "args": [],
       "group": {
         "kind": "test",
@@ -327,11 +290,11 @@
         "color": "terminal.ansiGreen",
         "id": "bug"
       },
-      "dependsOn": ["flutter:pub:get"],
-      "type": "shell",
-      "command": [
-        "fvm flutter test --color --coverage --concurrency=50 --platform=tester --reporter=expanded --timeout=30s --tags=\"${input:featureName}\" test/unit_test.dart test/widget_test.dart"
+      "dependsOn": [
+        "flutter:pub:get"
       ],
+      "type": "shell",
+      "command": "mise exec -- flutter test --color --coverage --concurrency=50 --platform=tester --reporter=expanded --timeout=30s --tags=\"${input:featureName}\" test/unit_test.dart test/widget_test.dart",
       "args": [],
       "group": {
         "kind": "test",

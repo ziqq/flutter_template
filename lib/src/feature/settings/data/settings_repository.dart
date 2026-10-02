@@ -1,3 +1,9 @@
+/*
+ * Author: Anton Ustinoff <https://github.com/ziqq> | <a.a.ustinoff@gmail.com>
+ * Date: 05 January 2024
+ */
+
+import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
 import 'package:flutter_template_name/src/feature/settings/data/providers/app_settings_data_provider.dart';
 import 'package:flutter_template_name/src/feature/settings/data/providers/user_preferences_data_provider.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_settings.dart';
@@ -9,10 +15,13 @@ import 'package:flutter_template_name/src/feature/settings/model/user_preference
 /// {@endtemplate}
 abstract interface class ISettingsRepository {
   /// Read app settings from cache
-  Future<AppSettings> readSettings();
+  /// [userID] - The user associated with the settings, if applicable. Needed for accent color settings.
+  Future<AppSettings> readSettings({UserID? userID});
 
   /// Save app settings to cache
-  Future<void> saveSettings(AppSettings settings);
+  /// [settings] - The app settings to be saved.
+  /// [userID] - The user associated with the settings, if applicable. Needed for accent color settings.
+  Future<void> saveSettings({required AppSettings settings, UserID? userID});
 
   /// Read user preferences from cache
   Future<UserPreferences> readPreferences();
@@ -24,20 +33,17 @@ abstract interface class ISettingsRepository {
 /// {@macro settings_repository}
 class SettingsRepository implements ISettingsRepository {
   /// {@macro settings_repository}
-  const SettingsRepository({
-    required IAppSettingsDataProvider appSettingsDataProvider,
-    required IUserPreferencesDataProvider userPreferencesDataProvider,
-  }) : _appSettingsDataProvider = appSettingsDataProvider,
-       _userPreferencesDataProvider = userPreferencesDataProvider;
+  const SettingsRepository({required this._appSettingsDataProvider, required this._userPreferencesDataProvider});
 
   final IAppSettingsDataProvider _appSettingsDataProvider;
   final IUserPreferencesDataProvider _userPreferencesDataProvider;
 
   @override
-  Future<AppSettings> readSettings() => _appSettingsDataProvider.read();
+  Future<AppSettings> readSettings({UserID? userID}) => _appSettingsDataProvider.read(userID: userID);
 
   @override
-  Future<void> saveSettings(AppSettings settings) => _appSettingsDataProvider.save(settings);
+  Future<void> saveSettings({required AppSettings settings, UserID? userID}) =>
+      _appSettingsDataProvider.save(settings: settings, userID: userID);
 
   @override
   Future<UserPreferences> readPreferences() => _userPreferencesDataProvider.read();

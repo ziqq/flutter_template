@@ -90,7 +90,10 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en'), Locale('ru')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('ru')
+  ];
 
   /// No description provided for @localeCode.
   ///
@@ -308,12 +311,6 @@ abstract class AppLocalizations {
   /// **'Имя'**
   String get nameLabel;
 
-  /// No description provided for @ofSeparator.
-  ///
-  /// In ru, this message translates to:
-  /// **'из'**
-  String get ofSeparator;
-
   /// No description provided for @selectedLabel.
   ///
   /// In ru, this message translates to:
@@ -355,6 +352,12 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Версия'**
   String get versionLabel;
+
+  /// No description provided for @ofSeparator.
+  ///
+  /// In ru, this message translates to:
+  /// **'из'**
+  String get ofSeparator;
 
   /// No description provided for @developerApplicationInfoTitle.
   ///
@@ -650,11 +653,23 @@ abstract class AppLocalizations {
   /// **'Обновить текущую пользовательскую сессию'**
   String get developerUserRefreshSessionDescription;
 
-  /// No description provided for @contactSupportButton.
+  /// No description provided for @errorLabel.
   ///
   /// In ru, this message translates to:
-  /// **'Написать в поддержку'**
-  String get contactSupportButton;
+  /// **'Ошибка'**
+  String get errorLabel;
+
+  /// No description provided for @errorNotFoundLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не найдено'**
+  String get errorNotFoundLabel;
+
+  /// No description provided for @errorUnimplementedLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не реализовано'**
+  String get errorUnimplementedLabel;
 
   /// No description provided for @errorDetailsDialogLabel.
   ///
@@ -668,11 +683,11 @@ abstract class AppLocalizations {
   /// **'Внутренняя ошибка сервера'**
   String get errorInternalServerLabel;
 
-  /// No description provided for @errorNotFoundLabel.
+  /// No description provided for @contactSupportButton.
   ///
   /// In ru, this message translates to:
-  /// **'Не найдено'**
-  String get errorNotFoundLabel;
+  /// **'Написать в поддержку'**
+  String get contactSupportButton;
 
   /// No description provided for @shareErrorButton.
   ///
@@ -685,18 +700,6 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Сообщение об ошибке успешно отправлено!'**
   String get shareErrorSuccessMessage;
-
-  /// No description provided for @errorLabel.
-  ///
-  /// In ru, this message translates to:
-  /// **'Ошибка'**
-  String get errorLabel;
-
-  /// No description provided for @errorUnimplementedLabel.
-  ///
-  /// In ru, this message translates to:
-  /// **'Не реализовано'**
-  String get errorUnimplementedLabel;
 
   /// No description provided for @homeTitle.
   ///
@@ -721,6 +724,540 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Профиль'**
   String get profileTitle;
+
+  /// No description provided for @developerAccountAndDeviceSectionTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Учетная запись и устройство'**
+  String get developerAccountAndDeviceSectionTitle;
+
+  /// No description provided for @developerActivityStatusOverlayDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Предпросмотр состояний загрузки, успеха и ошибки'**
+  String get developerActivityStatusOverlayDescription;
+
+  /// No description provided for @developerActivityStatusOverlayTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Индикатор состояния'**
+  String get developerActivityStatusOverlayTitle;
+
+  /// No description provided for @developerAdvancedOptionsHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Включите или отключите доступ к режиму отладки и настройкам разработчика'**
+  String get developerAdvancedOptionsHint;
+
+  /// No description provided for @developerAdvancedOptionsUseBetaLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Бета-версия'**
+  String get developerAdvancedOptionsUseBetaLabel;
+
+  /// No description provided for @developerAdvancedOptionsUseDebugLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Режим отладки'**
+  String get developerAdvancedOptionsUseDebugLabel;
+
+  /// No description provided for @developerAdvancedOptionsUseDeveloperModeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Режим разработчика'**
+  String get developerAdvancedOptionsUseDeveloperModeLabel;
+
+  /// No description provided for @developerAdvancedOptionsUseExperementalLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Экспериментальные функции'**
+  String get developerAdvancedOptionsUseExperementalLabel;
+
+  /// No description provided for @developerAdvancedOptionsUseHapticFeedbackHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Включите или отключите тактильную обратную связь (вибрацию) на поддерживаемых устройствах'**
+  String get developerAdvancedOptionsUseHapticFeedbackHint;
+
+  /// No description provided for @developerAdvancedOptionsUseHapticFeedbackLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тактильная обратная связь'**
+  String get developerAdvancedOptionsUseHapticFeedbackLabel;
+
+  /// No description provided for @developerAnalyticsDataSendingDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправлять события использования приложения'**
+  String get developerAnalyticsDataSendingDescription;
+
+  /// No description provided for @developerAnalyticsDataSendingLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправка аналитики'**
+  String get developerAnalyticsDataSendingLabel;
+
+  /// No description provided for @developerAppMetadataDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сведения о среде выполнения и сборке для отладки и поддержки'**
+  String get developerAppMetadataDescription;
+
+  /// No description provided for @developerAppMetadataTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Метаданные приложения'**
+  String get developerAppMetadataTitle;
+
+  /// No description provided for @developerApplicationSectionTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Приложение'**
+  String get developerApplicationSectionTitle;
+
+  /// No description provided for @developerBugReportDialogDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать диалог отчета об ошибке'**
+  String get developerBugReportDialogDescription;
+
+  /// No description provided for @developerClearKVStorageButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить локальную базу данных'**
+  String get developerClearKVStorageButton;
+
+  /// No description provided for @developerClearKVStorageHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистите локальную базу данных, это не повлияет на основной функционал приложения'**
+  String get developerClearKVStorageHint;
+
+  /// No description provided for @developerClearLogsButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get developerClearLogsButton;
+
+  /// No description provided for @developerConfirmationDialogDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать подтверждение несохраненных изменений'**
+  String get developerConfirmationDialogDescription;
+
+  /// No description provided for @developerConfirmationDialogTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Диалог подтверждения'**
+  String get developerConfirmationDialogTitle;
+
+  /// No description provided for @developerDarkModeDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Переключение между светлой и темной темой'**
+  String get developerDarkModeDescription;
+
+  /// No description provided for @developerDarkModeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Темная тема'**
+  String get developerDarkModeLabel;
+
+  /// No description provided for @developerDeveloperInfoButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Информация для разработчиков'**
+  String get developerDeveloperInfoButton;
+
+  /// No description provided for @developerErrorPreviewLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка'**
+  String get developerErrorPreviewLabel;
+
+  /// No description provided for @developerExperimentalHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Включите или отключите доступ к экспериментальным функциям и бета версии приложения'**
+  String get developerExperimentalHint;
+
+  /// No description provided for @developerFcmPushTokenDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Токен push-уведомлений'**
+  String get developerFcmPushTokenDescription;
+
+  /// No description provided for @developerFcmPushTokenLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'FCM Push Token'**
+  String get developerFcmPushTokenLabel;
+
+  /// No description provided for @developerIOS26LiquidThemeHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стеклянное оформление панели логов. Это Flutter-эффект, а не нативный Liquid Glass.'**
+  String get developerIOS26LiquidThemeHint;
+
+  /// No description provided for @developerIOS26LiquidThemeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Жидкая тема iOS 26'**
+  String get developerIOS26LiquidThemeLabel;
+
+  /// No description provided for @developerInitializationHeatMapDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цвет сектора показывает скорость: синий — самые быстрые этапы, красный — самые медленные.'**
+  String get developerInitializationHeatMapDescription;
+
+  /// No description provided for @developerInitializationStatsDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Длительность каждого этапа запуска'**
+  String get developerInitializationStatsDescription;
+
+  /// No description provided for @developerInitializationStatsEmptyDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Данные о времени появятся после запуска приложения с замером.'**
+  String get developerInitializationStatsEmptyDescription;
+
+  /// No description provided for @developerInitializationStatsEmptyTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет данных инициализации'**
+  String get developerInitializationStatsEmptyTitle;
+
+  /// No description provided for @developerInitializationStatsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Статистика инициализации'**
+  String get developerInitializationStatsTitle;
+
+  /// No description provided for @developerInitializationStatsTotalMessageOf.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего · {count, plural, =1{{count} этап} few{{count} этапа} other{{count} этапов}}'**
+  String developerInitializationStatsTotalMessageOf(num count);
+
+  /// No description provided for @developerLogoutButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти'**
+  String get developerLogoutButton;
+
+  /// No description provided for @developerLogoutHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти из текущей сессии приложения.'**
+  String get developerLogoutHint;
+
+  /// No description provided for @developerLogoutSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы уверены, что хотите выйти со всех устройств?'**
+  String get developerLogoutSubtitle;
+
+  /// No description provided for @developerLogsEmptyLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет логов'**
+  String get developerLogsEmptyLabel;
+
+  /// No description provided for @developerLogsLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Логи'**
+  String get developerLogsLabel;
+
+  /// No description provided for @developerMetadataApiURLLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'URL API'**
+  String get developerMetadataApiURLLabel;
+
+  /// No description provided for @developerMetadataBuildModeDebugLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отладка'**
+  String get developerMetadataBuildModeDebugLabel;
+
+  /// No description provided for @developerMetadataBuildModeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Режим сборки'**
+  String get developerMetadataBuildModeLabel;
+
+  /// No description provided for @developerMetadataBuildModeReleaseLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Релиз'**
+  String get developerMetadataBuildModeReleaseLabel;
+
+  /// No description provided for @developerMetadataBuildTimestampLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Время сборки'**
+  String get developerMetadataBuildTimestampLabel;
+
+  /// No description provided for @developerMetadataCPULabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Процессоры'**
+  String get developerMetadataCPULabel;
+
+  /// No description provided for @developerMetadataCurrentLocaleLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Текущая локаль'**
+  String get developerMetadataCurrentLocaleLabel;
+
+  /// No description provided for @developerMetadataDevicePixelRatioLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Коэффициент пикселей устройства'**
+  String get developerMetadataDevicePixelRatioLabel;
+
+  /// No description provided for @developerMetadataDeviceScreenSizeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Размер экрана устройства'**
+  String get developerMetadataDeviceScreenSizeLabel;
+
+  /// No description provided for @developerMetadataDisplayFeaturesLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Особенности дисплея'**
+  String get developerMetadataDisplayFeaturesLabel;
+
+  /// No description provided for @developerMetadataDisplaysLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дисплеи'**
+  String get developerMetadataDisplaysLabel;
+
+  /// No description provided for @developerMetadataEnvironmentLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Окружение'**
+  String get developerMetadataEnvironmentLabel;
+
+  /// No description provided for @developerMetadataGoogleMobileServicesLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Google Mobile Services'**
+  String get developerMetadataGoogleMobileServicesLabel;
+
+  /// No description provided for @developerMetadataHuaweiMobileServicesLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Huawei Mobile Services'**
+  String get developerMetadataHuaweiMobileServicesLabel;
+
+  /// No description provided for @developerMetadataLaunchedTimestampLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Время запуска'**
+  String get developerMetadataLaunchedTimestampLabel;
+
+  /// No description provided for @developerMetadataLogicalSizeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Логический размер'**
+  String get developerMetadataLogicalSizeLabel;
+
+  /// No description provided for @developerMetadataOperationSystemLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Операционная система'**
+  String get developerMetadataOperationSystemLabel;
+
+  /// No description provided for @developerMetadataOperationSystemManufacturerLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Производитель операционной системы'**
+  String get developerMetadataOperationSystemManufacturerLabel;
+
+  /// No description provided for @developerMetadataPaddingLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отступы'**
+  String get developerMetadataPaddingLabel;
+
+  /// No description provided for @developerMetadataPhysicalSizeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Физический размер'**
+  String get developerMetadataPhysicalSizeLabel;
+
+  /// No description provided for @developerMetadataPlatformBrightnessLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Яркость платформы'**
+  String get developerMetadataPlatformBrightnessLabel;
+
+  /// No description provided for @developerMetadataPlatformLocaleLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Локаль платформы'**
+  String get developerMetadataPlatformLocaleLabel;
+
+  /// No description provided for @developerMetadataPlatformLocalesLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Локали платформы'**
+  String get developerMetadataPlatformLocalesLabel;
+
+  /// No description provided for @developerMetadataPlatformVersionLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Версия платформы'**
+  String get developerMetadataPlatformVersionLabel;
+
+  /// No description provided for @developerMetadataSentryLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Sentry'**
+  String get developerMetadataSentryLabel;
+
+  /// No description provided for @developerMetadataSupportedLocalesLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поддерживаемые локали'**
+  String get developerMetadataSupportedLocalesLabel;
+
+  /// No description provided for @developerMetadataSystemGestureInsetsLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отступы системных жестов'**
+  String get developerMetadataSystemGestureInsetsLabel;
+
+  /// No description provided for @developerMetadataTextScaleFactorLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Масштаб текста'**
+  String get developerMetadataTextScaleFactorLabel;
+
+  /// No description provided for @developerMetadataViewInsetsLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отступы представления'**
+  String get developerMetadataViewInsetsLabel;
+
+  /// No description provided for @developerMetadataYandexMetricaLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Яндекс Метрика'**
+  String get developerMetadataYandexMetricaLabel;
+
+  /// No description provided for @developerNoDisplayFeaturesLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет'**
+  String get developerNoDisplayFeaturesLabel;
+
+  /// No description provided for @developerNoTokenAvailableLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Токен недоступен'**
+  String get developerNoTokenAvailableLabel;
+
+  /// No description provided for @developerPreviewSelectStateDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите состояние для предпросмотра'**
+  String get developerPreviewSelectStateDescription;
+
+  /// No description provided for @developerProcessingPreviewLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Загрузка'**
+  String get developerProcessingPreviewLabel;
+
+  /// No description provided for @developerSendLogsButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить логи'**
+  String get developerSendLogsButton;
+
+  /// No description provided for @developerSendLogsMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправляем логи'**
+  String get developerSendLogsMessage;
+
+  /// No description provided for @developerSendLogsMessageError.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка'**
+  String get developerSendLogsMessageError;
+
+  /// No description provided for @developerSendLogsMessageSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Логи отправлены!'**
+  String get developerSendLogsMessageSuccess;
+
+  /// No description provided for @developerShowLogsButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать логи'**
+  String get developerShowLogsButton;
+
+  /// No description provided for @developerSnackbarErrorPreviewMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Демонстрационное уведомление об ошибке'**
+  String get developerSnackbarErrorPreviewMessage;
+
+  /// No description provided for @developerSnackbarGalleryDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Предпросмотр успешных уведомлений и уведомлений об ошибке'**
+  String get developerSnackbarGalleryDescription;
+
+  /// No description provided for @developerSnackbarGalleryTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Галерея уведомлений'**
+  String get developerSnackbarGalleryTitle;
+
+  /// No description provided for @developerSnackbarSuccessPreviewMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Демонстрационное успешное уведомление'**
+  String get developerSnackbarSuccessPreviewMessage;
+
+  /// No description provided for @developerSuccessPreviewLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Успешно'**
+  String get developerSuccessPreviewLabel;
+
+  /// No description provided for @developerTotalLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего'**
+  String get developerTotalLabel;
+
+  /// No description provided for @developerUiFlowsSectionTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'UI-сценарии'**
+  String get developerUiFlowsSectionTitle;
+
+  /// No description provided for @developerUserIDLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'ID пользователя'**
+  String get developerUserIDLabel;
+
+  /// No description provided for @developerUserInformationDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Информация о текущем пользователе'**
+  String get developerUserInformationDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -739,18 +1276,18 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return AppLocalizationsEn();
-    case 'ru':
-      return AppLocalizationsRu();
+    case 'en': return AppLocalizationsEn();
+    case 'ru': return AppLocalizationsRu();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+    'that was used.'
   );
 }

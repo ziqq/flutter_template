@@ -1,21 +1,20 @@
 import 'dart:async';
 import 'dart:developer' as dev;
-import 'dart:math' as math;
 
-import 'package:example/src/widgets/buttons_preview.dart';
-import 'package:example/src/widgets/icons_preview.dart';
-import 'package:example/src/widgets/typography_preview.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
+import 'package:example/src/catalog/catalog.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ui/ui.dart';
 
-/// A [ValueNotifier] to switch the [ThemeMode] of the app.
-final themeModeSwitcher = ValueNotifier(ThemeMode.system);
+/// Holds the catalog theme for the example's process lifetime.
+final themeModeSwitcher = ValueNotifier<ThemeMode>(ThemeMode.system);
 
-/// The main entry point of the ui example.
+/// Compares the standard and Rive renderers without application preferences.
+final operationStatusIndicatorStyleSwitcher = ValueNotifier<UIOperationStatusIndicatorStyle>(
+  UIOperationStatusIndicatorStyle.standard,
+);
+
 void main() => runZonedGuarded<void>(
-  () => runApp(UIExampleApp(controller: ValueNotifier<List<Page<Object?>>>([]))),
+  () => runApp(const UIExampleApp()),
   (error, stackTrace) => dev.log(
     'Top level exception: $error\nstackTrace: $stackTrace',
     error: error,
@@ -24,91 +23,48 @@ void main() => runZonedGuarded<void>(
   ),
 );
 
-/// The main ui example app widget.
+/// Configures the public UI themes, localization, and responsive catalog.
 class UIExampleApp extends StatelessWidget {
-  const UIExampleApp({required this.controller, super.key});
+  const UIExampleApp({this.controller, super.key});
 
-  final ValueNotifier<List<Page<Object?>>> controller;
+  /// Legacy caller-owned page controller retained for existing example callers.
+  ///
+  /// The catalog itself uses the SDK Navigator for temporary preview routes.
+  final ValueNotifier<List<Page<Object?>>>? controller;
 
   @override
-  Widget build(BuildContext context) => ValueListenableBuilder(
+  Widget build(BuildContext context) => ValueListenableBuilder<ThemeMode>(
     valueListenable: themeModeSwitcher,
     builder: (context, themeMode, _) => MaterialApp(
       title: 'UI KIT',
       theme: UIThemeData.light(),
       darkTheme: UIThemeData.dark(),
+      themeMode: themeMode,
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+      localizationsDelegates: const <LocalizationsDelegate<Object>>[
+        UILocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      themeMode: themeMode,
+      builder: (_, child) => ValueListenableBuilder<UIOperationStatusIndicatorStyle>(
+        valueListenable: operationStatusIndicatorStyleSwitcher,
+        child: child,
+        builder: (_, indicatorStyle, child) =>
+            UIScope(operationStatusIndicatorStyle: indicatorStyle, child: child ?? const SizedBox.shrink()),
+      ),
       home: const UIPreview(),
     ),
   );
 }
 
-/// The main preview widget that shows all the components of the UI kit.
+/// Connects the catalog's theme action to the process-local theme selection.
 class UIPreview extends StatelessWidget {
   const UIPreview({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final brightness = theme.brightness;
-    const spacerVertical = SliverToBoxAdapter(child: SizedBox(height: 16));
-    final backgroundColor = brightness == Brightness.dark
-        ? CupertinoColors.systemBackground
-        : CupertinoColors.secondarySystemBackground;
-    return Scaffold(
-      backgroundColor: CupertinoDynamicColor.resolve(backgroundColor, context),
-      body: LayoutBuilder(
-        builder: (context, constraints) => Padding(
-          padding: EdgeInsets.symmetric(horizontal: math.max((constraints.maxWidth - 900) / 2, 16), vertical: 16 * 1.5),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                pinned: true,
-                centerTitle: false,
-                backgroundColor: CupertinoDynamicColor.resolve(backgroundColor, context),
-                foregroundColor: CupertinoDynamicColor.resolve(backgroundColor, context),
-                surfaceTintColor: CupertinoDynamicColor.resolve(backgroundColor, context),
-                title: Text('UI KIT', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
-                actions: [
-                  CupertinoButton(
-                    child: brightness == Brightness.light
-                        ? const Icon(Icons.dark_mode_rounded)
-                        : const Icon(Icons.light_mode_rounded),
-                    onPressed: () {
-                      HapticFeedback.heavyImpact().ignore();
-                      themeModeSwitcher.value = brightness == Brightness.light ? ThemeMode.dark : ThemeMode.light;
-                    },
-                  ),
-                ],
-              ),
-
-              // --- Icon's --- //
-              const UIIconsPreview$LeafRenderObject(),
-              spacerVertical,
-
-              // const UIIconsPreview.font(),
-              // spacerVertical,
-
-              // --- Button's --- //
-              const UIButtonsPreview(),
-              spacerVertical,
-
-              // --- App Colors --- //
-              // const UIColorsPreview(),
-              // spacerVertical,
-
-              // --- Typography --- //
-              const TypographyPreview(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => CatalogScreen(
+    onToggleTheme: () =>
+        themeModeSwitcher.value = Theme.of(context).brightness == Brightness.light ? ThemeMode.dark : ThemeMode.light,
+  );
 }

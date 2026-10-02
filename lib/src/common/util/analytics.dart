@@ -41,6 +41,10 @@ final class Analytics implements AnalyticsTracker {
   Analytics._({required Iterable<AnalyticsTracker> trackers})
     : _trackers = List<AnalyticsTracker>.unmodifiable(trackers);
 
+  /// Creates an isolated facade for deterministic tracker tests.
+  @visibleForTesting
+  Analytics.forTesting({required Iterable<AnalyticsTracker> trackers}) : this._(trackers: trackers);
+
   /// The singleton instance of the Analytics class.
   /// @{macro analytics}
   static final Analytics instance = Analytics._(
@@ -77,9 +81,14 @@ final class Analytics implements AnalyticsTracker {
   String get name => 'Analytics';
 
   final List<AnalyticsTracker> _trackers;
+  bool _consent = false;
+  String? _userID;
+  Future<void> _consentUpdate = Future<void>.value();
 
   @override
-  Future<void> logEvent(String category, String name, {Map<String, String>? parameters}) {
+  Future<void> logEvent(String category, String name, {Map<String, String>? parameters}) async {
+    await _consentUpdate;
+    if (!_consent) return;
     if (category.isEmpty || name.isEmpty) {
       l.d('Category and action must not be empty for tracking events.');
       return Future<void>.value();
@@ -93,11 +102,13 @@ final class Analytics implements AnalyticsTracker {
       }
     }
 
-    return Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
+    await Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
   }
 
   @override
-  Future<void> logPageView(String page, {Map<String, String>? parameters}) {
+  Future<void> logPageView(String page, {Map<String, String>? parameters}) async {
+    await _consentUpdate;
+    if (!_consent) return;
     if (page.isEmpty) {
       l.d('Page must not be empty for tracking page views.');
       return Future<void>.value();
@@ -111,24 +122,29 @@ final class Analytics implements AnalyticsTracker {
       }
     }
 
-    return Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
+    await Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
   }
 
   @override
-  Future<void> setUserID(String? userID) {
+  Future<void> setUserID(String? userID) async {
+    _userID = userID;
+    await _consentUpdate;
+    if (!_consent) return;
     Future<void> fn(AnalyticsTracker tracker) async {
       try {
-        await tracker.setUserID(userID);
+        await tracker.setUserID(_userID);
       } on Object catch (e, s) {
         l.w('Error setting user ID in ${tracker.name}: $e', s);
       }
     }
 
-    return Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
+    await Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
   }
 
   @override
-  Future<void> setUserProperty({required String name, required String? value}) {
+  Future<void> setUserProperty({required String name, required String? value}) async {
+    await _consentUpdate;
+    if (!_consent) return;
     Future<void> fn(AnalyticsTracker tracker) async {
       try {
         await tracker.setUserProperty(name: name, value: value);
@@ -137,20 +153,24 @@ final class Analytics implements AnalyticsTracker {
       }
     }
 
-    return Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
+    await Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
   }
 
   @override
   Future<void> setConsent(bool consent) {
+    _consent = consent;
     Future<void> fn(AnalyticsTracker tracker) async {
       try {
         await tracker.setConsent(consent);
+        await tracker.setUserID(consent ? _userID : null);
       } on Object catch (e, s) {
         l.w('Error setting consent in ${tracker.name}: $e', s);
       }
     }
 
-    return Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
+    return _consentUpdate = _consentUpdate.then((_) async {
+      await Future.wait<void>([for (final tracker in _trackers) fn(tracker)]);
+    });
   }
 }
 
@@ -241,7 +261,7 @@ class AnalyticsTracker$Firebase implements AnalyticsTracker {
   /// Initialize the AppMetrica tracker with the given key.
   final Future<bool> _initialized = () async {
     try {
-      await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+      await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(false);
       l.d('Firebase Analytics initialized');
       return true;
     } on Object catch (e, s) {
@@ -262,15 +282,19 @@ class AnalyticsTracker$Firebase implements AnalyticsTracker {
       FirebaseAnalytics.instance.logScreenView(screenClass: 'page_view', screenName: page, parameters: parameters);
 
   @override
-  Future<void> setConsent(bool consent) async => FirebaseAnalytics.instance.setConsent(
-    adPersonalizationSignalsConsentGranted: consent,
-    adStorageConsentGranted: consent,
-    adUserDataConsentGranted: consent,
-    analyticsStorageConsentGranted: consent,
-    functionalityStorageConsentGranted: consent,
-    personalizationStorageConsentGranted: consent,
-    securityStorageConsentGranted: consent,
-  );
+  Future<void> setConsent(bool consent) async {
+    await _initialized;
+    await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(consent);
+    await FirebaseAnalytics.instance.setConsent(
+      adPersonalizationSignalsConsentGranted: consent,
+      adStorageConsentGranted: consent,
+      adUserDataConsentGranted: consent,
+      analyticsStorageConsentGranted: consent,
+      functionalityStorageConsentGranted: consent,
+      personalizationStorageConsentGranted: consent,
+      securityStorageConsentGranted: consent,
+    );
+  }
 
   @override
   Future<void> setUserID(String? userID) async => FirebaseAnalytics.instance.setUserId(id: userID);
@@ -285,6 +309,15 @@ class AnalyticsTracker$Firebase implements AnalyticsTracker {
 final class FakeAnalytics implements Analytics {
   @override
   String get name => 'FakeAnalytics';
+
+  @override
+  String? _userID;
+
+  @override
+  bool _consent = false;
+
+  @override
+  Future<void> _consentUpdate = Future<void>.value();
 
   @override
   List<AnalyticsTracker> get _trackers => <AnalyticsTracker>[];

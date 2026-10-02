@@ -25,7 +25,7 @@ class BugReportScope extends StatefulWidget {
 /// State for widget [BugReportScope].
 class _BugReportScopeState extends State<BugReportScope> with WidgetsBindingObserver {
   /// [ShakeDetector] instance.
-  late final ShakeDetector _shakeDetector;
+  ShakeDetector? _shakeDetector;
 
   /// Flag to determine whether the bug report dialog should be shown on shake.
   bool _useOnShake = true;
@@ -37,24 +37,32 @@ class _BugReportScopeState extends State<BugReportScope> with WidgetsBindingObse
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _useOnShake = context.ext.dependencies.database.getKey<bool>(BugReportDialog.useOnShakeKey) ?? true;
-    _shakeDetector = ShakeDetector(minShakeCount: 7, shakeThresholdGravity: 2);
-    _shakeDetector.addListener(_onShakeListener);
+    final shakeDetector = _shakeDetector;
+    if (shakeDetector != null) return;
+    final nextShakeDetector = ShakeDetector(minShakeCount: 7, shakeThresholdGravity: 2);
+    nextShakeDetector.addListener(_onShakeListener);
+    _shakeDetector = nextShakeDetector;
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _shakeDetector
-      ..removeListener(_onShakeListener)
+      ?..removeListener(_onShakeListener)
       ..dispose();
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) _shakeDetector.pause();
-    if (state == AppLifecycleState.resumed) _shakeDetector.resume();
+    if (state == AppLifecycleState.paused) _shakeDetector?.pause();
+    if (state == AppLifecycleState.resumed) _shakeDetector?.resume();
   }
 
   /// Callback for shake detection.

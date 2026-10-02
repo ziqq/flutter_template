@@ -24,13 +24,7 @@ log_error() {
   echo "${LOG_PREFIX} Error: $1" >&2
 }
 
-if command -v fvm >/dev/null 2>&1; then
-  FLUTTER_CMD=("fvm" "flutter")
-  log_info "Using Flutter via FVM."
-else
-  FLUTTER_CMD=("flutter")
-  log_info "Using system Flutter executable."
-fi
+FLUTTER_CMD=("flutter")
 
 if [[ $# -gt 0 ]]; then
   PACKAGES=("$@")

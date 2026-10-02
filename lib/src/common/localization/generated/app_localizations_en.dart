@@ -72,15 +72,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bugReportAttachLogsToggleLabel => 'Attach logs';
 
   @override
-  String get bugReportDialogDescription =>
-      'Describe the issue you encountered and we will try to fix it as soon as possible.';
+  String get bugReportDialogDescription => 'Describe the issue you encountered and we will try to fix it as soon as possible.';
 
   @override
   String get bugReportDialogTitle => 'Share error';
 
   @override
-  String get bugReportShakeToReportToggleHint =>
-      'Disable this if you do not want the bug report dialog to appear when the device is shaken.';
+  String get bugReportShakeToReportToggleHint => 'Disable this if you do not want the bug report dialog to appear when the device is shaken.';
 
   @override
   String get bugReportShakeToReportToggleLabel => 'Open bug report dialog on shake';
@@ -119,9 +117,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nameLabel => 'Name';
 
   @override
-  String get ofSeparator => 'of';
-
-  @override
   String get selectedLabel => 'Selected';
 
   @override
@@ -141,6 +136,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get versionLabel => 'Version';
+
+  @override
+  String get ofSeparator => 'of';
 
   @override
   String get developerApplicationInfoTitle => 'Application information';
@@ -185,12 +183,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerDevDependenciesOpenDescription => 'Show developers dependencies.';
 
   @override
-  String get developerFeatureFlagsDescription =>
-      'Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.';
+  String get developerFeatureFlagsDescription => 'Advanced options for developers. Use with caution, as they may cause unexpected behavior or crashes.';
 
   @override
-  String get developerHapticFeedbackDescription =>
-      'Enable haptic feedback in the app. Useful for testing haptic feedback functionality.';
+  String get developerHapticFeedbackDescription => 'Enable haptic feedback in the app. Useful for testing haptic feedback functionality.';
 
   @override
   String get developerHapticFeedbackToggleLabel => 'Use haptic feedback';
@@ -223,8 +219,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerNavigationResetTitle => 'Reset navigation';
 
   @override
-  String get developerNotificationsRefreshDescription =>
-      'Refresh FCM token. Useful for testing push notifications in development builds.';
+  String get developerNotificationsRefreshDescription => 'Refresh FCM token. Useful for testing push notifications in development builds.';
 
   @override
   String get developerNotificationsRefreshTitle => 'Refresh FCM token';
@@ -251,15 +246,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerSessionsLogoutAllConfirmationMessage => 'Are you sure you want to log out from all devices?';
 
   @override
-  String get developerSessionsLogoutAllDescription =>
-      'Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.';
+  String get developerSessionsLogoutAllDescription => 'Log out from all devices. Useful for testing logout functionality or refreshing session on all devices.';
 
   @override
   String get clearKVStorageButton => 'Clear key-value storage';
 
   @override
-  String get developerStorageClearDescription =>
-      'Clear key-value storage. Useful for testing onboarding and promo code flows.';
+  String get developerStorageClearDescription => 'Clear key-value storage. Useful for testing onboarding and promo code flows.';
 
   @override
   String get developerStorageClearSuccessMessage => 'Key-value storage cleared successfully';
@@ -274,8 +267,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerToggleDebugFeaturesLabel => 'Use debug features';
 
   @override
-  String get developerToggleExperimentalFeaturesDescription =>
-      'Experimental features. Use with caution, as they may cause unexpected behavior or crashes.';
+  String get developerToggleExperimentalFeaturesDescription => 'Experimental features. Use with caution, as they may cause unexpected behavior or crashes.';
 
   @override
   String get developerToggleExperimentalFeaturesLabel => 'Use experimental features';
@@ -296,7 +288,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developerUserRefreshSessionDescription => 'Refresh current user\'s session';
 
   @override
-  String get contactSupportButton => 'Contact support';
+  String get errorLabel => 'Error';
+
+  @override
+  String get errorNotFoundLabel => 'Not found';
+
+  @override
+  String get errorUnimplementedLabel => 'Unimplemented';
 
   @override
   String get errorDetailsDialogLabel => 'Error details';
@@ -305,19 +303,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorInternalServerLabel => 'Internal server error';
 
   @override
-  String get errorNotFoundLabel => 'Not found';
+  String get contactSupportButton => 'Contact support';
 
   @override
   String get shareErrorButton => 'Share the error';
 
   @override
   String get shareErrorSuccessMessage => 'Error message has been shared successfully!';
-
-  @override
-  String get errorLabel => 'Error';
-
-  @override
-  String get errorUnimplementedLabel => 'Unimplemented';
 
   @override
   String get homeTitle => 'Home';
@@ -330,4 +322,280 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileTitle => 'Profile';
+
+  @override
+  String get developerAccountAndDeviceSectionTitle => 'Account and device';
+
+  @override
+  String get developerActivityStatusOverlayDescription => 'Preview loading, success, and error states';
+
+  @override
+  String get developerActivityStatusOverlayTitle => 'Status indicator';
+
+  @override
+  String get developerAdvancedOptionsHint => 'Enable or disable access to debug mode and developer settings';
+
+  @override
+  String get developerAdvancedOptionsUseBetaLabel => 'Beta version';
+
+  @override
+  String get developerAdvancedOptionsUseDebugLabel => 'Debug mode';
+
+  @override
+  String get developerAdvancedOptionsUseDeveloperModeLabel => 'Developer mode';
+
+  @override
+  String get developerAdvancedOptionsUseExperementalLabel => 'Experimental features';
+
+  @override
+  String get developerAdvancedOptionsUseHapticFeedbackHint => 'Enable or disable haptic feedback (vibration) on supported devices';
+
+  @override
+  String get developerAdvancedOptionsUseHapticFeedbackLabel => 'Haptic feedback';
+
+  @override
+  String get developerAnalyticsDataSendingDescription => 'Send app usage events';
+
+  @override
+  String get developerAnalyticsDataSendingLabel => 'Analytics data sending';
+
+  @override
+  String get developerAppMetadataDescription => 'Runtime and build information for debugging and support';
+
+  @override
+  String get developerAppMetadataTitle => 'Application metadata';
+
+  @override
+  String get developerApplicationSectionTitle => 'Application';
+
+  @override
+  String get developerBugReportDialogDescription => 'Show error report dialog';
+
+  @override
+  String get developerClearKVStorageButton => 'Clear local database';
+
+  @override
+  String get developerClearKVStorageHint => 'Clear the local database, it will not affect the main functionality of the app';
+
+  @override
+  String get developerClearLogsButton => 'Clear';
+
+  @override
+  String get developerConfirmationDialogDescription => 'Show confirmation of unsaved changes';
+
+  @override
+  String get developerConfirmationDialogTitle => 'Confirmation dialog';
+
+  @override
+  String get developerDarkModeDescription => 'Switching between light and dark theme';
+
+  @override
+  String get developerDarkModeLabel => 'Dark theme';
+
+  @override
+  String get developerDeveloperInfoButton => 'Developer Information';
+
+  @override
+  String get developerErrorPreviewLabel => 'Error';
+
+  @override
+  String get developerExperimentalHint => 'Enable or disable access to experimental features and beta versions of the app';
+
+  @override
+  String get developerFcmPushTokenDescription => 'Push notification token';
+
+  @override
+  String get developerFcmPushTokenLabel => 'FCM Push Token';
+
+  @override
+  String get developerIOS26LiquidThemeHint => 'Preview glass styling for the log toolbar. This is a Flutter effect, not native Liquid Glass.';
+
+  @override
+  String get developerIOS26LiquidThemeLabel => 'Liquid Theme iOS 26';
+
+  @override
+  String get developerInitializationHeatMapDescription => 'The color of the sector indicates speed: blue is the fastest stage, red is the slowest.';
+
+  @override
+  String get developerInitializationStatsDescription => 'Duration of each launch stage';
+
+  @override
+  String get developerInitializationStatsEmptyDescription => 'Time data will appear after launching the application with measurement.';
+
+  @override
+  String get developerInitializationStatsEmptyTitle => 'No initialization data';
+
+  @override
+  String get developerInitializationStatsTitle => 'Initialization statistics';
+
+  @override
+  String developerInitializationStatsTotalMessageOf(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count stages',
+      few: '$count stage',
+      one: '$count stage',
+    );
+    return 'Total · $_temp0';
+  }
+
+  @override
+  String get developerLogoutButton => 'Log out';
+
+  @override
+  String get developerLogoutHint => 'Sign out of the current application session.';
+
+  @override
+  String get developerLogoutSubtitle => 'Are you sure you want to log out from all devices?';
+
+  @override
+  String get developerLogsEmptyLabel => 'No logs';
+
+  @override
+  String get developerLogsLabel => 'Logs';
+
+  @override
+  String get developerMetadataApiURLLabel => 'URL API';
+
+  @override
+  String get developerMetadataBuildModeDebugLabel => 'Debugging';
+
+  @override
+  String get developerMetadataBuildModeLabel => 'Build mode';
+
+  @override
+  String get developerMetadataBuildModeReleaseLabel => 'Release';
+
+  @override
+  String get developerMetadataBuildTimestampLabel => 'Assembly time';
+
+  @override
+  String get developerMetadataCPULabel => 'Processors';
+
+  @override
+  String get developerMetadataCurrentLocaleLabel => 'Current locale';
+
+  @override
+  String get developerMetadataDevicePixelRatioLabel => 'Device pixel ratio';
+
+  @override
+  String get developerMetadataDeviceScreenSizeLabel => 'Device screen size';
+
+  @override
+  String get developerMetadataDisplayFeaturesLabel => 'Display Features';
+
+  @override
+  String get developerMetadataDisplaysLabel => 'Displays';
+
+  @override
+  String get developerMetadataEnvironmentLabel => 'Environment';
+
+  @override
+  String get developerMetadataGoogleMobileServicesLabel => 'Google Mobile Services';
+
+  @override
+  String get developerMetadataHuaweiMobileServicesLabel => 'Huawei Mobile Services';
+
+  @override
+  String get developerMetadataLaunchedTimestampLabel => 'Launch time';
+
+  @override
+  String get developerMetadataLogicalSizeLabel => 'Logical size';
+
+  @override
+  String get developerMetadataOperationSystemLabel => 'operating system';
+
+  @override
+  String get developerMetadataOperationSystemManufacturerLabel => 'Operating system manufacturer';
+
+  @override
+  String get developerMetadataPaddingLabel => 'Indents';
+
+  @override
+  String get developerMetadataPhysicalSizeLabel => 'Physical size';
+
+  @override
+  String get developerMetadataPlatformBrightnessLabel => 'Platform brightness';
+
+  @override
+  String get developerMetadataPlatformLocaleLabel => 'Platform locale';
+
+  @override
+  String get developerMetadataPlatformLocalesLabel => 'Platform locales';
+
+  @override
+  String get developerMetadataPlatformVersionLabel => 'Platform version';
+
+  @override
+  String get developerMetadataSentryLabel => 'Sentry';
+
+  @override
+  String get developerMetadataSupportedLocalesLabel => 'Supported locales';
+
+  @override
+  String get developerMetadataSystemGestureInsetsLabel => 'System gesture indents';
+
+  @override
+  String get developerMetadataTextScaleFactorLabel => 'Text scale';
+
+  @override
+  String get developerMetadataViewInsetsLabel => 'Presentation indents';
+
+  @override
+  String get developerMetadataYandexMetricaLabel => 'Yandex Metrica';
+
+  @override
+  String get developerNoDisplayFeaturesLabel => 'No';
+
+  @override
+  String get developerNoTokenAvailableLabel => 'Token is unavailable';
+
+  @override
+  String get developerPreviewSelectStateDescription => 'Select a state to preview';
+
+  @override
+  String get developerProcessingPreviewLabel => 'Loading';
+
+  @override
+  String get developerSendLogsButton => 'Send logs';
+
+  @override
+  String get developerSendLogsMessage => 'Sending logs';
+
+  @override
+  String get developerSendLogsMessageError => 'Error';
+
+  @override
+  String get developerSendLogsMessageSuccess => 'Logs sent!';
+
+  @override
+  String get developerShowLogsButton => 'Show logs';
+
+  @override
+  String get developerSnackbarErrorPreviewMessage => 'Demo error notification';
+
+  @override
+  String get developerSnackbarGalleryDescription => 'Previewing successful and error notifications';
+
+  @override
+  String get developerSnackbarGalleryTitle => 'Notification Gallery';
+
+  @override
+  String get developerSnackbarSuccessPreviewMessage => 'Demo successful notification';
+
+  @override
+  String get developerSuccessPreviewLabel => 'Successfully';
+
+  @override
+  String get developerTotalLabel => 'Total';
+
+  @override
+  String get developerUiFlowsSectionTitle => 'UI scripts';
+
+  @override
+  String get developerUserIDLabel => 'User ID';
+
+  @override
+  String get developerUserInformationDescription => 'Information about the current user';
 }

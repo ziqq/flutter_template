@@ -1,53 +1,72 @@
-import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicColor;
+/*
+ * Author: Anton Ustinoff <https://github.com/ziqq> | <a.a.ustinoff@gmail.com>
+ * Date: 12 September 2025
+ */
+
 import 'package:ui/ui.dart';
 
 /// {@template preview_section}
-/// A section widget with an optional title and a child.
+/// A section widget with an optional title and a sliver child.
 /// {@endtemplate}
 class PreviewSection extends StatelessWidget {
-  const PreviewSection({required this.child, this.traling, this.title, super.key});
+  const PreviewSection({required this.child, this.trailing, this.title, super.key});
 
-  /// The title of this section.
-  final String? title;
+  /// Returns the shared content inset for catalog preview surfaces.
+  static EdgeInsets contentPaddingOf(BuildContext context) {
+    final spacing = Theme.of(context).uiTheme.size.offset;
+    return EdgeInsets.fromLTRB(spacing.regular, spacing.extraExtraSmall, spacing.regular, spacing.regular);
+  }
 
   /// The widget below this widget in the tree.
   ///
   /// {@macro flutter.widgets.ProxyWidget.child}
   final Widget child;
 
-  /// Traling widget in the header row.
-  final Widget? traling;
+  /// Trailing widget in the header row.
+  final Widget? trailing;
+
+  /// The title of this section.
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = Theme.of(context).brightness == Brightness.dark
-        ? CupertinoColors.secondarySystemBackground
-        : CupertinoColors.systemBackground;
+    final effectiveTitle = title?.trim();
+    final effectiveTrailing = trailing;
+    final theme = Theme.of(context);
+    final uiTheme = theme.uiTheme;
+    final headerHeight = uiTheme.size.button.small + uiTheme.size.offset.small * 2;
+    final sectionName = effectiveTitle?.replaceAll(' ', '_').toLowerCase();
     return SliverMainAxisGroup(
       slivers: <Widget>[
-        if (title != null && title!.isNotEmpty) ...[
+        if (effectiveTitle != null && effectiveTitle.isNotEmpty) ...[
           SliverPersistentHeader(
-            key: ValueKey<String>('preview_section_header_${title?.replaceAll(' ', '_').toLowerCase()}'),
+            key: ValueKey<String>('cards_header_$sectionName'),
             floating: true,
-            // pinned: true,
+            pinned: true,
             delegate: _SliverHeaderDelegate(
-              maxHeight: 24 * 2,
-              minHeight: 24 * 2,
+              maxHeight: headerHeight,
+              minHeight: headerHeight,
               child: DecoratedBox(
+                key: ValueKey<String>('cards_header_box_$sectionName'),
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                  color: CupertinoDynamicColor.resolve(backgroundColor, context),
+                  color: uiTheme.color.surface,
+                  border: Border(
+                    top: BorderSide(color: uiTheme.color.border),
+                    left: BorderSide(color: uiTheme.color.border),
+                    right: BorderSide(color: uiTheme.color.border),
+                  ),
+                  borderRadius: .only(
+                    topLeft: .circular(uiTheme.size.corner.regular),
+                    topRight: .circular(uiTheme.size.corner.regular),
+                  ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: .symmetric(horizontal: uiTheme.size.offset.regular, vertical: uiTheme.size.offset.small),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: .spaceBetween,
                     children: [
-                      Text(
-                        title!,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                      if (traling != null) traling!,
+                      Expanded(child: UIText.titleLarge(effectiveTitle, maxLines: 1, overflow: .ellipsis)),
+                      ?effectiveTrailing,
                     ],
                   ),
                 ),
@@ -60,11 +79,17 @@ class PreviewSection extends StatelessWidget {
             builder: (context, constraints) => SizedBox(
               width: constraints.maxWidth,
               child: DecoratedBox(
+                key: ValueKey<String>('cards_body_${sectionName ?? 'untitled'}'),
                 decoration: BoxDecoration(
-                  color: CupertinoDynamicColor.resolve(backgroundColor, context),
-                  borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
+                  color: uiTheme.color.surface,
+                  border: Border(
+                    bottom: BorderSide(color: uiTheme.color.border),
+                    left: BorderSide(color: uiTheme.color.border),
+                    right: BorderSide(color: uiTheme.color.border),
+                  ),
+                  borderRadius: .only(
+                    bottomLeft: .circular(uiTheme.size.corner.regular),
+                    bottomRight: .circular(uiTheme.size.corner.regular),
                   ),
                 ),
                 child: child,
@@ -94,5 +119,6 @@ class _SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => maxHeight;
 
   @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => true;
+  bool shouldRebuild(covariant _SliverHeaderDelegate oldDelegate) =>
+      child != oldDelegate.child || minHeight != oldDelegate.minHeight || maxHeight != oldDelegate.maxHeight;
 }

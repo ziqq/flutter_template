@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart' show WidgetsBindingObserver, WidgetsBindin
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/database/platform/database_vm.dart'
     // ignore: uri_does_not_exist
-    if (dart.library.html) 'package:flutter_template_name/src/common/database/platform/database_js.dart';
+    if (dart.library.js_interop) 'package:flutter_template_name/src/common/database/platform/database_js.dart';
 import 'package:flutter_template_name/src/common/database/queries.dart';
 import 'package:l/l.dart';
 import 'package:meta/meta.dart';

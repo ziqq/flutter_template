@@ -7,7 +7,7 @@ import 'package:flutter_template_name/src/common/constant/config.dart';
 /// ScaffoldPadding widget.
 /// {@endtemplate}
 class ScaffoldPadding extends EdgeInsets {
-  const ScaffoldPadding._(final double value) : super.symmetric(horizontal: value);
+  const ScaffoldPadding._(double value) : super.symmetric(horizontal: value);
 
   /// {@macro scaffold_padding}
   factory ScaffoldPadding.of(BuildContext context) =>

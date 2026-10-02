@@ -1,7 +1,14 @@
 import 'package:flutter_template_name/src/common/util/date_util.dart';
 import 'package:test/test.dart';
 
+import 'src/unit_test/src/common/_all.dart' as common;
+import 'src/unit_test/src/common/api_client/api_client_test.dart' as transport;
+import 'src/unit_test/src/feature/_all.dart' as features;
+
 void main() => group('Unit', () {
+  common.main();
+  features.main();
+  transport.main();
   group('DateUtil', () {
     test('DateTime_to_String', () {
       expect(

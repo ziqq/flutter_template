@@ -9,7 +9,7 @@ import 'package:flutter_template_name/src/common/api_client/api_exception.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:flutter_template_name/src/common/util/platform/error_util_vm.dart'
-    if (dart.library.html) 'platform/error_util_js.dart';
+    if (dart.library.js_interop) 'platform/error_util_js.dart';
 import 'package:l/l.dart';
 import 'package:meta/meta.dart';
 import 'package:ui/ui.dart';
@@ -329,10 +329,8 @@ String _firebaseExceptionToString(FirebaseException error) => switch (error.code
   'argument-error' => 'The argument provided is invalid.',
   'app-not-authorized' =>
     "This app, identified by the domain where it's hosted, is not authorized to use with the provided API key.",
-  'app-not-installed' =>
-    'The requested mobile application corresponding to the identifier (Android package name or iOS bundle ID) provided is not installed.',
-  'captcha-check-failed' =>
-    'The reCAPTCHA response token provided is either invalid, expired, already used or the domain associated with it does not match the current domain.',
+  'app-not-installed' => 'The requested mobile application corresponding to the identifier (Android package name or iOS bundle ID) provided is not installed.',
+  'captcha-check-failed' => 'The reCAPTCHA response token provided is either invalid, expired, already used or the domain associated with it does not match the current domain.',
   'code-expired' => 'The SMS code has expired. Please re-send the verification code to try again.',
   'cordova-not-ready' => 'Cordova framework is not ready.',
   'cors-unsupported' => 'This browser is not supported.',
@@ -347,14 +345,11 @@ String _firebaseExceptionToString(FirebaseException error) => switch (error.code
   'expired-action-code' => 'The action code has expired.',
   'cancelled-popup-request' => 'This operation has been cancelled due to another conflicting popup being opened.',
   'internal-error' => 'An internal error has occurred.',
-  'invalid-app-credential' =>
-    'The phone verification request contains an invalid application verifier. The reCAPTCHA token response is either invalid or expired.',
+  'invalid-app-credential' => 'The phone verification request contains an invalid application verifier. The reCAPTCHA token response is either invalid or expired.',
   'invalid-app-id' => 'The mobile app identifier is not registered for the current project.',
-  'invalid-user-token' =>
-    "This user's credential isn't valid for this project. This can happen if the user's token has been tampered with, or if the user is no longer valid.",
+  'invalid-user-token' => "This user's credential isn't valid for this project. This can happen if the user's token has been tampered with, or if the user is no longer valid.",
   'invalid-auth-event' => 'An internal error has occurred.',
-  'invalid-verification-code' =>
-    'The SMS verification code used to create the phone auth credential is invalid. Please resend the verification code and try again.',
+  'invalid-verification-code' => 'The SMS verification code used to create the phone auth credential is invalid. Please resend the verification code and try again.',
   'invalid-continue-uri' => 'The continue URL provided in the request is invalid.',
   'invalid-cordova-configuration' => 'The plugins must be installed to enable OAuth sign-in.',
   'invalid-custom-token' => 'The custom token format is incorrect. Please check the documentation.',

@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_template_name/src/common/router/app_navigator.dart';
+import 'package:flutter_template_name/src/common/router/router.dart';
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_scope.dart';
 import 'package:flutter_template_name/src/feature/authentication/widget/authentication_scope.dart';
 import 'package:flutter_template_name/src/feature/bug_report/widget/bug_report_scope.dart';

@@ -220,7 +220,8 @@ final class UI {
     if (useHapticFeedback) HapticFeedback.heavyImpact().ignore();
     return await cupertino_ui.showCupertinoSheet<T>(
       context: context,
-      builder: builder,
+      scrollableBuilder: (context, controller) =>
+          PrimaryScrollController(controller: controller, child: builder(context)),
       enableDrag: enableDrag,
       useNestedNavigation: useNestedNavigation,
     );

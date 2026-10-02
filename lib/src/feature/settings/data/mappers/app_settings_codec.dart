@@ -1,3 +1,8 @@
+/*
+ * Author: Anton Ustinoff <https://github.com/ziqq> | <a.a.ustinoff@gmail.com>
+ * Date: 20 November 2025
+ */
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart' show ThemeMode, Locale, Color;

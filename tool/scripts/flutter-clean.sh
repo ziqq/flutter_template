@@ -1,5 +1,5 @@
 rm -rf pubspec.lock
-fvm flutter clean
+flutter clean
 cd packages
 for dir in */ ; do
 
@@ -7,7 +7,7 @@ for dir in */ ; do
     cd ${dir}
     pwd
     rm -rf pubspec.lock
-    fvm flutter clean
+    flutter clean
     cd ..
     pwd
     if [ "$#" -gt 0 ]; then shift; fi

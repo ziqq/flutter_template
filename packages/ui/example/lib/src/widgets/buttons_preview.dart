@@ -1,160 +1,95 @@
+import 'package:example/src/common/widgets/component_preview_group.dart';
+import 'package:example/src/common/widgets/preview_example.dart';
 import 'package:example/src/common/widgets/preview_section.dart';
-import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicColor;
-import 'package:flutter/material.dart';
 import 'package:ui/ui.dart';
 
-const double _kColumnWidth = 278;
-
+/// SDK button variants, with stable loading bounds and disabled actions.
 class UIButtonsPreview extends StatelessWidget {
   const UIButtonsPreview({super.key});
 
   @override
-  Widget build(BuildContext context) => const PreviewSection(
+  Widget build(BuildContext context) => PreviewSection(
     title: 'UI Buttons',
     child: Padding(
-      padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      child: Wrap(
-        spacing: 16,
-        runSpacing: 16,
-        children: [
-          _FilledPrimaryButtons(),
-          _FilledSecondaryButtons(),
-          // _FilledDestructiveButtons(),
-          // _OutlinedButtons(),
-          // _TextButtons(),
-          // _IconButtons(),
-        ],
+      padding: PreviewSection.contentPaddingOf(context),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final spacing = Theme.of(context).uiTheme.size.offset;
+          final width = (278 + spacing.regular * 2).clamp(0.0, constraints.maxWidth);
+          return Wrap(
+            spacing: spacing.regular,
+            runSpacing: spacing.regular,
+            children: [
+              for (final secondary in const [false, true])
+                SizedBox(
+                  width: width,
+                  child: ComponentPreviewGroup(
+                    title: secondary ? 'Secondary actions' : 'Primary actions',
+                    description: 'Four sizes, disabled, loading, and icon variants.',
+                    icon: Icons.smart_button_outlined,
+                    child: _ButtonVariants(secondary: secondary),
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     ),
   );
 }
 
-class _FilledPrimaryButtons extends StatelessWidget {
-  const _FilledPrimaryButtons();
+class _ButtonVariants extends StatelessWidget {
+  const _ButtonVariants({required this.secondary});
+
+  final bool secondary;
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    width: _kColumnWidth,
+    width: 278,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: 10,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Text(
-            'Primary button',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w500,
-              color: CupertinoDynamicColor.resolve(CupertinoColors.secondaryLabel, context),
+        for (final (size, label) in const [
+          (UIButtonSize.large, 'large'),
+          (UIButtonSize.medium, 'medium'),
+          (UIButtonSize.small, 'small'),
+          (UIButtonSize.extraSmall, 'extra small'),
+        ])
+          if (secondary)
+            UIButton.secondary(
+              onPressed: () => showPreviewSnackBar(context, 'Secondary $label activated'),
+              size: size,
+              child: Text('Secondary $label'),
+            )
+          else
+            UIButton(
+              onPressed: () => showPreviewSnackBar(context, 'Primary $label activated'),
+              size: size,
+              child: Text('Primary $label'),
             ),
+        if (secondary) ...[
+          UIButton.secondary(onPressed: null, child: const Text('Disabled secondary')),
+          UIButton.secondary(onPressed: () {}, loading: true, child: const Text('Loading secondary')),
+          UIButton.secondaryIcon(
+            onPressed: () => showPreviewSnackBar(context, 'Secondary icon activated'),
+            icon: const Icon(Icons.add),
+            label: const Text('Add secondary'),
           ),
-        ),
-
-        // Regular button
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(56),
-            foregroundColor: Colors.white,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500, height: 1.1),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ] else ...[
+          UIButton(onPressed: null, child: const Text('Disabled primary')),
+          UIButton(
+            onPressed: null,
+            onLongPress: () => showPreviewSnackBar(context, 'Long press activated'),
+            child: const Text('Long press only'),
           ),
-          child: const Text('Primary regular'),
-        ),
-
-        // Medium button
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(44),
-            foregroundColor: Colors.white,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.1),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          UIButton(onPressed: () {}, loading: true, child: const Text('Loading primary')),
+          UIButton.icon(
+            onPressed: () => showPreviewSnackBar(context, 'Primary icon activated'),
+            icon: const Icon(Icons.add),
+            label: const Text('Add primary'),
           ),
-          child: const Text('Primary medium'),
-        ),
-
-        // Small button
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(38),
-            foregroundColor: Colors.white,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1.1),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          child: const Text('Primary small'),
-        ),
-      ],
-    ),
-  );
-}
-
-class _FilledSecondaryButtons extends StatelessWidget {
-  const _FilledSecondaryButtons();
-
-  @override
-  Widget build(BuildContext context) => SizedBox(
-    width: _kColumnWidth,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 10,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Text(
-            'Secondary button',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w500,
-              color: CupertinoDynamicColor.resolve(CupertinoColors.secondaryLabel, context),
-            ),
-          ),
-        ),
-
-        // Regular button
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            minimumSize: const Size.fromHeight(56),
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: .15),
-            textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500, height: 1.1),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          child: const Text('Secondary regular'),
-        ),
-
-        // Medium button
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            minimumSize: const Size.fromHeight(44),
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: .15),
-            textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400, height: 1.1),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          child: const Text('Secondary medium'),
-        ),
-
-        // Small button
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            minimumSize: const Size.fromHeight(38),
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: .15),
-            textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1.1),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          child: const Text('Secondary small'),
-        ),
+        ],
       ],
     ),
   );

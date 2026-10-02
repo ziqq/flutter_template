@@ -1,3 +1,3 @@
 export 'platform_initialization_vm.dart'
     // ignore: uri_does_not_exist
-    if (dart.library.html) 'platform_initialization_js.dart';
+    if (dart.library.js_interop) 'platform_initialization_js.dart';

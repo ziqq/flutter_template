@@ -4,7 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
-import 'package:flutter_template_name/src/common/router/app_navigator.dart';
+import 'package:flutter_template_name/src/common/router/app_navigator_observer.dart';
+import 'package:flutter_template_name/src/common/router/router.dart';
 import 'package:flutter_template_name/src/common/util/context_extension.dart';
 import 'package:flutter_template_name/src/common/widget/error_screen.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
@@ -162,7 +163,7 @@ class _AppState extends State<App> {
               textScaler: .noScaling,
               // textScaler: TextScaler.linear(mediaQueryData.textScaler.scale(settings.textScale).clamp(0.5, 2)),
             ),
-            child: child ?? const SizedBox.shrink(),
+            child: UIScope(child: child ?? const SizedBox.shrink()),
           );
         },
       ),
@@ -240,8 +241,7 @@ class _App$Error$HomeScreen extends StatelessWidget {
                 // --- Description --- //
                 CommonErrorWidget$Subtitle(
                   error,
-                  text:
-                      'Попробуйте перезапустить приложение. Если ошибка снова появится — напишите нам прикрепив скриншот экрана или нажмите кнопку ниже "{context.stringOf().actionShareTheError}". Мы обязательно поможем!',
+                  text: 'Попробуйте перезапустить приложение. Если ошибка снова появится — напишите нам прикрепив скриншот экрана или нажмите кнопку ниже "{context.stringOf().actionShareTheError}". Мы обязательно поможем!',
                 ),
                 SizedBox(height: theme.uiTheme.padding / 2),
                 const Spacer(),

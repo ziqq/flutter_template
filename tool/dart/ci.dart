@@ -20,7 +20,6 @@ final _isWindows = io.Platform.isWindows;
 
 const String _dart = '__DART__';
 const String _flutter = '__FLUTTER__';
-const String _fluttergen = '__FLUTTERGEN__';
 
 const String _flags = '__FLAGS__';
 const String _verbose = '__VERBOSE__';
@@ -40,34 +39,19 @@ final class RunOptions {
 
 @internal
 final class Toolchain {
-  const Toolchain({required this.dart, required this.flutter, required this.fluttergen, required this.label});
+  const Toolchain({required this.dart, required this.flutter, required this.label});
 
-  /// Default system toolchain, using globally available `dart`, `flutter`, and `fluttergen` commands.
+  /// Default system toolchain, using globally available `dart` and `flutter` commands.
   @literal
-  const Toolchain.system()
-    : label = 'system',
-      dart = const <String>['dart'],
-      flutter = const <String>['flutter'],
-      fluttergen = const <String>['fluttergen'];
-
-  /// FVM toolchain, using `fvm` to run `dart`, `flutter`, and `fluttergen` commands within the configured Flutter version.
-  @literal
-  const Toolchain.fvm()
-    : label = 'fvm',
-      dart = const <String>['fvm', 'dart'],
-      flutter = const <String>['fvm', 'flutter'],
-      fluttergen = const <String>['fvm', 'fluttergen'];
+  const Toolchain.system() : label = 'system', dart = const <String>['dart'], flutter = const <String>['flutter'];
 
   final String label;
   final List<String> dart;
   final List<String> flutter;
-  final List<String> fluttergen;
 
   String get dartShell => dart.join(' ');
 
   String get flutterShell => flutter.join(' ');
-
-  String get fluttergenShell => fluttergen.join(' ');
 }
 
 @internal
@@ -94,11 +78,15 @@ final class Step {
   /// Create a step for running `fluttergen` to generate Flutter assets.
   static final Step flutter_gen = Step(
     name: 'fluttergen',
-    command: _parseCommand('$_dart pub global activate flutter_gen && $_fluttergen -c pubspec.yaml'),
+    command: _parseCommand(
+      '$_dart run build_runner build --build-filter=lib/src/common/constant/generated/assets.gen.dart',
+    ),
   );
 
   /// Create a step for running `dart format` to format code in the app and packages sources.
-  static final Step format = Step(name: 'formating', command: _parseCommand(_formatScript()));
+  static final Step format = Step(name: 'format', command: _parseCommand(_formatScript()));
+
+  static final Step format_check = Step(name: 'format-check', command: _parseCommand(_formatScript(checkOnly: true)));
 
   /// Create a step for running unit tests for the project packages.
   static final Step test_packages = Step(
@@ -129,35 +117,19 @@ final class Step {
   /// Create a step for running `dart format` to format code in the app sources.
   static const Step analyze_app = Step(
     name: 'analyze-app',
-    command: <String>[_flutter, 'analyze', '--fatal-warnings', '--no-fatal-infos', 'lib/', 'test/'],
+    command: <String>[_flutter, 'analyze', '--fatal-warnings', '--no-fatal-infos', 'lib/', 'test/', 'tool/dart/'],
   );
 
-  /// Create a step for running `sheety_localization` code generation,
-  /// which generates localization files from Google Sheets.
-  static final Step sheety_localization = Step(
-    name: 'sheety-localizations',
-    command: _parseCommand(
-      '$_dart pub global activate sheety_localization && '
-      '$_dart pub global run sheety_localization:generate '
-      '--credentials=credentials.json '
-      '--sheet=1kEQwRk5fC_xVjY31liZU2nLIY84fRtce_HMf5-oBe2g '
-      '--lib=lib '
-      '--arb=src/l10n '
-      '--gen=src/generated --prefix=app --format --no-include-empty --no-last-modified '
-      '--author=\'Anton Ustinoff <a.a.ustinoff@gmail.com>\' '
-      '--comment=\'Generated from Google Sheets\' '
-      '--context=\'From Google Sheets\' '
-      '--ignore=help,backend,backend-monetization,telegram-monetization,locales,template',
-    ),
-    workingDirectory: 'packages/localization',
+  static const Step check_agent_config = Step(
+    name: 'check-agent-config',
+    command: <String>[_dart, 'run', 'tool/dart/check_agent_config.dart'],
   );
 
   /// Create a step for running `flutter gen-l10n` to generate default localizations.
   static final Step l10n = Step(
     name: 'localizations',
     command: _parseCommand(
-      '$_dart pub global activate intl_utils && '
-      '$_dart pub global run intl_utils:generate && '
+      '$_dart run intl_utils:generate && '
       '$_flutter gen-l10n '
       '--arb-dir lib/src/common/localization/translations '
       '--output-dir lib/src/common/localization/generated '
@@ -169,18 +141,15 @@ final class Step {
   static final Step pubspec_generator = Step(
     name: 'pubspec-generator',
     command: _parseCommand(
-      '$_dart pub global activate pubspec_generator && '
-      '$_dart pub global run pubspec_generator:generate '
-      '-o lib/src/common/constants/generated/pubspec.yaml.g.dart',
+      '$_dart run pubspec_generator:generate '
+      '-o lib/src/common/constant/generated/pubspec.yaml.g.dart',
     ),
   );
 
   /// Create a step for running `build_runner` code generation.
   static final Step build_runner = Step(
     name: 'build-runner',
-    command: _parseCommand(
-      '$_dart --disable-analytics && $_dart run build_runner build --delete-conflicting-outputs --release',
-    ),
+    command: _parseCommand('$_dart --disable-analytics && $_dart run build_runner build --release'),
   );
 
   /// Create a step for running `pub get` to fetch dependencies.
@@ -260,13 +229,19 @@ final class StepException implements Exception {
 }
 
 final List<Workflow> _workflows = <Workflow>[
+  const Workflow(
+    name: 'check-agent-config',
+    groups: <Group>[
+      Group(name: 'Agent configuration', steps: <Step>[Step.check_agent_config]),
+    ],
+  ),
   Workflow(
     name: 'precommit',
     description: 'Dependencies, generation, analysis, and unit tests.',
     groups: <Group>[
       const Group(name: 'Dependencies', steps: <Step>[Step.pubget]),
-      Group(name: 'Code generation', steps: <Step>[Step.pubspec_generator, Step.build_runner, Step.format]),
-      Group(name: 'Static analysis', steps: <Step>[Step.analyze_app, Step.analyze_packages]),
+      Group(name: 'Code generation', steps: <Step>[Step.l10n, Step.pubspec_generator, Step.build_runner, Step.format]),
+      Group(name: 'Static analysis', steps: <Step>[Step.check_agent_config, Step.analyze_app, Step.analyze_packages]),
       Group(name: 'Tests', steps: <Step>[Step.test_app, Step.test_packages]),
     ],
   ),
@@ -275,17 +250,7 @@ final List<Workflow> _workflows = <Workflow>[
     description: 'Dependencies and code generation commands.',
     groups: <Group>[
       const Group(name: 'Dependencies', steps: <Step>[Step.pubget]),
-      Group(
-        name: 'Code generation',
-        steps: <Step>[
-          Step.flutter_gen,
-          Step.l10n,
-          Step.sheety_localization,
-          Step.pubspec_generator,
-          Step.build_runner,
-          Step.format,
-        ],
-      ),
+      Group(name: 'Code generation', steps: <Step>[Step.l10n, Step.pubspec_generator, Step.build_runner, Step.format]),
     ],
   ),
   Workflow(
@@ -293,7 +258,7 @@ final List<Workflow> _workflows = <Workflow>[
     description: 'Dependencies and static analysis only.',
     groups: <Group>[
       const Group(name: 'Dependencies', steps: <Step>[Step.pubget]),
-      Group(name: 'Static analysis', steps: <Step>[Step.analyze_app, Step.analyze_packages]),
+      Group(name: 'Static analysis', steps: <Step>[Step.check_agent_config, Step.analyze_app, Step.analyze_packages]),
     ],
   ),
   Workflow(
@@ -316,6 +281,13 @@ final List<Workflow> _workflows = <Workflow>[
     description: 'Format app and workspace packages.',
     groups: <Group>[
       Group(name: 'Formatting', steps: <Step>[Step.format]),
+    ],
+  ),
+  Workflow(
+    name: 'format-check',
+    description: 'Check formatting without changing sources.',
+    groups: <Group>[
+      Group(name: 'Formatting', steps: <Step>[Step.format_check]),
     ],
   ),
   Workflow(
@@ -367,14 +339,6 @@ final List<Workflow> _workflows = <Workflow>[
       Group(name: 'Code generation', steps: <Step>[Step.pubspec_generator]),
     ],
   ),
-  Workflow(
-    name: 'sheety-localization',
-    description: 'Generate package localization from Google Sheets.',
-    groups: <Group>[
-      const Group(name: 'Dependencies', steps: <Step>[Step.pubget]),
-      Group(name: 'Code generation', steps: <Step>[Step.sheety_localization]),
-    ],
-  ),
   const Workflow(
     name: 'analyze-app',
     description: 'Analyze app sources only.',
@@ -406,10 +370,10 @@ final List<Workflow> _workflows = <Workflow>[
 ];
 
 /// Tool for running CI commands locally with structured logs.
-/// Usage: `fvm dart run tool/dart/ci.dart <workflow>`
+/// Usage: `mise exec -- dart run tool/dart/ci.dart <workflow>`
 /// Available workflows: precommit, gen, check, test.
 Future<void> main(List<String> args) async {
-  _toolchain = await _detectToolchain();
+  _toolchain = const Toolchain.system();
   try {
     _runOptions = _parseRunOptions(args);
   } on FormatException catch (error) {
@@ -462,7 +426,7 @@ Future<void> main(List<String> args) async {
 }
 
 void _printUsage() {
-  $log('Usage: fvm dart run tool/dart/ci.dart <workflow> [--verbose]');
+  $log('Usage: mise exec -- dart run tool/dart/ci.dart <workflow> [--verbose]');
   $log('');
   $log('Options:');
   $log('  --verbose, -v   Stream child command output immediately.');
@@ -583,55 +547,35 @@ String _testVerboseValue() => _runOptions.verbose ? '1' : '0';
 
 List<String> _parseCommand(String script) {
   if (_isWindows) return <String>['cmd', '/C', script];
-  return <String>['bash', '-lc', script];
+  return <String>['bash', '-c', script];
 }
 
-String _formatScript() {
+String _formatScript({bool checkOnly = false}) {
   final directories = <String>[
-    '.',
-    ..._packages.map((package) => 'packages/$package'),
-  ].map((directory) => '"$directory"').join(' ');
-  return 'for dir in $directories; do '
-      r'if [ ! -d "$dir" ]; then echo "Directory not found: $dir"; exit 1; fi; '
-      r'cd "$dir" && '
-      'find lib test -path "*/generated/*" -prune -o -type f -name "*.dart" ! -name "*.*.dart" ! -name "messages_.*.dart" ! -name "l10n.dart" -exec $_dart format --line-length 120 {} + 2>/dev/null || exit 1; '
-      'cd - >/dev/null || exit 1; '
-      'done';
+    'lib',
+    'test',
+    'tool/dart',
+    for (final package in _packages) ...<String>[
+      'packages/$package/lib',
+      'packages/$package/test',
+      'packages/$package/example/lib',
+      'packages/$package/example/test',
+      'packages/$package/example/tool',
+    ],
+  ].where((path) => io.Directory(path).existsSync()).map((path) => '"$path"').join(' ');
+  final flags = checkOnly ? '--output=none --set-exit-if-changed' : '';
+  return 'find $directories -path "*/generated/*" -prune -o '
+      '-type f -name "*.dart" ! -name "*.*.dart" ! -name "l10n.dart" '
+      '-exec $_dart format --line-length 120 $flags {} +';
 }
 
 String _analyzePackagesScript() {
   final packages = _packages.map((package) => '"$package"').join(' ');
   return 'for package in $packages; do '
       r'cd "packages/$package" && '
-      '$_flutter analyze --fatal-warnings --no-fatal-infos lib/ test/ || exit 1; '
+      '$_flutter analyze --fatal-warnings --no-fatal-infos lib/ test/ example/lib/ example/test/ example/tool/ || exit 1; '
       'cd - >/dev/null || exit 1; '
       'done';
-}
-
-Future<Toolchain> _detectToolchain() async {
-  try {
-    if (await _commandExists('fvm')) return const Toolchain.fvm();
-    return const Toolchain.system();
-  } on Object catch (e, s) {
-    $err('Error detecting toolchain, falling back to system: $e');
-    $err('StackTrace: $s');
-    return const Toolchain.system();
-  }
-}
-
-Future<bool> _commandExists(String command) async {
-  try {
-    final result = await io.Process.run(
-      _isWindows ? 'where' : 'command',
-      _isWindows ? <String>[command] : <String>['-v', command],
-      runInShell: _isWindows,
-    );
-    return result.exitCode == 0;
-  } on Object catch (e, s) {
-    $err('Error checking for command "$command": $e');
-    $err('StackTrace: $s');
-    return false;
-  }
 }
 
 List<String> _resolveCommand(List<String> command) {
@@ -648,16 +592,10 @@ List<String> _resolveCommand(List<String> command) {
       continue;
     }
 
-    if (part == _fluttergen) {
-      resolved.addAll(_toolchain.fluttergen);
-      continue;
-    }
-
     resolved.add(
       part
           .replaceAll(_dart, _toolchain.dartShell)
           .replaceAll(_flutter, _toolchain.flutterShell)
-          .replaceAll(_fluttergen, _toolchain.fluttergenShell)
           .replaceAll(_flags, _appTestFlagsValue())
           .replaceAll(_verbose, _testVerboseValue()),
     );

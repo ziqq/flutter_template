@@ -1,17 +1,20 @@
+import 'package:flutter_template_name/src/common/localization/localization.dart';
+
 import 'dart:async';
 
 import 'package:control/control.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_template_name/src/common/constant/config.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
-import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
-import 'package:flutter_template_name/src/common/router/app_navigator.dart';
+import 'package:flutter_template_name/src/common/router/app_pages.dart';
 import 'package:flutter_template_name/src/common/util/context_extension.dart';
+import 'package:flutter_template_name/src/common/util/error_util.dart';
 import 'package:flutter_template_name/src/common/widget/common_back_button.dart';
-import 'package:flutter_template_name/src/common/widget/common_bottom_spacer.dart';
 import 'package:flutter_template_name/src/common/widget/common_padding.dart';
+import 'package:flutter_template_name/src/common/widget/common_bottom_spacer.dart';
 import 'package:flutter_template_name/src/feature/authentication/widget/authentication_scope.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_template_name/src/feature/bug_report/bug_report_util.dart';
 import 'package:flutter_template_name/src/feature/settings/controller/settings_controller.dart';
 import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';
@@ -26,22 +29,48 @@ class DeveloperScreen extends StatefulWidget {
 
   @override
   State<DeveloperScreen> createState() => _DebugScreenState();
+
+  /// Show the developer screen
 }
 
 /// State for widget [DeveloperScreen].
 class _DebugScreenState extends State<DeveloperScreen> {
-  late final SettingsController _controller;
+  /// Settings controller
+  late final SettingsController _settingsController;
 
   @override
   void initState() {
     super.initState();
-    _controller = SettingsScope.of(context);
+    _settingsController = SettingsScope.of(context);
+  }
+
+  Future<void> _onClearKVStorage() async {
+    final dependencies = Dependencies.of(context);
+    try {
+      await dependencies.database.delete(dependencies.database.kvTbl).go();
+      await dependencies.database.refresh();
+      if (!mounted) return;
+      await UI.showSnackBar(
+        context: context,
+        type: UISnackBarType.success,
+        message: Localization.of(context).developerDatabaseClearSuccessMessage,
+        useHapticFeedback: _settingsController.state.preferences.useHapticFeedback,
+      );
+    } on Object catch (error, stackTrace) {
+      await ErrorUtil.logError(error, stackTrace);
+      if (!mounted) return;
+      await UI.showSnackBar(
+        context: context,
+        type: UISnackBarType.error,
+        message: Localization.of(context).developerDatabaseClearFailureMessage,
+      );
+    }
   }
 
   /// Send logs action
   void _onSendLogs() {
     final dependencies = Dependencies.of(context);
-    // final l10n = DeveloperLocalization.of(context);
+    final l10n = Localization.of(context);
     final user = dependencies.authenticationController.state.user;
     final message = BugReportUtil.generateErrorMessage(
       user: user,
@@ -56,48 +85,31 @@ class _DebugScreenState extends State<DeveloperScreen> {
           user: user,
           message: message,
           metadata: dependencies.metadata,
-          // onError: () => AnimatedCheckIcon.error(context, message: l10n.sendLogsMessageError),
-          // onSuccess: () => AnimatedCheckIcon.succeeded(context, message: l10n.sendLogsMessageSuccess),
-          // onProcess: () => AnimatedCheckIcon.processing(context, message: '${l10n.sendLogsMessage}...'),
-        )
-        .ignore();
-  }
-
-  /// Clear key-value storage action
-  void _onKVStorageClear() {
-    final dependencies = Dependencies.of(context);
-    final user = dependencies.authenticationController.state.user;
-    final key = '${Config.storageNamespace}.${user.id}.whats_app_notifications.promo_code';
-    dependencies.database.removeAll();
-    dependencies.sharedPreferences.remove(key);
-    UI
-        .showSnackBar(
-          context: context,
-          type: UISnackBarType.success,
-          useHapticFeedback: context.ext.settings.useHapticFeedback(listen: false),
-          message: Localization.of(context).developerStorageClearSuccessMessage,
+          onError: () => EasyLoading.showError(l10n.developerSendLogsMessageError),
+          onSuccess: () => EasyLoading.showSuccess(l10n.developerSendLogsMessageSuccess),
+          onProcess: () => EasyLoading.show(status: '${l10n.developerSendLogsMessage}...'),
         )
         .ignore();
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = Localization.of(context);
     final theme = Theme.of(context);
-    final backgroundColor = theme.uiTheme.color.secondaryBackground;
-    final spacer = SliverToBoxAdapter(child: SizedBox(height: theme.uiTheme.size.offset.regular));
-    return UIAnnotateRegion.secondary(
+    final uiTheme = theme.uiTheme;
+    final l10n = Localization.of(context);
+    final backgroundColor = uiTheme.color.secondaryBackground;
+    final spacer = SliverToBoxAdapter(child: SizedBox(height: uiTheme.size.offset.regular));
+    return UIAnnotateRegion(
       child: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: CupertinoNavigationBar(
-          padding: .zero,
-          border: const Border(),
+        appBar: AppBar(
+          clipBehavior: .none,
+          title: Text(l10n.developerTitle),
           backgroundColor: backgroundColor,
           leading: const CommonBackButton(),
-          middle: UIText.titleMedium(l10n.developerTitle),
         ),
         body: StateConsumer<SettingsController, SettingsState>(
-          controller: _controller,
+          controller: _settingsController,
           buildWhen: (p, c) => p.preferences != c.preferences || p.settings != c.settings,
           builder: (context, state, _) => CupertinoScrollbar(
             child: CustomScrollView(
@@ -108,7 +120,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: CommonPadding.of(context),
-                    child: UIListSection.secodary(
+                    child: UIListSection.secondary(
                       children: <Widget>[
                         CupertinoListTile(
                           padding: CommonPadding.of(context),
@@ -118,61 +130,37 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.textSecondary),
                           ),
                         ),
-                        /* UICupertinoFormRowSelect(
-                          title: /* l10n.developerLogsOpenDescriptionButton */ 'Show logs',
-                          showSuffix: false,
-                          onTap: () => LogsScreen.show(context),
-                        ), */
+                        _DeveloperSelectRow(
+                          title: l10n.developerShowLogsButton,
+                          onTap: () => context.ext.navigator.push(const DeveloperLogsScreenPage()),
+                        ),
                       ],
                     ),
                   ),
                 ),
-                SliverToBoxAdapter(child: SizedBox(height: theme.uiTheme.size.offset.large)),
+                SliverToBoxAdapter(child: SizedBox(height: uiTheme.size.offset.large)),
 
                 // --- Developer section --- //
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: CommonPadding.of(context),
-                    child: UIListSection.secodary(
-                      textFooter: l10n.developerFeatureFlagsDescription,
+                    child: UIListSection.secondary(
+                      footer: l10n.developerAdvancedOptionsHint,
                       children: <Widget>[
-                        /* UICupertinoFormRow.withSwitch(
-                          title: /* l10n.advancedOptionsUseDebug */ 'Use debug features',
+                        _DeveloperSwitchRow(
+                          title: l10n.developerAdvancedOptionsUseDebugLabel,
                           value: state.preferences.useDebug,
-                          onChanged: _controller.setUseDebug,
-                        ), */
-                        CupertinoListTile(
-                          title: Text(l10n.developerToggleDebugFeaturesLabel),
-                          additionalInfo: UISwitch(
-                            value: state.preferences.useDebug,
-                            onChanged: _controller.setUseDebug,
-                          ),
+                          onChanged: _settingsController.setUseDebug,
                         ),
-                        /* UICupertinoFormRow.withSwitch(
-                          title: /* l10n.advancedOptionsUseDeveloperMode */ 'Use developer mode',
+                        _DeveloperSwitchRow(
+                          title: l10n.developerAdvancedOptionsUseDeveloperModeLabel,
                           value: state.preferences.useDevelopment,
-                          onChanged: _controller.setUseDevelompent,
-                        ), */
-                        CupertinoListTile(
-                          title: Text(l10n.developerDeveloperModeToggleLabel),
-                          additionalInfo: UISwitch(
-                            value: state.preferences.useDevelopment,
-                            onChanged: _controller.setUseDevelompent,
-                          ),
+                          onChanged: _settingsController.setUseDevelompent,
                         ),
                         if (state.preferences.useDevelopment) ...[
-                          /* UICupertinoFormRowSelect(
-                            title: /* l10n.developerInfoButton */ 'Developer info',
-                            showSuffix: false,
+                          _DeveloperSelectRow(
+                            title: l10n.developerDeveloperInfoButton,
                             onTap: () => context.ext.navigator.push(const DeveloperInfoPage()),
-                          ), */
-                          CupertinoListTile(
-                            title: Text(l10n.developerInfoButton),
-                            additionalInfo: CupertinoButton(
-                              padding: .zero,
-                              onPressed: () => context.ext.navigator.push(const DeveloperInfoPage()),
-                              child: const Icon(CupertinoIcons.forward, size: 16),
-                            ),
                           ),
                         ],
                       ],
@@ -185,29 +173,36 @@ class _DebugScreenState extends State<DeveloperScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: CommonPadding.of(context),
-                    child: UIListSection.secodary(
-                      textFooter: l10n.developerToggleExperimentalFeaturesDescription,
+                    child: UIListSection.secondary(
+                      footer: l10n.developerExperimentalHint,
                       children: <Widget>[
-                        /* UICupertinoFormRow.withSwitch(
-                          title: /* l10n.advancedOptionsUseBeta */ 'Use beta features',
-                          onChanged: _controller.setUseBeta,
+                        _DeveloperSwitchRow(
+                          title: l10n.developerAdvancedOptionsUseBetaLabel,
+                          onChanged: _settingsController.setUseBeta,
                           value: state.preferences.useBeta,
-                        ), */
-                        CupertinoListTile(
-                          title: Text(l10n.developerToggleBetaFeaturesLabel),
-                          additionalInfo: UISwitch(value: state.preferences.useBeta, onChanged: _controller.setUseBeta),
                         ),
-                        /* UICupertinoFormRow.withSwitch(
-                          title: /* l10n.advancedOptionsUseExperemental */ 'Use experimental features',
-                          onChanged: _controller.setUseExpiremental,
+                        _DeveloperSwitchRow(
+                          title: l10n.developerAdvancedOptionsUseExperementalLabel,
+                          onChanged: _settingsController.setUseExpiremental,
                           value: state.preferences.useExpiremental,
-                        ), */
-                        CupertinoListTile(
-                          title: Text(l10n.developerToggleExperimentalFeaturesLabel),
-                          additionalInfo: UISwitch(
-                            value: state.preferences.useExpiremental,
-                            onChanged: _controller.setUseExpiremental,
-                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                spacer,
+
+                // --- IOS 26 features section --- //
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: CommonPadding.of(context),
+                    child: UIListSection.secondary(
+                      footer: l10n.developerIOS26LiquidThemeHint,
+                      children: <Widget>[
+                        _DeveloperSwitchRow(
+                          title: l10n.developerIOS26LiquidThemeLabel,
+                          value: state.preferences.useIOS26LiquidTheme,
+                          onChanged: _settingsController.setUseIOS26LiquidTheme,
                         ),
                       ],
                     ),
@@ -219,20 +214,13 @@ class _DebugScreenState extends State<DeveloperScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: CommonPadding.of(context),
-                    child: UIListSection.secodary(
-                      textFooter: l10n.developerHapticFeedbackDescription,
+                    child: UIListSection.secondary(
+                      footer: l10n.developerAdvancedOptionsUseHapticFeedbackHint,
                       children: <Widget>[
-                        /* UICupertinoFormRow.withSwitch(
-                          title: /* l10n.advancedOptionsUseHapticFeedback */ 'Use haptic feedback',
-                          onChanged: _controller.setUseHapticFeedback,
+                        _DeveloperSwitchRow(
+                          title: l10n.developerAdvancedOptionsUseHapticFeedbackLabel,
+                          onChanged: _settingsController.setUseHapticFeedback,
                           value: state.preferences.useHapticFeedback,
-                        ), */
-                        CupertinoListTile(
-                          title: Text(l10n.developerHapticFeedbackToggleLabel),
-                          additionalInfo: UISwitch(
-                            value: state.preferences.useHapticFeedback,
-                            onChanged: _controller.setUseHapticFeedback,
-                          ),
                         ),
                       ],
                     ),
@@ -244,69 +232,19 @@ class _DebugScreenState extends State<DeveloperScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: CommonPadding.of(context),
-                    child: UIListSection.secodary(
-                      textFooter: l10n.developerStorageClearDescription,
+                    child: UIListSection.secondary(
+                      footer: l10n.developerClearKVStorageHint,
                       children: <Widget>[
                         SizedBox(
                           width: double.infinity,
                           child: CupertinoButton(
-                            onPressed: _onKVStorageClear,
+                            onPressed: _onClearKVStorage,
                             alignment: Alignment.centerLeft,
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.clearKVStorageButton,
-                              style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                spacer,
-
-                // --- Refresh FCM token button --- //
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: CommonPadding.of(context),
-                    child: UIListSection.secodary(
-                      textFooter: l10n.developerNotificationsRefreshDescription,
-                      children: <Widget>[
-                        SizedBox(
-                          width: double.infinity,
-                          child: CupertinoButton(
-                            onPressed: () async {
-                              /* try {
-                                final id = context.ext.dependencies.authenticationController.state.user.id;
-                                await context.ext.dependencies.authenticationRepository.reSubscribeToNotifications(
-                                  skipCheckTimestamp: true,
-                                  id: id,
-                                );
-                              } on Object catch (e, _) {
-                                if (!context.mounted) return;
-                                UI
-                                    .showSnackBar(
-                                      context: context,
-                                      message: e.toString(),
-                                      type: UISnackBarType.error,
-                                      useHapticFeedback: context
-                                          .ext
-                                          .dependencies
-                                          .settingsController
-                                          .state
-                                          .preferences
-                                          .useHapticFeedback,
-                                    )
-                                    .ignore();
-                              } */
-                            },
-                            alignment: Alignment.centerLeft,
-                            padding: CommonPadding.of(context),
-                            borderRadius: UIBorderRadius.regular(context),
-                            child: Text(
-                              l10n.developerNotificationsRefreshTitle,
-                              style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
+                              l10n.developerClearKVStorageButton,
+                              style: theme.textTheme.bodyLarge?.copyWith(color: uiTheme.color.accent),
                             ),
                           ),
                         ),
@@ -320,8 +258,8 @@ class _DebugScreenState extends State<DeveloperScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: CommonPadding.of(context),
-                    child: UIListSection.secodary(
-                      textFooter: l10n.developerLogsShareDescription,
+                    child: UIListSection.secondary(
+                      footer: Localization.of(context).bugReportAttachLogsHelpText,
                       children: <Widget>[
                         SizedBox(
                           width: double.infinity,
@@ -331,8 +269,8 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.sendLogsButton,
-                              style: theme.textTheme.bodyLarge?.copyWith(color: theme.uiTheme.color.accent),
+                              l10n.developerSendLogsButton,
+                              style: theme.textTheme.bodyLarge?.copyWith(color: uiTheme.color.accent),
                             ),
                           ),
                         ),
@@ -346,8 +284,8 @@ class _DebugScreenState extends State<DeveloperScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: CommonPadding.of(context),
-                    child: UIListSection.secodary(
-                      textFooter: l10n.developerSessionsLogoutAllDescription,
+                    child: UIListSection.secondary(
+                      footer: l10n.developerLogoutHint,
                       children: <Widget>[
                         SizedBox(
                           width: double.infinity,
@@ -356,33 +294,16 @@ class _DebugScreenState extends State<DeveloperScreen> {
                                 .showCupertinoModal<void>(
                                   context: context,
                                   useRootNavigator: false,
-                                  title: Text(l10n.developerSessionsLogoutAllConfirmationMessage),
-                                  cancelButtonText: l10n.cancelButton,
+                                  title: Text(l10n.developerLogoutSubtitle),
+                                  cancelButtonText: Localization.of(context).cancelButton,
                                   actions: [
                                     CupertinoActionSheetAction(
                                       isDestructiveAction: true,
                                       onPressed: () {
-                                        // context.ext.dependencies.authenticationRepository.logoutFromAllDevices();
                                         Navigator.of(context).pop<void>();
-                                        AuthenticationScope.signOut(
-                                          context,
-                                          // fromAllDevices: true,
-                                          // useLogoutDialog: kDebugMode,
-                                          // onProcessing: () => AnimatedCheckIcon.processing(
-                                          //   context,
-                                          //   message: '${l10n.logoutStatusLabel}...',
-                                          // ),
-                                          // onError: (error) => AnimatedCheckIcon.error(
-                                          //   context,
-                                          //   message: ErrorUtil.errorToString(context, error),
-                                          // ),
-                                          // onDone: AnimatedCheckIcon.dismiss,
-                                          // onSucceeded: () {
-                                          //   AnimatedCheckIcon.succeeded(context, message: l10n.logoutMessageSuccess);
-                                          // },
-                                        );
+                                        AuthenticationScope.signOut(context).ignore();
                                       },
-                                      child: Text(l10n.logoutButton),
+                                      child: Text(Localization.of(context).developerLogoutButton),
                                     ),
                                   ],
                                 )
@@ -391,7 +312,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                             padding: CommonPadding.of(context),
                             borderRadius: UIBorderRadius.regular(context),
                             child: Text(
-                              l10n.logoutAllDevicesButton,
+                              l10n.developerLogoutButton,
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 color: CupertinoDynamicColor.resolve(CupertinoColors.systemRed, context),
                               ),
@@ -402,7 +323,7 @@ class _DebugScreenState extends State<DeveloperScreen> {
                     ),
                   ),
                 ),
-                const CommonBottomSpacer.sliver(),
+                const SliverToBoxAdapter(child: CommonBottomSpacer()),
               ],
             ),
           ),
@@ -410,4 +331,30 @@ class _DebugScreenState extends State<DeveloperScreen> {
       ),
     );
   }
+}
+
+class _DeveloperSwitchRow extends StatelessWidget {
+  const _DeveloperSwitchRow({required this.title, required this.value, required this.onChanged});
+  final String title;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+  @override
+  Widget build(BuildContext context) => CupertinoListTile(
+    padding: CommonPadding.of(context),
+    title: Text(title, maxLines: 3),
+    trailing: UISwitch(value: value, onChanged: onChanged),
+  );
+}
+
+class _DeveloperSelectRow extends StatelessWidget {
+  const _DeveloperSelectRow({required this.title, required this.onTap});
+  final String title;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) => CupertinoListTile(
+    padding: CommonPadding.of(context),
+    title: Text(title, maxLines: 3),
+    trailing: const Icon(CupertinoIcons.chevron_right, size: 16),
+    onTap: onTap,
+  );
 }

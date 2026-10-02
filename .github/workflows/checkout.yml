@@ -35,6 +35,10 @@ on:
     paths:
       - "pubspec.yaml"
       - "pubspec.lock"
+      - "mise.toml"
+      - "mise.lock"
+      - "Makefile"
+      - "tool/**"
       - ".github/**.yaml"
       - ".github/**.yml"
       - "lib/**.dart"
@@ -69,8 +73,6 @@ jobs:
 
       - name: 🚂 Setup Flutter and dependencies
         uses: ./.github/actions/setup
-        with:
-          flutter-version: '3.35.5'
 
       - name: 👀 Check flutter version
         id: check-flutter-version
@@ -81,18 +83,18 @@ jobs:
         id: check-format
         timeout-minutes: 1
         run: |
-          find lib test -name "*.dart" ! -name "*.*.dart" -print0 | xargs -0 dart format --set-exit-if-changed --line-length 120 -o none
+          mise exec -- make format-check
 
       - name: 📈 Check for Warnings
         id: check-analyzer
-        timeout-minutes: 1
+        timeout-minutes: 5
         run: |
-          flutter analyze --fatal-infos --fatal-warnings lib/ test/
+          mise exec -- make check
 
       - name: 🧪 Unit & Widget tests
         timeout-minutes: 20
         run: |
-          flutter test --coverage --concurrency=40 test/unit_test.dart test/widget_test.dart
+          mise exec -- make test-unit-all
 
       #- name: 📥 Upload coverage report
       #  timeout-minutes: 5

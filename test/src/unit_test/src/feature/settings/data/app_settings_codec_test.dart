@@ -1,13 +1,14 @@
 /*
+ * Author: Anton Ustinoff <https://github.com/ziqq> | <a.a.ustinoff@gmail.com>
  * Date: 20 November 2025
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/feature/settings/data/mappers/app_settings_codec.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_settings.dart';
 import 'package:flutter_template_name/src/feature/settings/model/app_theme.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AppSettingsCodec -', () {

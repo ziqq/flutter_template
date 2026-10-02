@@ -35,7 +35,12 @@ class DeduplicationMiddleware {
 
   ApiClientHandler call(ApiClientHandler innerHandler) => (request, context) async {
     // Allow opt-out via context
-    if (context['no-dedupe'] == true) return innerHandler(request, context);
+    if (context['no-dedupe'] == true ||
+        context['stream'] == true ||
+        context['sse'] == true ||
+        request.abortTrigger != null) {
+      return innerHandler(request, context);
+    }
 
     final key = keyBuilder?.call(request) ?? _defaultKey(request);
 
@@ -50,8 +55,6 @@ class DeduplicationMiddleware {
     try {
       final resp = await future;
       return resp;
-    } on Object catch (e, _) {
-      rethrow;
     } finally {
       // Clean up after completion (success or error).
       // Protect against race: only remove if the stored future is the one we set.

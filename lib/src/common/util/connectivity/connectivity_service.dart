@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io' as io show Socket;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/foundation.dart' show ChangeNotifier, ValueListenable, ValueNotifier;
+import 'package:flutter/foundation.dart' show ChangeNotifier, ValueListenable, ValueNotifier, kIsWeb;
 import 'package:l/l.dart';
 
 /// Read-only connectivity status notifier used by UI and transport layers.
@@ -323,6 +323,10 @@ final class ConnectivityService extends ChangeNotifier implements IConnectivityS
     final hasInterface = results.any((r) => r != ConnectivityResult.none);
     if (!hasInterface) {
       return (status: ConnectivityStatus.offline, interfaces: results, failures: const <String>['no active interface']);
+    }
+
+    if (kIsWeb) {
+      return (status: ConnectivityStatus.online, interfaces: results, failures: const <String>[]);
     }
 
     // Check actual internet reachability.

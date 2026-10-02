@@ -1,7 +1,12 @@
+/*
+ * Author: Anton Ustinoff <https://github.com/ziqq> | <a.a.ustinoff@gmail.com>
+ * Date: 23 November 2025
+ */
+
+import 'package:flutter_template_name/src/common/model/option.dart' show Option;
 import 'package:flutter/foundation.dart'
     show Diagnosticable, DiagnosticPropertiesBuilder, EnumProperty, DiagnosticsProperty;
 import 'package:flutter/material.dart' show ThemeMode, Color, Brightness, ThemeData;
-import 'package:flutter_template_name/src/common/model/option.dart';
 import 'package:meta/meta.dart';
 import 'package:ui/ui.dart' show $createThemeData;
 

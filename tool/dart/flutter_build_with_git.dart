@@ -81,10 +81,10 @@ final class BuildInfo {
   /// Short commit SHA (8 characters).
   final String shaShort;
 
-  /// Either "flutter" or "fvm"
+  /// Flutter executable selected from the active toolchain.
   final String flutterExecutable;
 
-  /// Empty for "flutter", or ["flutter"] for "fvm flutter"
+  /// Optional arguments supplied through FLUTTER_CMD.
   final List<String> flutterPrefixArgs;
 
   /// Detect build info from git and environment variables.
@@ -182,35 +182,19 @@ final class BuildInfo {
   }
 }
 
-/// Pick flutter command to use (either "flutter" or "fvm flutter").
+/// Selects Flutter from the active Mise environment or FLUTTER_CMD override.
 Future<({String executable, List<String> prefixArgs})> _pickFlutterCommand() async {
   try {
-    // Check if FLUTTER_CMD env variable is set (e.g. by FVM or manually)
+    // Check whether an explicit Flutter command was supplied.
     final envCmd = io.Platform.environment['FLUTTER_CMD']?.trim();
     if (envCmd != null && envCmd.isNotEmpty) {
       final parts = envCmd.split(RegExp(r'\s+'));
       return (executable: parts.first, prefixArgs: parts.sublist(1));
     }
 
-    // If not set, try to detect FVM
-    final hasFvm = await _hasCommand('fvm');
-    if (hasFvm) return const (executable: 'fvm', prefixArgs: ['flutter']);
-
-    // Else use flutter without fvm
     return const (executable: 'flutter', prefixArgs: <String>[]);
   } on Object catch (e, s) {
     $err('Error while detecting flutter command: $e\n$s');
     return const (executable: 'flutter', prefixArgs: <String>[]);
-  }
-}
-
-/// Check if a command is available in the system.
-Future<bool> _hasCommand(String cmd) async {
-  try {
-    final res = await io.Process.run(cmd, ['--version'], runInShell: io.Platform.isWindows);
-    return res.exitCode == 0;
-  } on Object catch (e, s) {
-    $err('Error while checking command "$cmd": $e\n$s');
-    return false;
   }
 }

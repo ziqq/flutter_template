@@ -1,3 +1,5 @@
+import 'package:flutter_template_name/src/feature/initialization/model/initialization_stats.dart';
+
 import 'dart:async';
 
 import 'package:control/control.dart';
@@ -9,8 +11,8 @@ import 'package:flutter_template_name/src/common/controller/controller_observer.
 import 'package:flutter_template_name/src/common/database/database.dart';
 import 'package:flutter_template_name/src/common/model/app_metadata.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
-import 'package:flutter_template_name/src/common/router/app_navigator.dart' show AppNavigationState;
-import 'package:flutter_template_name/src/common/router/app_pages.dart' show AppPage, HomePage;
+import 'package:flutter_template_name/src/common/router/app_pages.dart' show HomePage;
+import 'package:flutter_template_name/src/common/router/router.dart' show AppNavigationState, AppPage;
 import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_service.dart';
 import 'package:flutter_template_name/src/common/util/log_buffer.dart';
@@ -40,6 +42,7 @@ Future<Dependencies> $initializeDependencies({void Function(int progress, String
   final dependencies = Dependencies();
   final totalSteps = _initializationSteps.length;
   var currentStep = 0;
+  final timings = <InitializationStepTiming>[];
   for (final step in _initializationSteps.entries) {
     try {
       currentStep++;
@@ -56,7 +59,14 @@ Future<Dependencies> $initializeDependencies({void Function(int progress, String
         '($percent%) '
         '| "${step.key}"',
       );
-      await step.value(dependencies);
+      final stopwatch = Stopwatch()..start();
+      try {
+        await step.value(dependencies);
+      } finally {
+        stopwatch.stop();
+        timings.add(InitializationStepTiming(index: currentStep - 1, name: step.key, duration: stopwatch.elapsed));
+        dependencies.initializationStats = InitializationStats(steps: timings);
+      }
     } on Object catch (error, stackTrace) {
       l.e('Initialization failed at step "${step.key}": $error', stackTrace);
       Error.throwWithStackTrace('Initialization failed at step "${step.key}": $error', stackTrace);
@@ -130,10 +140,6 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
   //? If u want to uncomit this line, u will should test it on Android devices.
   // 'Get remote config': (_) => RemoteConfigService.instance.initialize().timeout(const Duration(seconds: 30)),
 
-  // Analytics initialization (Use fake analytics in development mode).
-  // This is where you can set up analytics for the app.
-  'Analytics initialization': (d) async => d.analytics = Analytics.instance,
-
   // Connectivity service initialization.
   // This is where you can set up connectivity service for the app.
   'Connectivity initialization': (d) async => d.connectivityService = ConnectivityService.instance..start(),
@@ -154,6 +160,11 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
       l.w('Error restore settings state: $e', st);
       Error.throwWithStackTrace(e, st);
     }
+  },
+
+  'Analytics initialization': (d) async {
+    d.analytics = Analytics.instance;
+    await d.analytics.setConsent(d.settingsController.state.preferences.analyticsDataSendingEnabled);
   },
 
   // Initialize API client
@@ -219,7 +230,7 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
   'General HTTP Client': (d) async {
     Future<String?> getToken() async {
       try {
-        return Future<String?>.value(d.authenticationController.state.user.token);
+        return d.authenticationController.state.user.token;
       } on Object catch (e, s) {
         l.w('Error getting token: $e', s);
         return null;

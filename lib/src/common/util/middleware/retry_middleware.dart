@@ -79,7 +79,14 @@ class RetryMiddleware {
 
         // Wait for the next backoff window, then replay the request.
         final delay = retryDelays[math.min(attempt, retryDelays.length - 1)];
-        await Future<void>.delayed(delay);
+        final abortTrigger = clonedRequest.abortTrigger;
+        final cancelled = await Future.any<bool>(<Future<bool>>[
+          Future<void>.delayed(delay).then((_) => false),
+          if (abortTrigger != null) abortTrigger.then((_) => true),
+        ]);
+        if (cancelled) {
+          throw const ApiException$Network(statusCode: 0, code: 'cancelled', message: 'Request was cancelled.');
+        }
         attempt++;
         clonedRequest = clonedRequest.clone();
       }
@@ -146,6 +153,7 @@ const kDefaultRefreshRetryDelays = <Duration>[Duration(seconds: 1), Duration(sec
 /// package Dio policy where possible, while also understanding package-native
 /// [ApiException] variants and [TimeoutException].
 bool defaultRetryEvaluator$HTTP(Object error, int attempt) => switch (error) {
+  ApiException(:final code) when kDefaultNonRetryableCodes.contains(code) => false,
   ApiException$Offline() => false,
   ApiException$Authorization() => false,
   TimeoutException() => true,

@@ -7,6 +7,7 @@ plugins {
     id "com.huawei.agconnect" apply false
 }
 
+
 // ./gradlew help --no-daemon
 /* android.applicationVariants.all { variant ->
     def flavorName = variant.flavorName
@@ -25,12 +26,37 @@ plugins {
 
 
 def taskNames = gradle.startParameter.taskNames.collect { it.toLowerCase() }
-def applyHuaweiPlugin = taskNames.any { it.contains("hms") }
-def applyGoogleServicesPlugin = taskNames.any {
-    it.contains("stage") ||
-    it.contains("prod") ||
-    it.contains("dev") ||
-    it.contains("gms")
+def hasTaskForFlavor = { String flavor ->
+    taskNames.any { it.contains(flavor) }
+}
+
+def hasGoogleServicesConfigForFlavor = { String flavor ->
+    [
+        "src/${flavor}/debug/google-services.json",
+        "src/debug/${flavor}/google-services.json",
+        "src/${flavor}/release/google-services.json",
+        "src/release/${flavor}/google-services.json",
+        "src/${flavor}/profile/google-services.json",
+        "src/profile/${flavor}/google-services.json",
+        "src/${flavor}/google-services.json",
+        "src/main/google-services.json",
+        "google-services.json",
+    ].any { relativePath -> file(relativePath).exists() }
+}
+
+def hasHuaweiServicesConfig = [
+    "src/hms/debug/agconnect-services.json",
+    "src/debug/hms/agconnect-services.json",
+    "src/hms/release/agconnect-services.json",
+    "src/release/hms/agconnect-services.json",
+    "src/hms/agconnect-services.json",
+    "src/main/agconnect-services.json",
+    "agconnect-services.json",
+].any { relativePath -> file(relativePath).exists() }
+
+def applyHuaweiPlugin = hasTaskForFlavor("hms") && hasHuaweiServicesConfig
+def applyGoogleServicesPlugin = ["dev", "stage", "prod", "gms"].any {
+    hasTaskForFlavor(it) && hasGoogleServicesConfigForFlavor(it)
 }
 
 if (applyGoogleServicesPlugin) {
@@ -107,7 +133,7 @@ android {
             ]
         }
         stage {
-            applicationIdSuffix ".stg"
+            applicationIdSuffix ".stage"
             dimension "default"
             manifestPlaceholders += [
                 appname: "[STG] Template",

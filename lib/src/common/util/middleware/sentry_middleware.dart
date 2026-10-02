@@ -4,6 +4,7 @@
 
 import 'package:flutter_template_name/src/common/api_client/api_client.dart';
 import 'package:flutter_template_name/src/common/api_client/api_exception.dart';
+import 'package:flutter_template_name/src/common/api_client/log_sanitizer.dart';
 import 'package:flutter_template_name/src/common/controller/app_controller.dart' show $currentSentryTransaction;
 import 'package:meta/meta.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -19,6 +20,9 @@ class SentryMiddleware {
   const SentryMiddleware();
 
   ApiClientHandler call(ApiClientHandler innerHandler) => (request, context) async {
+    final sanitizedUri = sanitizeUriForLogging(request.url);
+    final sanitizedQuery = sanitizeQueryParametersForLogging(request.url.queryParametersAll);
+    final sanitizedHeaders = sanitizeHeadersForLogging(request.headers);
     // Build operation name
     final operation = context['operation']?.toString() ?? '[${request.method}] ${request.url.path}';
 
@@ -37,11 +41,11 @@ class SentryMiddleware {
                 startTimestamp: DateTime.now().toUtc(),
               ))
           ..setData('http.request.method', request.method)
-          ..setData('url', request.url.toString())
+          ..setData('url', sanitizedUri)
           ..setData('method', request.method)
           ..setData('path', request.url.path)
-          ..setData('query', request.url.queryParameters)
-          ..setData('request_headers', request.headers);
+          ..setData('query', sanitizedQuery)
+          ..setData('request_headers', sanitizedHeaders);
 
     // Store transaction in context for downstream middlewares
     context['sentry.transaction'] = transaction;
@@ -65,10 +69,10 @@ class SentryMiddleware {
         withScope: (scope) => scope.span = transaction,
         hint: Hint.withMap({
           'method': request.method,
-          'url': request.url,
+          'url': sanitizedUri,
           'path': request.url.path,
-          'query': request.url.queryParameters,
-          'headers': request.headers,
+          'query': sanitizedQuery,
+          'headers': sanitizedHeaders,
         }),
       );
 

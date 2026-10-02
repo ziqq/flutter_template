@@ -36,6 +36,10 @@
 </head>
 
 <body>
+  <script>
+    window.updateLoadingProgress ??= function updateLoadingProgress() {};
+    window.removeLoadingIndicator ??= function removeLoadingIndicator() {};
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 
