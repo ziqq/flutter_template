@@ -74,4 +74,6 @@ target identifiers, nor rendered message bodies.
 
 ## Existing CI limitations
 
-The existing `checkout.yml` mixes text outside `${{ }}` in its test-artifact upload condition. Actionlint reports that condition as always true. Its build triggers also target `master`, while the default branch is `main`; this integration preserves the existing CI trigger policy.
+The test-artifact upload condition is a complete GitHub expression and skips
+Dependabot. Build triggers still target `master`, while the default branch is
+`main`; the existing CI trigger policy is preserved.

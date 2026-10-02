@@ -104,7 +104,7 @@ jobs:
 
       - name: 📥 Upload test report
         uses: actions/upload-artifact@v4
-        if: (success() || failure()) && ${{ github.actor != 'dependabot[bot]' }}
+        if: ${{ (success() || failure()) && github.actor != 'dependabot[bot]' }}
         with:
           name: test-results
           path: reports/tests.json
