@@ -10,9 +10,13 @@ import 'package:flutter_template_name/src/common/util/connectivity/connectivity_
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_service.dart';
 import 'package:flutter_template_name/src/feature/authentication/controller/authentication_controller.dart';
 import 'package:flutter_template_name/src/feature/authentication/data/authentication_repository.dart';
+import 'package:flutter_template_name/src/feature/authentication/model/sign_in_data.dart';
+import 'package:flutter_template_name/src/feature/authentication/widget/signin_screen.dart';
+import 'package:flutter_template_name/src/feature/authentication/widget/signup_screen.dart';
 import 'package:flutter_template_name/src/feature/settings/controller/settings_controller.dart';
 import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:squid/squid.dart';
 
 import 'src/util/test_util.dart';
 import 'src/widget_test/src/common/_all.dart' as common_test;
@@ -34,18 +38,20 @@ void main() => group('Widget', () {
     expect(Dependencies.of(context), allOf(isNotNull, isA<Dependencies>(), isA<FakeDependencies>()));
   });
 
-  testWidgets('App', (tester) async {
+  testWidgets('guest navigation stays local and resets after signing in and out', (tester) async {
     final dependencies = FakeDependencies()
       ..authenticationController = AuthenticationController(repository: AuthenticationRepository$Fake())
       ..settingsController = SettingsController(repository: MockSettingsRepository())
-      ..navigator = ValueNotifier<AppNavigationState>(const [
-        AppPage$Fade(name: 'test', key: ValueKey('test'), child: SizedBox.shrink()),
+      ..navigator = NavigationController(const [
+        AppPage$Fade(name: 'test', key: ValueKey('test'), child: Text('Authenticated home')),
       ])
       ..database = MockDatabase()
       ..metadata = MockService.appMetadata
-      ..analytics = Analytics.instance
+      ..analytics = FakeAnalytics()
       ..connectivityService = _ConnectivityService();
     addTearDown(dependencies.navigator.dispose);
+    addTearDown(dependencies.authenticationController.dispose);
+    addTearDown(() => tester.pumpWidget(const SizedBox.shrink()));
     await tester.pumpWidget(
       dependencies.inject(
         child: const ConnectivityScope(child: SettingsScope(child: App())),
@@ -54,7 +60,50 @@ void main() => group('Widget', () {
     await tester.pumpAndSettle();
     expect(find.byType(MaterialApp), findsOneWidget);
     expect(find.byType(InheritedDependencies), findsOneWidget);
+    expect(find.byType(SignInScreen), findsOneWidget);
+    final guest = tester.widget<NavigationView>(find.byType(NavigationView)).controller;
+    expect(guest, isNot(same(dependencies.navigator)));
+    final signUpLabel = Localization.of(tester.element(find.byType(SignInScreen))).signUpButton;
+
+    await tester.tap(find.text(signUpLabel));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    expect(find.byType(SignUpScreen), findsOneWidget);
+    expect(guest.length, 2);
+    expect(dependencies.navigator.length, 1);
+
+    expect(await tester.binding.handlePopRoute(), isTrue);
+    await tester.pumpAndSettle();
+    expect(find.byType(SignInScreen), findsOneWidget);
+    expect(find.byType(SignUpScreen), findsNothing);
+
+    await tester.tap(find.text(signUpLabel));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    final signIn = dependencies.authenticationController.signIn(
+      const SignInData(username: 'test-user', password: 'test-password'),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    await signIn;
+    await tester.pumpAndSettle();
+    expect(guest.isDisposed, isTrue);
+    expect(find.text('Authenticated home'), findsOneWidget);
+    expect(tester.widget<NavigationView>(find.byType(NavigationView)).controller, same(dependencies.navigator));
+
+    final signOut = dependencies.authenticationController.signOut();
+    await tester.pump();
+    await tester.pumpAndSettle();
+    await signOut;
+    final freshGuest = tester.widget<NavigationView>(find.byType(NavigationView)).controller;
+    expect(freshGuest, isNot(same(guest)));
+    expect(freshGuest.length, 1);
+    expect(find.byType(SignInScreen), findsOneWidget);
+    expect(find.byType(SignUpScreen), findsNothing);
+    expect(dependencies.navigator.length, 1);
     await tester.pumpWidget(const SizedBox.shrink());
+    expect(freshGuest.isDisposed, isTrue);
+    expect(tester.takeException(), isNull);
   }, variant: TargetPlatformVariant.only(TargetPlatform.macOS));
 
   common_test.main();

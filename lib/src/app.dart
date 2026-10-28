@@ -5,7 +5,6 @@ import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/localization/localization.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:flutter_template_name/src/common/router/app_navigator_observer.dart';
-import 'package:flutter_template_name/src/common/router/router.dart';
 import 'package:flutter_template_name/src/common/util/context_extension.dart';
 import 'package:flutter_template_name/src/common/widget/error_screen.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
@@ -13,6 +12,7 @@ import 'package:flutter_template_name/src/feature/bug_report/bug_report_util.dar
 import 'package:flutter_template_name/src/feature/bug_report/widget/bug_report_scope.dart';
 import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';
 import 'package:flutter_template_name/src/scopes.dart';
+import 'package:squid/squid.dart';
 import 'package:ui/ui.dart';
 
 /// Stup supported locales for the application.
@@ -76,7 +76,7 @@ class _AppState extends State<App> {
   Locale? _locale;
 
   /// The main app navigator.
-  late final AppNavigator _navigator;
+  late final NavigationView _navigator;
 
   @override
   void initState() {
@@ -85,12 +85,9 @@ class _AppState extends State<App> {
     /// Add internal observer to the observers list.
     _observers = <NavigatorObserver>[_observer, AppNavigatorObserver(analytics: context.ext.dependencies.analytics)];
 
-    /// Create navigator with [AppNavigator].
-    _navigator = AppNavigator.controlled(
+    /// Render the application-owned navigation stack.
+    _navigator = NavigationView(
       controller: Dependencies.of(context).navigator,
-      guards: const <AppNavigationState Function(BuildContext context, AppNavigationState state)>[
-        /* AppNavigatorAnalyticsGuard(analytics: Dependencies.of(context).analytics), */
-      ],
       observers: _observers,
       key: const ValueKey<String>('app_navigator'),
     );

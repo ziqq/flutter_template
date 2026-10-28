@@ -73,6 +73,9 @@ dependencies:
   # State management
   control: 1.0.0-dev.1
 
+  # Navigation
+  squid: ^0.1.1
+
   # Database
   shared_preferences: ^2.5.5
   drift: ^2.34.0

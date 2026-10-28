@@ -1,9 +1,6 @@
-import 'package:flutter_template_name/src/feature/initialization/model/initialization_stats.dart';
-
 import 'dart:async';
 
 import 'package:control/control.dart';
-import 'package:flutter/foundation.dart' show ValueNotifier;
 import 'package:flutter_template_name/src/common/api_client/api_client.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
@@ -12,7 +9,6 @@ import 'package:flutter_template_name/src/common/database/database.dart';
 import 'package:flutter_template_name/src/common/model/app_metadata.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:flutter_template_name/src/common/router/app_pages.dart' show HomePage;
-import 'package:flutter_template_name/src/common/router/router.dart' show AppNavigationState, AppPage;
 import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_service.dart';
 import 'package:flutter_template_name/src/common/util/log_buffer.dart';
@@ -29,6 +25,7 @@ import 'package:flutter_template_name/src/feature/authentication/data/authentica
 import 'package:flutter_template_name/src/feature/initialization/data/app_migrator.dart';
 import 'package:flutter_template_name/src/feature/initialization/data/platform/platform_initialization.dart'
     as platform_initialization;
+import 'package:flutter_template_name/src/feature/initialization/model/initialization_stats.dart';
 import 'package:flutter_template_name/src/feature/settings/controller/settings_controller.dart';
 import 'package:flutter_template_name/src/feature/settings/data/providers/app_settings_data_provider.dart';
 import 'package:flutter_template_name/src/feature/settings/data/providers/user_preferences_data_provider.dart';
@@ -36,6 +33,7 @@ import 'package:flutter_template_name/src/feature/settings/data/settings_reposit
 import 'package:l/l.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:squid/squid.dart' show NavigationController;
 
 /// Initializes the app and returns a [Dependencies] object
 Future<Dependencies> $initializeDependencies({void Function(int progress, String message)? onProgress}) async {
@@ -287,7 +285,7 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
 
   // Prepare navigation
   // This is where you can set up navigation for the app.
-  'Prepare navigation': (d) async => d.navigator = ValueNotifier<AppNavigationState>(const <AppPage>[HomePage()]),
+  'Prepare navigation': (d) async => d.navigator = NavigationController(const [HomePage()]),
 
   // Load spritesheet data
   // This is where you can set up spritesheet data for the app.

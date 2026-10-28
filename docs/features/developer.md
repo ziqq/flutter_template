@@ -1,6 +1,6 @@
 # Developer Tools
 
-`DeveloperButton` opens `DeveloperPage` through the nearest `AppNavigator`. The app-owned pages are declared in
+`DeveloperButton` opens `DeveloperPage` through the nearest Squid `NavigationView`. The app-owned pages are declared in
 `lib/src/common/router/app_pages.dart`: developer settings, application information, log viewer, and startup statistics.
 Only `/developer` is accepted by the external parser; internal diagnostic pages do not become deep links implicitly.
 

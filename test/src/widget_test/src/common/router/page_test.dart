@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template_name/src/common/router/router.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:squid/squid.dart';
 
 void main() => group('AppPage -', () {
   testWidgets('keeps the previous page visible below an overlay and synchronizes a Flutter pop', (tester) async {
@@ -18,19 +19,18 @@ void main() => group('AppPage -', () {
       barrierColor: Color(0x66000000),
       child: Align(alignment: Alignment.topCenter, child: Text('Overlay content')),
     );
-    final controller = ValueNotifier<AppNavigationState>(const [root]);
+    final controller = NavigationController(const [root]);
     addTearDown(controller.dispose);
-    await tester.pumpWidget(MaterialApp(home: AppNavigator.controlled(controller: controller)));
+    await tester.pumpWidget(MaterialApp(home: NavigationView(controller: controller)));
 
-    controller.value = const [root, overlay];
+    controller.stack = const [root, overlay];
     await tester.pumpAndSettle();
     expect(find.text('Root content'), findsOneWidget);
     expect(find.text('Overlay content'), findsOneWidget);
 
-    final state = tester.state<AppNavigatorState>(find.byType(AppNavigator));
-    state.navigator!.pop();
+    controller.navigator!.pop<void>();
     await tester.pumpAndSettle();
-    expect(controller.value, const [root]);
+    expect(controller.stack, const [root]);
     expect(find.text('Root content'), findsOneWidget);
     expect(find.text('Overlay content'), findsNothing);
   }, variant: const TargetPlatformVariant({TargetPlatform.android, TargetPlatform.iOS}));

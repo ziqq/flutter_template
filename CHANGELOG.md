@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Use Squid directly for application navigation and a scope-owned guest authentication stack.
+- Replace the local navigator implementation with Squid while retaining `context.ext.navigator`, page presentations, and navigation haptics.
+
 - Update the pinned toolchain to Flutter 3.47.7 / Dart 3.13.5, Java 17.0.20, AGP 9.4.1, Gradle 9.6.1, and Kotlin 2.4.21.
 - Run validation CI for `main` and use a portable Pub cache without rewriting the template version.
 

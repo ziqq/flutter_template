@@ -124,12 +124,12 @@ sealed class Pubspec {
   static final DateTime timestamp = DateTime.utc(
     2026,
     10,
-    2,
+    28,
     11,
-    24,
-    41,
-    738,
-    622,
+    18,
+    44,
+    441,
+    846,
   );
 
   /// Name
@@ -426,6 +426,7 @@ sealed class Pubspec {
     'win32': r'any',
     'window_manager': r'^0.5.1',
     'control': r'1.0.0-dev.1',
+    'squid': r'^0.1.1',
     'shared_preferences': r'^2.5.5',
     'drift': r'^2.34.0',
     'drift_db_viewer': r'^2.1.0',

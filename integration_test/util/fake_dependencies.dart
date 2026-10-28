@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart' show ValueNotifier;
 import 'package:flutter_template_name/src/common/api_client/api_client.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:flutter_template_name/src/common/router/app_pages.dart' show HomePage;
-import 'package:flutter_template_name/src/common/router/router.dart' show AppNavigationState, AppPage;
 import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/feature/authentication/controller/authentication_controller.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
@@ -11,6 +9,7 @@ import 'package:flutter_template_name/src/feature/settings/controller/settings_c
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
+import 'package:squid/squid.dart' show NavigationController;
 
 import '../../test/src/util/mocks/mock_service.dart';
 import '../../test/src/util/test_util.mocks.dart';
@@ -31,10 +30,10 @@ FakeDependencies $initializeFakeDependencies({
   final authenticationRepository = MockAuthenticationRepository();
   final dependencies = FakeDependencies()
     ..analytics = FakeAnalytics()
-    ..navigator = ValueNotifier<AppNavigationState>(const <AppPage>[HomePage()])
+    ..navigator = NavigationController(const [HomePage()])
     ..metadata = MockService.appMetadata
     ..sharedPreferences = sharedPreferences
-    ..client = ApiClient$HTTP(baseURL: Config.baseUrl)
+    ..client = ApiClient$HTTP(baseURL: Config.apiBaseUrl)
     ..database = MockDatabase()
     ..authenticationRepository = authenticationRepository
     ..authenticationController = AuthenticationController(

@@ -6,7 +6,7 @@ Small description of the project, its purpose, and any relevant context. This se
 ## Structure
 
 - `lib/` — Flutter app (Dart, Mise)
-- `lib/src/common/` — Shared: constants, controller, database (drift), models, Navigator-based router, utils, widgets
+- `lib/src/common/` — Shared: constants, controller, database (drift), models, Squid navigation pages, utils, widgets
 - `lib/src/feature/<domain>/` — Features: `controller/`, `data/`, `model/`, `widget/`
 - `lib/src/common/localization/` — Local ARB sources and generated application localization
 - `packages/ui/` — UI kit: widgets, fonts, icons, theme (ThemeExtension)

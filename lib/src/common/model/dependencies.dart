@@ -1,15 +1,15 @@
-import 'package:flutter_template_name/src/feature/initialization/model/initialization_stats.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_template_name/src/common/api_client/api_client.dart';
 import 'package:flutter_template_name/src/common/database/database.dart';
 import 'package:flutter_template_name/src/common/model/app_metadata.dart';
-import 'package:flutter_template_name/src/common/router/router.dart';
 import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_service.dart';
 import 'package:flutter_template_name/src/feature/authentication/controller/authentication_controller.dart';
 import 'package:flutter_template_name/src/feature/authentication/data/authentication_repository.dart';
+import 'package:flutter_template_name/src/feature/initialization/model/initialization_stats.dart';
 import 'package:flutter_template_name/src/feature/settings/controller/settings_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:squid/squid.dart' show NavigationController;
 
 /// Dependencies
 class Dependencies {
@@ -21,8 +21,8 @@ class Dependencies {
   /// Injest dependencies to the widget tree.
   Widget inject({required Widget child, Key? key}) => InheritedDependencies(dependencies: this, key: key, child: child);
 
-  /// App navigator state
-  late final ValueNotifier<AppNavigationState> navigator;
+  /// Owner of the application's navigation stack.
+  late final NavigationController navigator;
 
   /// Measured steps from this launch.
   InitializationStats initializationStats = const InitializationStats.empty();
@@ -62,66 +62,11 @@ class Dependencies {
 }
 
 /// Fake Dependencies
-class FakeDependencies implements Dependencies {
+class FakeDependencies extends Dependencies {
   FakeDependencies();
 
   /// The state from the closest instance of this class.
   static Dependencies of(BuildContext context) => Dependencies.of(context);
-
-  /// Injest dependencies to the widget tree.
-  @override
-  Widget inject({required Widget child, Key? key}) => InheritedDependencies(dependencies: this, key: key, child: child);
-
-  /// App navigator state
-  @override
-  late final ValueNotifier<AppNavigationState> navigator;
-
-  @override
-  InitializationStats initializationStats = const InitializationStats.empty();
-
-  /// App metadata
-  @override
-  late final AppMetadata metadata;
-
-  /// App analytics
-  @override
-  late final Analytics analytics;
-
-  /// Connectivity service
-  @override
-  late final IConnectivityService connectivityService;
-
-  /// Shared preferences
-  @override
-  late final SharedPreferencesAsync sharedPreferences;
-
-  /// Flutter secure storage
-  // @override
-  // late final FlutterSecureStorage storage;
-
-  /// Database
-  @override
-  late final Database database;
-
-  /// HTTP Client factory
-  @override
-  late final ApiClient$HTTP Function([Iterable<ApiClientMiddleware>? middlewares]) httpFactory;
-
-  /// HTTP Client
-  @override
-  late final ApiClient$HTTP client;
-
-  /// Authentication repository
-  @override
-  late final IAuthenticationRepository authenticationRepository;
-
-  /// Authentication controller
-  @override
-  late final AuthenticationController authenticationController;
-
-  /// Settings controller
-  @override
-  late final SettingsController settingsController;
 }
 
 /// {@template inherited_dependencies}

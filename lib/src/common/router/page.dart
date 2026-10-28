@@ -6,6 +6,13 @@
 import 'package:flutter/cupertino.dart' show CupertinoPageTransition, CupertinoRouteTransitionMixin;
 import 'package:flutter/material.dart';
 import 'package:flutter_template_name/src/common/router/transitions_builder.dart';
+import 'package:squid/squid.dart' show NavigationRoute, NavigationStack;
+
+/// Default delay between removing a page and pushing its replacement.
+const Duration kDefaultNavigatorReplaceDuration = Duration(milliseconds: 350);
+
+/// An application navigation stack owned by Squid.
+typedef AppNavigationState = NavigationStack;
 
 final class _MaterialPageRoute<T> extends PageRoute<T> with MaterialRouteTransitionMixin<T> {
   _MaterialPageRoute({
@@ -75,7 +82,7 @@ final class _CupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTrans
 /// or `sealed` page classes. The page is intentionally independent from concrete
 /// route parsers, screens, analytics, and application scopes.
 @immutable
-base class AppPage extends MaterialPage<void> {
+base class AppPage extends MaterialPage<void> implements NavigationRoute {
   /// Creates a navigation page with stable identity and optional restoration metadata.
   ///
   /// The inherited `name` and [key] identify the route for diagnostics and page
@@ -108,10 +115,25 @@ base class AppPage extends MaterialPage<void> {
   String get name => super.name ?? 'unknown';
 
   @override
-  Map<String, Object?>? get arguments => switch (super.arguments) {
+  LocalKey get key => super.key!;
+
+  @override
+  Map<String, Object?> get arguments => switch (super.arguments) {
     Map<String, Object?> args when args.isNotEmpty => args,
     _ => const <String, Object?>{},
   };
+
+  @override
+  Set<String> get tags => const <String>{};
+
+  @override
+  int get priority => 0;
+
+  @override
+  Widget build(BuildContext context) => child;
+
+  @override
+  Page<Object?> page(BuildContext context) => this;
 
   @override
   int get hashCode => key.hashCode;

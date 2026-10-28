@@ -9,6 +9,7 @@ import 'package:flutter_template_name/src/common/router/router.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
 import 'package:flutter_template_name/src/feature/authentication/widget/authentication_scope.dart';
 import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';
+import 'package:squid/squid.dart' show NavigationController, NavigationView;
 
 /// Extensions for [BuildContext].
 extension BuildContextX on BuildContext {
@@ -24,7 +25,7 @@ extension type BuildContextExtension(BuildContext _context) {
   /// Localization extension.
   LocaleExtension get l10n => LocaleExtension(_context);
 
-  /// Navigator extension.
+  /// Navigation actions with the configured haptic feedback.
   NavigatorExtension get navigator => NavigatorExtension(_context);
 
   /// Settings extension.
@@ -66,108 +67,60 @@ extension type LocaleExtension(BuildContext _context) {
 
 /// Navigator extension.
 extension type NavigatorExtension(BuildContext _context) {
-  /// Get the current dependencies.
-  Dependencies get _dependencies => Dependencies.of(_context);
+  NavigationController _controller({bool rootNavigator = false}) => rootNavigator
+      ? Dependencies.of(_context).navigator
+      : NavigationView.maybeOf(_context) ?? Dependencies.of(_context).navigator;
 
-  /// Navigate to a page using the app-owned navigation stack.
+  /// Navigate to a page using the selected app-owned navigation stack.
   void navigate(AppPage page, AppNavigationState Function(AppNavigationState pages) change) {
-    final enabled = SettingsScope.userPreferencesOf(_context, listen: false).useHapticFeedback == true;
-    if (enabled) HapticFeedback.heavyImpact().ignore();
-    final navigator = AppNavigator.maybeOf(_context);
-    if (navigator != null) {
-      navigator.change(change);
-      return;
-    }
-    _dependencies.navigator.value = change(_dependencies.navigator.value);
+    _context.ext.hapticHeavy();
+    _controller().change(change);
   }
 
   /// Push a page onto the app-owned navigation stack.
   void push(AppPage page) {
-    final enabled = SettingsScope.userPreferencesOf(_context, listen: false).useHapticFeedback == true;
-    if (enabled) HapticFeedback.heavyImpact().ignore();
-    final navigator = AppNavigator.maybeOf(_context);
-    if (navigator != null) {
-      AppNavigator.push(_context, page);
-      return;
-    }
-    _dependencies.navigator.value = <AppPage>[..._dependencies.navigator.value, page];
+    _context.ext.hapticHeavy();
+    _controller().push(page);
   }
 
   /// Replace the current page on the app-owned navigation stack.
   void replace(AppPage page) {
-    final enabled = SettingsScope.userPreferencesOf(_context, listen: false).useHapticFeedback == true;
-    if (enabled) HapticFeedback.heavyImpact().ignore();
-    final navigator = AppNavigator.maybeOf(_context);
-    if (navigator != null) {
-      AppNavigator.change(_context, (state) => <AppPage>[...state..removeLast(), page]);
-      return;
-    }
-    final current = _dependencies.navigator.value;
-    if (current.isEmpty) {
-      _dependencies.navigator.value = <AppPage>[page];
-      return;
-    }
-    _dependencies.navigator.value = <AppPage>[...current..removeLast(), page];
+    _context.ext.hapticHeavy();
+    _controller().replaceTop(page);
   }
 
-  /// Pop the current app-owned page, wait for the pop animation, then push [page].
+  /// Pop the current page, wait for the pop animation, then push [page].
   void replaceWithAnimation(
     AppPage page, {
     Duration delay = kDefaultNavigatorReplaceDuration,
     bool rootNavigator = false,
   }) {
-    final enabled = SettingsScope.userPreferencesOf(_context, listen: false).useHapticFeedback == true;
-    if (enabled) HapticFeedback.heavyImpact().ignore();
-
-    final navigator = AppNavigator.maybeOf(_context, rootNavigator: rootNavigator);
-    if (navigator != null) {
-      navigator.replaceWithAnimation(page, delay: delay);
+    _context.ext.hapticHeavy();
+    final controller = _controller(rootNavigator: rootNavigator);
+    if (controller.length < 2) {
+      controller.replaceTop(page);
       return;
     }
-
-    final controller = _dependencies.navigator;
-    final current = controller.value;
-    if (current.length < 2) {
-      controller.value = <AppPage>[page];
-      return;
-    }
-
-    controller.value = current.sublist(0, current.length - 1);
+    final navigator = controller.navigator;
+    controller.pop();
     Future<void>.delayed(delay).then<void>((_) {
-      controller.value = <AppPage>[...controller.value, page];
+      if (controller.isDisposed) return;
+      if (navigator != null && (!navigator.mounted || !identical(controller.navigator, navigator))) return;
+      controller.push(page);
     }).ignore();
   }
 
   /// Reset the app-owned navigation stack.
   void reset(List<AppPage> pages) {
-    final enabled = SettingsScope.userPreferencesOf(_context, listen: false).useHapticFeedback == true;
-    if (enabled) HapticFeedback.heavyImpact().ignore();
+    _context.ext.hapticHeavy();
     if (pages.isEmpty) return;
-    final navigator = AppNavigator.maybeOf(_context);
-    if (navigator != null) {
-      AppNavigator.change(_context, (_) => pages);
-      return;
-    }
-    _dependencies.navigator.value = pages;
+    _controller().stack = pages;
   }
 
   /// Pop the current page from the app-owned navigation stack.
   void pop({bool rootNavigator = false}) {
-    final enabled = SettingsScope.userPreferencesOf(_context, listen: false).useHapticFeedback == true;
-    if (enabled) HapticFeedback.heavyImpact().ignore();
-
-    final navigator = AppNavigator.maybeOf(_context, rootNavigator: rootNavigator);
-    if (navigator != null) {
-      navigator.change((state) {
-        if (state.length < 2) return state;
-        return state.sublist(0, state.length - 1);
-      });
-      return;
-    }
-
-    final current = _dependencies.navigator.value;
-    if (current.length < 2) return;
-    _dependencies.navigator.value = current.sublist(0, current.length - 1);
+    _context.ext.hapticHeavy();
+    _controller(rootNavigator: rootNavigator).pop();
   }
 }
 

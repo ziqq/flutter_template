@@ -1,75 +1,64 @@
 # Navigation
 
-The router is ported from Tetradka's shared router and lives in `lib/src/common/router/`.
-It uses Flutter's declarative `Navigator.pages` API. No separate core package is required.
+The application uses `squid` directly from pub.dev. `NavigationController` owns the stack and `NavigationView`
+renders it through Flutter's declarative `Navigator.pages` API. `context.ext.navigator` provides context actions with
+preference-aware haptics; it forwards changes to Squid and owns no stack or notifier.
 
 ## Ownership
 
-Import `package:flutter_template_name/src/common/router/router.dart` for reusable mechanics:
+- `Dependencies.navigator` owns the root `NavigationController`, initialized with `HomePage`.
+- `App` renders that controller with a `NavigationView` and the existing Flutter observers.
+- `AuthenticationScope` renders a separate guest flow while the user is unauthenticated. Its private widget owns a
+  controller initialized with the sign-in page and disposes it when the guest flow unmounts. Sign-up stays in this
+  local stack; signing in removes it, and signing out creates a fresh sign-in stack.
+- Other nested flows own and dispose their own controller. A view does not dispose an externally owned controller.
+  Root controller cleanup belongs to application teardown after the widget tree unmounts.
 
-- `AppNavigator`, `AppNavigatorState`, and `AppNavigationState` manage page stacks.
-- `AppPage`, `AppPage$Fade`, and `AppPage$SlideFromBottom` provide extensible presentations.
-- `IRouteParser<P>`, `RouteParseResult<P>`, and `RouteParseFailure` define typed parsing contracts.
-- `TransitionsBuilder` provides fade, rotation, and bottom-slide transitions.
+Use `context.ext.navigator` for `navigate`, `push`, `replace`, `replaceWithAnimation`, `reset`, and `pop`.
+These actions trigger heavy haptic feedback when enabled in settings; callers do not add a separate haptic call.
+They use the nearest view, falling back to the application controller when no view is above the context.
+`pop` and `replaceWithAnimation` accept `rootNavigator: true` to target the application controller explicitly.
+Use `NavigationView.of(context)` for direct Squid operations.
+Dialogs, menus, and other imperative Flutter surfaces may continue to use Flutter's `Navigator`.
 
-The reusable layer does not import screens, dependencies, analytics, or `package:ui`.
-Application adapters stay separate:
+```dart
+context.ext.navigator.push(const DeveloperInfoPage());
+context.ext.navigator.replace(const DeveloperPage());
+context.ext.navigator.replaceWithAnimation(const DeveloperPage());
+context.ext.navigator.pop(rootNavigator: true);
+```
 
-- `app_pages.dart` defines the template's home, sign-up, developer, and developer-info pages.
-- `app_route_parser.dart` owns accepted route strings and app-facing result aliases.
-- `app_page_sheet.dart` adapts `UISheetRoute` without changing the template's sheet content.
-- `app_navigator_observer.dart` preserves existing page-view names and push-only analytics behavior.
+## Pages and presentation
 
-Feature-owned pages can extend a shared presentation with a `final`, `base`, or `sealed` class.
-Keep internal flow pages in their feature rather than adding them to the app-wide page table.
+Application-owned pages remain in `lib/src/common/router/`:
 
-## Stacks and guards
+- `AppPage` extends `MaterialPage<void>` and implements Squid's `NavigationRoute`. Its non-null key, name, arguments,
+  `build`, and `page` methods preserve the application's existing page identity and presentation.
+- `AppPage$Fade`, `AppPage$SlideFromBottom`, and `AppPage$Sheet` retain their existing transition and overlay contracts.
+- `app_pages.dart` contains home, sign-up, and developer destinations. Keep internal flow pages inside their feature.
+- `AppNavigatorObserver` retains existing push-only analytics and page-view names.
+- `IRouteParser<P>`, `RouteParseResult<P>`, and `RouteParseFailure` remain independent typed parsing contracts.
 
-Use `AppNavigator.controlled(controller: ...)` when a `ValueNotifier<AppNavigationState>` owns the stack.
-Use `AppNavigator(pages: ...)` for a stack owned by the widget state.
-Both require at least one initial page. Dispose external controllers in their owner.
+Import `common/router/router.dart` for application page and parser contracts, and `package:squid/squid.dart` for
+controller and view APIs. Controllers and repositories must not discover navigation through a global registry.
 
-Guards run for controller updates, programmatic changes, dependency changes, and the optional `revalidate` signal.
-Guarded empty stacks are rejected. Duplicate page keys retain only their last occurrence.
-Treat `state` as read-only; mutate the copy supplied to `change` instead.
-Replacing the controller or revalidation signal detaches the old listener.
+## Stack and back behavior
 
-From a descendant context, use `AppNavigator.push`, `change`, `reset`, `removeFrom`, or `replaceWithAnimation`.
-The existing app facade is `context.ext.navigator.push`, `replace`, `reset`, `replaceWithAnimation`, and `pop`.
-`reset` on `AppNavigator` restores pages supplied by its current widget; the facade's `reset(pages)` accepts a new stack.
-`removeFrom` removes the matched page and everything above it, but never the root.
-A delayed replacement is discarded when the navigator is disposed.
+A controller requires a nonempty initial stack. Change the copy supplied to `change`, or use `push`, `replaceTop`,
+`pop`, and `stack` directly. Treat the exposed stack as read-only. Squid owns duplicate-key handling, guard validation,
+revalidation, observers, queued changes, and back dispatch; the application does not maintain a second stack.
 
-## Back and nested flows
+`NavigationView` dispatches system back to the deepest visible nested view before its parent. A root with one page
+passes unhandled back to Flutter/platform behavior. Imperative dialogs and `PopScope` use the view's normal back
+handling. `replace` forwards to Squid's `replaceTop`. `replaceWithAnimation` pops the current page, waits 350 ms by
+default, then pushes its replacement. A single-page stack is replaced immediately; a disposed controller or detached
+navigator discards the delayed push. `reset([])` leaves the stack unchanged.
+Real predictive-back and iOS gesture behavior still require platform verification.
 
-Nested flows use their own `AppNavigator` and controller. Lookup defaults to the nearest app navigator;
-pass `rootNavigator: true` only to explicitly target the root stack.
-Local dialogs and selections can continue to use Flutter's `Navigator`.
+## Parsing and platform boundaries
 
-System back uses `WidgetsBindingObserver.didPopRoute`. A single-page stack returns `false`, allowing the next observer
-or platform to handle back. A custom `onBackButtonPressed` handler can return an updated stack and a handled flag.
-For nested flows, define which navigator owns system back: a parent can keep its stack and return `handled: false`
-while the child has internal pages, then close the host after the child reaches its root.
-Nearest-context lookup does not automatically change the order of platform back observers.
+`AppRouteParser.parse('/developer')` returns `DeveloperPage`; other strings return `unsupportedRoute`.
+Parsing never changes the stack. Home, sign-up, and developer-info remain reachable through typed pages.
 
-Material pages use Flutter's stock platform transitions. Overlay pages preserve `opaque`, `barrierColor`, and
-`fullscreenDialog` while retaining Material or Cupertino transitions, including Cupertino secondary animation.
-Fade and slide pages expose their duration and fullscreen-dialog setting.
-
-## Route parsing and platform limits
-
-`AppRouteParser.parse('/developer')` returns `DeveloperPage`. Other strings return `unsupportedRoute`.
-The existing table is deliberately unchanged; home, sign-up, and developer-info remain reachable through typed pages.
-Use `result.pageOrNull` or pattern matching to handle success. The shared failure kinds also allow feature parsers
-to report malformed parameters or required preloaded data. Parsing never changes the stack by itself.
-
-The base `AppPage` no longer depends on an application parser. Use `AppRouteParser.parse(route)` instead of the old
-`AppPage.fromRoute` helper. Imports of concrete pages and analytics observers must now be explicit.
-
-This port does not add browser URL synchronization, browser history, incoming deep-link dispatch, or stack restoration.
-Page `path` metadata and a parser alone do not implement those integrations.
-
-## Validation
-
-`test/src/widget_test/src/common/router/` covers shared behavior and the template's route table.
-These tests are included in `make test-unit-all`; they can also run directly with `flutter test` on VM and Chrome.
+This integration does not add incoming deep-link dispatch, browser URL synchronization, browser history, or
+process-death stack restoration. Page `path` metadata and parsing alone do not implement those features.

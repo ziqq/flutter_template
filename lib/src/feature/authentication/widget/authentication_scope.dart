@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
+import 'package:flutter_template_name/src/common/router/page.dart';
 import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/error_util.dart';
 import 'package:flutter_template_name/src/feature/authentication/controller/authentication_controller.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_template_name/src/feature/authentication/model/sign_in_d
 import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
 import 'package:flutter_template_name/src/feature/authentication/widget/signin_screen.dart';
 import 'package:l/l.dart';
+import 'package:squid/squid.dart';
 
 /// {@template authentication_scope}
 /// AuthenticationScope widget.
@@ -211,10 +213,36 @@ class _AuthenticationScopeState extends State<AuthenticationScope> {
     key: ValueKey<UserID?>(user.id),
     scope: this,
     state: _state,
-    child: user.isAuthenticated
-        ? widget.child
-        : /* AuthenticationNavigator(pages: const [AuthOnboardingPage()]) */ const SignInScreen(),
+    child: user.isAuthenticated ? widget.child : const _AuthenticationNavigation(),
   );
+}
+
+class _AuthenticationNavigation extends StatefulWidget {
+  const _AuthenticationNavigation();
+
+  @override
+  State<_AuthenticationNavigation> createState() => _AuthenticationNavigationState();
+}
+
+class _AuthenticationNavigationState extends State<_AuthenticationNavigation> {
+  late final NavigationController _navigator;
+
+  @override
+  void initState() {
+    super.initState();
+    _navigator = NavigationController(const [
+      AppPage(name: 'sign-in', arguments: null, key: ValueKey<String>('sign_in'), child: SignInScreen()),
+    ]);
+  }
+
+  @override
+  void dispose() {
+    _navigator.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => NavigationView(controller: _navigator);
 }
 
 enum _AutenticationAspect {

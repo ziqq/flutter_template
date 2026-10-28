@@ -552,17 +552,17 @@ class _InheritedExample extends InheritedModel<_ExampleAspect> {
   matching aspect.
 
 ### Routing
-- **AppNavigator:** Import reusable navigation from `common/router/router.dart`.
+- **Squid:** Use `NavigationController` and `NavigationView` directly from `package:squid/squid.dart`.
   Keep app-wide pages in `lib/src/common/router/app_pages.dart`, internal pages
   in their feature, and analytics or UI sheet adapters outside router mechanics.
   See [Navigation](../common/navigation.md) for the complete contract.
-- **Feature navigation:** Use `context.ext.navigator.push`, `replace`,
-  `replaceWithAnimation`, `reset`, and `pop` for app-owned pages.
-- **Nested flows:** Host nested app flows with `AppNavigator.controlled(...)` and
-  a local `ValueNotifier<AppNavigationState>` controller. Do not write internal
+- **Feature navigation:** Use `context.ext.navigator.navigate`, `push`, `replace`,
+  `replaceWithAnimation`, `reset`, and `pop` for app-owned pages. These context actions include configured haptics.
+- **Nested flows:** Host nested app flows with a `NavigationView` and
+  a locally owned `NavigationController`. Dispose it in its owner. Do not write internal
   nested steps into the root app stack.
-- **Root stack:** Pass `rootNavigator: true` only when the action must target the
-  furthest app-owned stack.
+- **Root stack:** Read `Dependencies.of(context).navigator` explicitly only when
+  the action must target the root application stack.
 
   ```dart
   context.ext.navigator.push(const DeveloperInfoPage());

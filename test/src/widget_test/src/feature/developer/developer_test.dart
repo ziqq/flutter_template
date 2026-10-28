@@ -20,6 +20,7 @@ import 'package:flutter_template_name/src/feature/settings/widget/settings_scope
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l/l.dart';
 import 'package:mockito/mockito.dart';
+import 'package:squid/squid.dart';
 import 'package:ui/ui.dart';
 
 import '../../../../util/test_util.dart';
@@ -97,21 +98,21 @@ void main() => group('Developer and settings -', () {
 
   testWidgets('developer button and logs use typed navigation', (tester) async {
     final dependencies = _dependencies(MockSettingsRepository(), FakeAnalytics());
+    final controller = NavigationController(const [
+      AppPage(
+        arguments: null,
+        key: ValueKey('entry'),
+        name: 'entry',
+        child: Scaffold(body: DeveloperButton()),
+      ),
+    ]);
     addTearDown(dependencies.authenticationController.dispose);
+    addTearDown(controller.dispose);
     await tester.pumpWidget(
       WidgetTestUtil.createWidgetUnderTest(
         locale: const Locale('en'),
         dependencies: dependencies,
-        builder: (_) => AppNavigator(
-          pages: const [
-            AppPage(
-              arguments: null,
-              key: ValueKey('entry'),
-              name: 'entry',
-              child: Scaffold(body: DeveloperButton()),
-            ),
-          ],
-        ),
+        builder: (_) => NavigationView(controller: controller),
       ),
     );
     await tester.tap(find.byType(DeveloperButton));
@@ -121,7 +122,7 @@ void main() => group('Developer and settings -', () {
     await tester.tap(find.text(Localization.of(context).developerShowLogsButton));
     await tester.pumpAndSettle();
     expect(find.byType(LogsScreen), findsOneWidget);
-    expect(tester.state<AppNavigatorState>(find.byType(AppNavigator)).state.last, const DeveloperLogsScreenPage());
+    expect(controller.top, const DeveloperLogsScreenPage());
     expect(tester.takeException(), isNull);
   });
 
