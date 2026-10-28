@@ -51,6 +51,7 @@ void main() => group('Widget', () {
       ..connectivityService = _ConnectivityService();
     addTearDown(dependencies.navigator.dispose);
     addTearDown(dependencies.authenticationController.dispose);
+    addTearDown(dependencies.connectivityService.dispose);
     addTearDown(() => tester.pumpWidget(const SizedBox.shrink()));
     await tester.pumpWidget(
       dependencies.inject(

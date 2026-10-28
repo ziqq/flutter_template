@@ -165,6 +165,8 @@ final class ConnectivityService extends ChangeNotifier implements IConnectivityS
 
   /// Subscription to connectivity interface changes.
   StreamSubscription<List<ConnectivityResult>>? _sub;
+  Future<void>? _subscriptionCancellation;
+  Future<void>? _closing;
 
   /// Whether a check is in progress.
   Future<ConnectivityStatus>? _refreshing;
@@ -212,8 +214,21 @@ final class ConnectivityService extends ChangeNotifier implements IConnectivityS
     _disposed = true;
     _started = false;
     _timer?.cancel();
-    _sub?.cancel();
+    _timer = null;
+    _subscriptionCancellation = _sub?.cancel();
+    _subscriptionCancellation?.ignore();
+    _sub = null;
+    _controller.dispose();
     super.dispose();
+  }
+
+  /// Disposes the service and waits for its subscription and active refresh.
+  Future<void> close() => _closing ??= _close();
+
+  Future<void> _close() async {
+    final refreshing = _refreshing;
+    dispose();
+    await Future.wait<void>([?_subscriptionCancellation, ?refreshing?.then<void>((_) {})]);
   }
 
   @override

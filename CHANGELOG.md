@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Release application-owned clients, controllers, subscriptions, and pending log writes through explicit teardown; preserve original startup errors.
+- Select one API origin at startup and enforce abortable request and refresh deadlines through `API_REQUEST_TIMEOUT`.
+
 - Use Squid directly for application navigation and a scope-owned guest authentication stack.
 - Replace the local navigator implementation with Squid while retaining `context.ext.navigator`, page presentations, and navigation haptics.
 

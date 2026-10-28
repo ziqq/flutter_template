@@ -49,6 +49,7 @@ final class AuthenticationMiddleware {
     this.retries = 3,
     this.retryEvaluator,
     this.retryDelays = _defaultRefreshRetryDelays,
+    this.requestTimeout = const Duration(seconds: 30),
     http_package.Client? httpClient,
   }) : _baseUrl = baseURL,
        assert(retries >= 0, 'Retries must be non‐negative'),
@@ -57,6 +58,7 @@ final class AuthenticationMiddleware {
          'Retry delays must not be empty and must be non‐negative',
        ),
        assert(retryDelays.length >= retries, 'Retry delays must be at least as many as retries'),
+       assert(requestTimeout > Duration.zero, 'Request timeout must be positive'),
        _getToken = getToken,
        _onUpdateToken = onUpdateToken,
        _onTokenExpired = onTokenExpired,
@@ -81,6 +83,9 @@ final class AuthenticationMiddleware {
 
   /// Backoff delays used between refresh retry attempts.
   final List<Duration> retryDelays;
+
+  /// Deadline for each refresh attempt, including response headers and body.
+  final Duration requestTimeout;
 
   /// Optional predicate that decides whether refresh should be retried.
   ///
@@ -187,7 +192,8 @@ final class AuthenticationMiddleware {
       }
 
       l.i('$_logPrefix Sending refresh request...');
-      final request = http_package.Request('POST', _resolveRefreshUrl(ttl))
+      final abort = Completer<void>();
+      final request = http_package.AbortableRequest('POST', _resolveRefreshUrl(ttl), abortTrigger: abort.future)
         ..headers.addAll(<String, String>{
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -195,9 +201,17 @@ final class AuthenticationMiddleware {
         })
         ..body = token;
 
-      final response = await _internalClient.send(request);
-      final bytes = await response.stream.toBytes();
-      final data = _decodeRefreshResponse(bytes, response.statusCode);
+      final response = await _internalClient
+          .send(request)
+          .then(http_package.Response.fromStream)
+          .timeout(
+            requestTimeout,
+            onTimeout: () {
+              abort.complete();
+              throw TimeoutException('Token refresh request timed out.', requestTimeout);
+            },
+          );
+      final data = _decodeRefreshResponse(response.bodyBytes, response.statusCode);
       final errors = data['errors'];
 
       int? code;

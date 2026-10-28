@@ -30,6 +30,7 @@ import 'package:flutter_template_name/src/feature/settings/controller/settings_c
 import 'package:flutter_template_name/src/feature/settings/data/providers/app_settings_data_provider.dart';
 import 'package:flutter_template_name/src/feature/settings/data/providers/user_preferences_data_provider.dart';
 import 'package:flutter_template_name/src/feature/settings/data/settings_repository.dart';
+import 'package:http/http.dart' as http;
 import 'package:l/l.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -67,7 +68,7 @@ Future<Dependencies> $initializeDependencies({void Function(int progress, String
       }
     } on Object catch (error, stackTrace) {
       l.e('Initialization failed at step "${step.key}": $error', stackTrace);
-      Error.throwWithStackTrace('Initialization failed at step "${step.key}": $error', stackTrace);
+      Error.throwWithStackTrace(error, stackTrace);
     }
   }
   return dependencies;
@@ -104,6 +105,7 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
   // Initialize database
   'Connect to database': (d) async {
     d.database = Config.inMemoryDatabase ? Database.memory() : Database.lazy();
+    d.disposable(d.database.close);
     await d.database.refresh();
     d.database
       ..setKey('app_version', Pubspec.version.canonical)
@@ -140,7 +142,11 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
 
   // Connectivity service initialization.
   // This is where you can set up connectivity service for the app.
-  'Connectivity initialization': (d) async => d.connectivityService = ConnectivityService.instance..start(),
+  'Connectivity initialization': (d) async {
+    final service = ConnectivityService.instance..start();
+    d.connectivityService = service;
+    d.disposable(service.close);
+  },
 
   // Prepare settings controller
   // This is where you can set up settings controller for the app.
@@ -152,6 +158,9 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
         userPreferencesDataProvider: UserPreferencesDataProvider(sharedPreferences: d.sharedPreferences),
       ),
     );
+    d.disposable(() {
+      if (!d.settingsController.isDisposed) d.settingsController.dispose();
+    });
     try {
       await d.settingsController.restore();
     } on Object catch (e, st) {
@@ -168,11 +177,14 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
   // Initialize API client
   // This is where you can set up API client for the app.
   'HTTP Client factory': (d) async {
+    if (Config.apiRequestTimeout <= Duration.zero) {
+      throw ArgumentError.value(Config.apiRequestTimeout.inMilliseconds, 'API_REQUEST_TIMEOUT', 'Must be positive.');
+    }
+
     // Resolve API base URL (with optional override from local storage).
     var apiBaseUrlString = Config.apiBaseUrl;
 
-    // Allow to set API URL from local storage
-    // This is useful for testing purposes at stage, when you want to change the API URL.
+    // Allow a local API URL override only during development.
     if (Config.environment.isDevelopment && const bool.fromEnvironment('URL_FROM_LOCAL_STORAGE', defaultValue: true)) {
       apiBaseUrlString = (await d.sharedPreferences.getString('api_base_url')) ?? apiBaseUrlString;
       if (!apiBaseUrlString.startsWith('https://') && !apiBaseUrlString.startsWith('http://')) {
@@ -189,6 +201,8 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
 
     /// HTTP Client factory
     ApiClient$HTTP httpFactory([Iterable<ApiClientMiddleware>? middlewares]) {
+      final client = http.Client();
+      d.disposable(client.close);
       final list = <ApiClientMiddleware>[
         /// Middleware for handling connectivity state and blocking requests when offline.
         ConnectivityMiddleware(controller: d.connectivityService.controller).call,
@@ -211,21 +225,18 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
         // Sentry middleware to capture errors and performance data.
         const SentryMiddleware().call,
 
-        // Timeout middleware
-        // Set the timeout duration for requests
-        const TimeoutMiddleware(duration: Duration(seconds: 30)).call,
+        // Deadline for each retry attempt, including authorization and response body reception.
+        const TimeoutMiddleware(duration: Config.apiRequestTimeout).call,
 
         ...?middlewares,
       ];
-      return ApiClient$HTTP(baseURL: apiBaseUrlString, /* maxRedirects: 5, */ middlewares: list);
+      return ApiClient$HTTP(baseURL: apiBaseUrlString, client: client, /* maxRedirects: 5, */ middlewares: list);
     }
 
     /// Assign http factory
     d.httpFactory = httpFactory;
-  },
 
-  // General HTTP client initialization
-  'General HTTP Client': (d) async {
+    // General HTTP client initialization
     Future<String?> getToken() async {
       try {
         return d.authenticationController.state.user.token;
@@ -254,13 +265,17 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
       await d.authenticationController.signOut(useLogoutDialog: true);
     }
 
+    final refreshClient = http.Client();
+    d.disposable(refreshClient.close);
     d.client = d.httpFactory([
       // You can add additional middlewares here if needed
       AuthenticationMiddleware(
-        baseURL: (await d.sharedPreferences.getString('api_base_url')) ?? Config.apiBaseUrl,
+        baseURL: apiBaseUrlString,
+        requestTimeout: Config.apiRequestTimeout,
         getToken: getToken,
         onUpdateToken: onUpdateToken,
         onTokenExpired: onTokenExpired,
+        httpClient: refreshClient,
       ).call,
     ]);
   },
@@ -268,9 +283,12 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
   // Prepare authentication controller
   // This is where you can set up authentication controller for the app.
   'Prepare authentication controller': (d) async {
-    d
-      ..authenticationRepository = AuthenticationRepository(sharedPreferences: d.sharedPreferences)
-      ..authenticationController = AuthenticationController(repository: d.authenticationRepository);
+    final repository = AuthenticationRepository(sharedPreferences: d.sharedPreferences);
+    d.authenticationRepository = repository;
+    d.authenticationController = AuthenticationController(repository: repository);
+    d.disposable(() {
+      if (!d.authenticationController.isDisposed) d.authenticationController.dispose();
+    });
     try {
       await d.authenticationController.restore();
     } on Object catch (e, st) {
@@ -285,7 +303,12 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
 
   // Prepare navigation
   // This is where you can set up navigation for the app.
-  'Prepare navigation': (d) async => d.navigator = NavigationController(const [HomePage()]),
+  'Prepare navigation': (d) async {
+    d.navigator = NavigationController(const [HomePage()]);
+    d.disposable(() {
+      if (!d.navigator.isDisposed) d.navigator.dispose();
+    });
+  },
 
   // Load spritesheet data
   // This is where you can set up spritesheet data for the app.
@@ -317,11 +340,12 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
               .toList(growable: false),
         )
         .then<void>(LogBuffer.instance.addAll);
-    l
+    final pendingLogWrites = <Future<void>>{};
+    final logBufferSubscription = l
         .bufferTime(const Duration(seconds: 1))
         .where((logs) => logs.isNotEmpty)
         .listen(LogBuffer.instance.addAll, cancelOnError: false);
-    l
+    final databaseLogSubscription = l
         .map<LogTblCompanion>(
           (log) => LogTblCompanion.insert(
             level: log.level.level,
@@ -335,10 +359,14 @@ final _initializationSteps = <String, Future<void> Function(Dependencies)>{
         )
         .bufferTime(const Duration(seconds: 5))
         .where((logs) => logs.isNotEmpty)
-        .listen(
-          (logs) => d.database.batch((batch) => batch.insertAll(d.database.logTbl, logs)).ignore(),
-          cancelOnError: false,
-        );
+        .listen((logs) {
+          final write = d.database.batch((batch) => batch.insertAll(d.database.logTbl, logs));
+          pendingLogWrites.add(write);
+          write.whenComplete(() => pendingLogWrites.remove(write)).ignore();
+        }, cancelOnError: false);
+    d.disposable(() => Future.wait<void>(pendingLogWrites));
+    d.disposable(logBufferSubscription.cancel);
+    d.disposable(databaseLogSubscription.cancel);
   },
 
   // Finalize initialization

@@ -41,18 +41,10 @@ abstract final class Config {
   /// e.g. uth-hmac-key
   static const String authHmacKey = String.fromEnvironment('AUTH_HMAC_KEY', defaultValue: 'auth-hmac-key');
 
-  /// Timeout in milliseconds for opening url.
-  /// [Dio] will throw the [DioException] with [DioExceptionType.connectTimeout] type when time out.
-  /// e.g. 15000
-  static const Duration apiConnectTimeout = Duration(
-    milliseconds: int.fromEnvironment('API_CONNECT_TIMEOUT', defaultValue: 15000),
-  );
-
-  /// Timeout in milliseconds for receiving data from url.
-  /// [Dio] will throw the [DioException] with [DioExceptionType.receiveTimeout] type when time out.
-  /// e.g. 15000
-  static const Duration apiReceiveTimeout = Duration(
-    milliseconds: int.fromEnvironment('API_RECEIVE_TIMEOUT', defaultValue: 15000),
+  /// Positive HTTP request deadline, including response body reception.
+  /// Configured in milliseconds; defaults to 30 seconds.
+  static const Duration apiRequestTimeout = Duration(
+    milliseconds: int.fromEnvironment('API_REQUEST_TIMEOUT', defaultValue: 30000),
   );
 
   /// The client key for sentry SDK. The DSN tells the SDK where to send the events to.

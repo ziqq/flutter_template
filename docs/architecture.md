@@ -69,6 +69,9 @@ imports; browser files remain in memory or Blob-backed storage and must not be c
 
 JSON retries clone request bytes and headers. Multipart requests rebuild file streams for an explicit authorization
 replay, but always disable generic retries and deduplication. Propagate request cancellation into retry backoff.
+Application startup selects one API base URL for both requests and token refresh. `API_REQUEST_TIMEOUT` bounds headers
+and body for each attempt and aborts only that request; raw clients remain application-owned until teardown. See
+[initialization](features/initialization.md) for configuration and disposal order.
 Sanitize URLs, query parameters, and headers before attaching transport metadata to Sentry. Apply the same URL
 policy to diagnostic message text in Sentry's beforeSend callback, after exception-cause extraction. This filters
 recognized transport URL credentials; it is not a general-purpose personal-data scrubber or a request-body sanitizer.

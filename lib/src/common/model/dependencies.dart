@@ -4,6 +4,7 @@ import 'package:flutter_template_name/src/common/database/database.dart';
 import 'package:flutter_template_name/src/common/model/app_metadata.dart';
 import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_service.dart';
+import 'package:flutter_template_name/src/common/util/disposable.dart';
 import 'package:flutter_template_name/src/feature/authentication/controller/authentication_controller.dart';
 import 'package:flutter_template_name/src/feature/authentication/data/authentication_repository.dart';
 import 'package:flutter_template_name/src/feature/initialization/model/initialization_stats.dart';
@@ -12,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:squid/squid.dart' show NavigationController;
 
 /// Dependencies
-class Dependencies {
+class Dependencies with Disposable {
   Dependencies();
 
   /// The state from the closest instance of this class.

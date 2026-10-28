@@ -12,7 +12,8 @@ import 'package:meta/meta.dart';
 /// Middleware that enforces a maximum duration for API requests.
 ///
 /// By default the middleware will throw an [ApiException$Network] with
-/// code `timeout` when the request does not complete in time. You can override
+/// code `timeout_error` and abort the request when headers and body do not complete
+/// in time. The shared HTTP client remains open. You can override
 /// the timeout on a per-request basis by setting `context['timeout']` to a
 /// [Duration] or an integer number of milliseconds. To opt-out of the timeout
 /// for a specific request set `context['no-timeout'] = true`.
@@ -37,8 +38,20 @@ class TimeoutMiddleware {
       _ => duration,
     };
 
+    final abort = Completer<void>();
+    final externalAbort = request.abortTrigger;
+    final abortableRequest = request.abortable(
+      externalAbort == null ? abort.future : Future.any<void>([abort.future, externalAbort]),
+    );
+
     try {
-      return await innerHandler(request, context).timeout(timeout);
+      return await innerHandler(abortableRequest, context).timeout(
+        timeout,
+        onTimeout: () {
+          abort.complete();
+          throw TimeoutException('Request timed out.', timeout);
+        },
+      );
     } on TimeoutException catch (e, s) {
       throw ApiException$Network(
         message: 'Request timed out.',

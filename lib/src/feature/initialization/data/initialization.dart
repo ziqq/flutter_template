@@ -10,6 +10,7 @@ import 'package:flutter_template_name/src/app.dart';
 import 'package:flutter_template_name/src/common/api_client/api_exception.dart';
 import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/constant/generated/pubspec.yaml.g.dart';
+import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:flutter_template_name/src/common/util/analytics.dart';
 import 'package:flutter_template_name/src/common/util/connectivity/connectivity_scope.dart';
 import 'package:flutter_template_name/src/common/util/error_util.dart';
@@ -239,9 +240,9 @@ Future<void> $initializeApp({
 @visibleForTesting
 Future<void> $resetApp() async {}
 
-/// Disposes the app and releases all resources.
+/// Releases a fully initialized graph after its widget consumers are unmounted.
 @visibleForTesting
-Future<void> $disposeApp() async {}
+Future<void> $disposeApp(Dependencies dependencies) => dependencies.dispose();
 
 /// Initialize [Firebase]
 Future<void> $initializeFirebase(FirebaseOptions? firebaseOptions) async {

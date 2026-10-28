@@ -219,6 +219,166 @@ void main() => group('AuthenticationMiddleware -', () {
     expect(logoutCalls, 1);
   });
 
+  for (final stalledPhase in <String>['headers', 'body']) {
+    testWidgets('aborts refresh with stalled $stalledPhase at the configured deadline and ignores late success', (
+      tester,
+    ) async {
+      const timeout = Duration(milliseconds: 100);
+      const unauthorized = ApiException$Authorization(statusCode: 401, message: 'expired', code: 'unauthorized_error');
+      final headers = Completer<http_package.StreamedResponse>();
+      final body = StreamController<List<int>>();
+      final bytes = utf8.encode(jsonEncode(_refreshSuccessResponse));
+      var aborted = false;
+      var completed = false;
+      var refreshCalls = 0;
+      var logoutCalls = 0;
+      var updateCalls = 0;
+      Object? refreshError;
+      Object? requestError;
+      final middleware = AuthenticationMiddleware(
+        baseURL: 'https://example.com/api',
+        requestTimeout: timeout,
+        getToken: () async => MockService.token,
+        onTokenExpired: () async {
+          logoutCalls++;
+        },
+        onUpdateToken: (_) async {
+          updateCalls++;
+        },
+        retryEvaluator: (error, _) {
+          refreshError = error;
+          return false;
+        },
+        httpClient: _FakeHttpClient((request) {
+          refreshCalls++;
+          expectSync(request, isA<http_package.AbortableRequest>());
+          if (request case http_package.AbortableRequest(:final abortTrigger?)) {
+            unawaited(abortTrigger.then((_) => aborted = true));
+          }
+          return headers.future;
+        }),
+      );
+      final handler = middleware.call((request, context) async => throw unauthorized);
+      final result = handler(_postRequest(requestUri), <String, Object?>{}).then<void>(
+        (_) => completed = true,
+        onError: (Object error) {
+          requestError = error;
+          completed = true;
+        },
+      );
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 40));
+      if (stalledPhase == 'body') {
+        headers.complete(http_package.StreamedResponse(body.stream, 200));
+        body.add(bytes.sublist(0, bytes.length - 1));
+        await tester.pump();
+      }
+      await tester.pump(const Duration(milliseconds: 59));
+      expect(aborted, isFalse);
+      expect(completed, isFalse);
+      expect(logoutCalls, 0);
+
+      await tester.pump(const Duration(milliseconds: 1));
+      expect(aborted, isTrue);
+      expect(completed, isTrue);
+      expect(requestError, same(unauthorized));
+      expect(logoutCalls, 1);
+      expect(refreshCalls, 1);
+      expect(
+        refreshError,
+        isA<ApiException$Network>().having(
+          (error) => error.error,
+          'cause',
+          isA<TimeoutException>().having((error) => error.duration, 'duration', timeout),
+        ),
+      );
+      await result;
+
+      if (stalledPhase == 'headers') {
+        headers.complete(http_package.StreamedResponse(body.stream, 200));
+        body.add(bytes);
+      } else {
+        body.add(bytes.sublist(bytes.length - 1));
+      }
+      unawaited(body.close());
+      await tester.pump();
+      expect(updateCalls, 0);
+      expect(logoutCalls, 1);
+    });
+  }
+
+  testWidgets('gives each refresh retry its own deadline and does not abort a successful attempt', (tester) async {
+    const timeout = Duration(milliseconds: 100);
+    final firstResponse = Completer<http_package.StreamedResponse>();
+    final retryResponse = Completer<http_package.StreamedResponse>();
+    final abortedAttempts = <int>[];
+    var refreshCalls = 0;
+    var requestCalls = 0;
+    var logoutCalls = 0;
+    final updatedTokens = <String>[];
+    final refreshedToken = _refreshSuccessResponse['access_token'].toString();
+    final middleware = AuthenticationMiddleware(
+      baseURL: 'https://example.com/api',
+      requestTimeout: timeout,
+      retries: 1,
+      retryDelays: const <Duration>[Duration.zero],
+      getToken: () async => MockService.token,
+      onTokenExpired: () async {
+        logoutCalls++;
+      },
+      onUpdateToken: (token) async {
+        updatedTokens.add(token);
+      },
+      httpClient: _FakeHttpClient((request) {
+        final attempt = ++refreshCalls;
+        expectSync(request, isA<http_package.AbortableRequest>());
+        if (request case http_package.AbortableRequest(:final abortTrigger?)) {
+          unawaited(abortTrigger.then((_) => abortedAttempts.add(attempt)));
+        }
+        return attempt == 1 ? firstResponse.future : retryResponse.future;
+      }),
+    );
+    final handler = middleware.call((request, context) async {
+      if (++requestCalls == 1) {
+        throw const ApiException$Authorization(statusCode: 401, message: 'expired', code: 'unauthorized_error');
+      }
+      expectSync(request.headers['Authorization'], 'Bearer $refreshedToken');
+      return _successResponse(request);
+    });
+    ApiClient$HTTP$Response? response;
+    Object? requestError;
+    final result = handler(_postRequest(requestUri), <String, Object?>{}).then<void>(
+      (value) => response = value,
+      onError: (Object error) {
+        requestError = error;
+      },
+    );
+
+    await tester.pump();
+    await tester.pump(timeout);
+    expect(refreshCalls, 2);
+    expect(abortedAttempts, <int>[1]);
+    expect(updatedTokens, isEmpty);
+    expect(logoutCalls, 0);
+
+    await tester.pump(const Duration(milliseconds: 99));
+    retryResponse.complete(_jsonResponse(200, _refreshSuccessResponse));
+    await tester.pump();
+    await result;
+    expect(requestError, isNull);
+    expect(response?.statusCode, 200);
+    expect(updatedTokens, <String>[refreshedToken]);
+    expect(requestCalls, 2);
+
+    firstResponse.complete(_jsonResponse(200, <String, Object?>{'access_token': 'late-token'}));
+    await tester.pump(timeout);
+    expect(abortedAttempts, <int>[1]);
+    expect(updatedTokens, <String>[refreshedToken]);
+    expect(logoutCalls, 0);
+    expect(refreshCalls, 2);
+  });
+
   test('retries refresh request on network error using retry policy', () async {
     final refreshedToken = (
       accessToken: _refreshSuccessResponse['access_token'].toString(),

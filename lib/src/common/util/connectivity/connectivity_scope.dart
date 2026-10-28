@@ -49,12 +49,6 @@ class _ConnectivityScopeState extends State<ConnectivityScope> {
   }
 
   @override
-  void dispose() {
-    _service.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) =>
       _InheritedConnectivity(scope: this, controller: _service.controller, child: widget.child);
 }

@@ -10,8 +10,8 @@ import 'package:flutter_template_name/src/common/constant/config.dart';
 import 'package:flutter_template_name/src/common/model/dependencies.dart';
 import 'package:flutter_template_name/src/feature/authentication/model/user.dart';
 import 'package:flutter_template_name/src/feature/authentication/widget/authentication_scope.dart';
+import 'package:flutter_template_name/src/feature/authentication/widget/signin_screen.dart';
 import 'package:flutter_template_name/src/feature/initialization/data/initialization.dart';
-import 'package:flutter_template_name/src/feature/settings/widget/settings_scope.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mockito/mockito.dart';
@@ -37,23 +37,25 @@ void main() {
   group('end2end -', () {
     group('Expired session startup -', () {
       late Dependencies mockDependencies;
+      late WidgetTester testTester;
 
       tearDown(() async {
-        await $disposeApp();
+        await testTester.pumpWidget(const SizedBox.shrink());
+        await $disposeApp(mockDependencies);
 
         if ($binding.inTest) await $binding.setSurfaceSize(null);
       });
 
-      testWidgets('Shows onboarding screen after expired session restore', (tester) async {
+      testWidgets('Shows sign-in screen after expired session restore', (tester) async {
+        testTester = tester;
         await tester.pumpWidget(
           screenBuilder(
             () => const AuthenticationScope(child: SizedBox.shrink()),
             user: MockService.user.authenticated,
             init: (dependencies) {
               mockDependencies = dependencies;
-              when(
-                mockDependencies.authenticationRepository.restore(),
-              ).thenAnswer((_) async => const User.unauthenticated());
+              when(mockDependencies.authenticationRepository.restore())
+                  .thenAnswer((_) async => const User.unauthenticated());
             },
           ),
         );
@@ -65,7 +67,7 @@ void main() {
 
         expect(mockDependencies.authenticationController.state.user.isAuthenticated, isFalse);
 
-        final signInButton = find.byKey(const ValueKey<String>('onboarding_sign_in_button'));
+        final signInButton = find.byType(SignInScreen);
 
         expect(signInButton, findsOneWidget);
         verify(mockDependencies.authenticationRepository.restore()).called(1);
@@ -82,7 +84,8 @@ void main() {
         Size(320, 640), // Small phone
       ];
 
-      late Dependencies mockDependencies; // ignore: unused_local_variable
+      late Dependencies mockDependencies;
+      late WidgetTester testTester;
       // late Widget app;
 
       setUp(() async {
@@ -91,19 +94,22 @@ void main() {
       });
 
       tearDown(() async {
-        await $disposeApp();
+        await testTester.pumpWidget(const SizedBox.shrink());
+        await $disposeApp(mockDependencies);
 
         // Reset the binding to its default state
         if ($binding.inTest) await $binding.setSurfaceSize(null);
       });
 
       testWidgets('Unautorized flow', (tester) async {
+        testTester = tester;
         for (final size in screenSizes) {
           for (final locale in locales) {
             await tester.pumpWidget(
               screenBuilder(
-                () => const SettingsScope(child: App()),
+                () => const App(),
                 init: (dependenceies) => mockDependencies = dependenceies,
+                user: const User.unauthenticated(),
                 locale: locale,
               ),
             );
@@ -126,6 +132,8 @@ void main() {
             );
             screenshotFile.writeAsBytesSync(screenshotData); // ignore: cascade_invocations
             await tester.pump(const Duration(seconds: 1));
+            await tester.pumpWidget(const SizedBox.shrink());
+            await $disposeApp(mockDependencies);
           }
         }
 
