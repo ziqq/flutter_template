@@ -34,5 +34,13 @@ mixin Disposable {
   }
 
   /// Awaits every cleanup, then rethrows the first failure with its stack trace.
-  Future<void> dispose() => _disposing ??= _dispose();
+  Future<void> dispose() {
+    final pending = _disposing;
+    if (pending != null) return pending;
+
+    final cleanup = _dispose;
+    _dispose = () async {};
+
+    return _disposing = Future<void>.microtask(cleanup);
+  }
 }

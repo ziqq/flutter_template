@@ -6,6 +6,38 @@ import 'package:flutter_template_name/src/feature/initialization/data/initialize
 import 'package:test/test.dart';
 
 void main() => group('Application lifecycle -', () {
+  test('runs cleanup once when a callback reenters disposal', () async {
+    final dependencies = Dependencies();
+    var calls = 0;
+    Future<void>? reentrantDisposal;
+    dependencies.disposable(() {
+      calls++;
+      if (calls == 1) reentrantDisposal = $disposeApp(dependencies);
+    });
+
+    final disposal = $disposeApp(dependencies);
+    expect(calls, 0);
+    expect($disposeApp(dependencies), same(disposal));
+    await disposal;
+    expect(calls, 1);
+    expect(reentrantDisposal, same(disposal));
+    expect($disposeApp(dependencies), same(disposal));
+  });
+
+  test('rejects cleanup registration as soon as disposal starts', () async {
+    final dependencies = Dependencies();
+    var calls = 0;
+    dependencies.disposable(() {
+      calls++;
+      expect(() => dependencies.disposable(() => calls++), throwsStateError);
+    });
+
+    final disposal = $disposeApp(dependencies);
+    expect(() => dependencies.disposable(() => calls++), throwsStateError);
+    await disposal;
+    expect(calls, 1);
+  });
+
   test('awaits cleanup in reverse order and shares one disposal future', () async {
     final dependencies = Dependencies();
     final gate = Completer<void>();
