@@ -49,36 +49,56 @@ version = "1.17.0"
 backend = "gem:cocoapods"
 
 [[tools.flutter]]
-version = "3.47.2"
+version = "3.47.7"
 backend = "http:flutter"
 
+[tools.flutter."platforms.linux-x64"]
+checksum = "sha256:af7455f540df951184c7953fbe3cf884766e7541dacf8571f9f582db03dd6230"
+url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.47.7-stable.tar.xz"
+
+[tools.flutter."platforms.linux-x64-musl"]
+checksum = "sha256:af7455f540df951184c7953fbe3cf884766e7541dacf8571f9f582db03dd6230"
+url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.47.7-stable.tar.xz"
+
+[tools.flutter."platforms.macos-arm64"]
+checksum = "sha256:dd9da574c3168460550117eb0e8dd0313ae934fabf64a82a6d557fff5fd1422e"
+url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.47.7-stable.zip"
+
+[tools.flutter."platforms.macos-x64"]
+checksum = "sha256:17d39b000a5d0681e3f7b61a105a36f6f31dd41ab9073f625fd466f38035f901"
+url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.47.7-stable.zip"
+
+[tools.flutter."platforms.windows-x64"]
+checksum = "sha256:c2c875da25a1a1448d18ee4e8f398b2f6fce888b4775d8f9130538e16d826cb4"
+url = "https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.47.7-stable.zip"
+
 [[tools.java]]
-version = "temurin-17.0.19+10"
+version = "temurin-17.0.20+8"
 backend = "core:java"
 
 [tools.java."platforms.linux-arm64"]
-checksum = "sha256:83a52172678ec8975164648654869cb2e71d7c748b47aca94b29bbfa10c18e81"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.19%2B10/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.19_10.tar.gz"
+checksum = "sha256:d143936f473a4cb24e3b0e247d6d0775769d55ec9775c339540e753059a8d77a"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.20_8.tar.gz"
 
 [tools.java."platforms.linux-x64"]
-checksum = "sha256:d8afc263758141a66e0e3aafc321e783f7016696f4eaea067d340a269037d331"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.19%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.19_10.tar.gz"
+checksum = "sha256:be7668bc030d578b83d6d5ef9221d6d6729bbbca8cf94a7d52e16ac68b5a5a35"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.20_8.tar.gz"
 
 [tools.java."platforms.linux-x64-musl"]
-checksum = "sha256:960b4090b75a887bb21a915a294bee3a97cd11876967c95e5bd29d9ec4812e17"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.19%2B10/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.19_10.tar.gz"
+checksum = "sha256:c8bb5bc6984762dbce2ab7403d90832b6897c07f36f8706e4a315aa7a566d04d"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.20_8.tar.gz"
 
 [tools.java."platforms.macos-arm64"]
-checksum = "sha256:8fa1eff40bb637a33613b2ccb8b12c70dc3661cc22cf8e784943715769a05336"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.19%2B10/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.19_10.tar.gz"
+checksum = "sha256:524850138c742324fb21fca4ff6ef68ea25f25bf59366a864e45b4a0c45ed0df"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.20_8.tar.gz"
 
 [tools.java."platforms.macos-x64"]
-checksum = "sha256:03632d1fbf139ab3719a9f4b47dc206251449b87557143c822336dbf8c06560f"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.19%2B10/OpenJDK17U-jdk_x64_mac_hotspot_17.0.19_10.tar.gz"
+checksum = "sha256:3710c3131c5d7c090582b357f1310133a90bf701183d065223f1a0b90b9ed5ae"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.20_8.tar.gz"
 
 [tools.java."platforms.windows-x64"]
-checksum = "sha256:b5b235c48adf6a081874b812c630b9f4b5f637b7a5ed18b9174d08a41ec4c235"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.19%2B10/OpenJDK17U-jdk_x64_windows_hotspot_17.0.19_10.zip"
+checksum = "sha256:418497be5cf585bdd2203d6486a565d66d3f5e992d5630d45104cb873fab8122"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.20_8.zip"
 
 [[tools.make]]
 version = "4.4.1"
@@ -130,39 +150,16 @@ conda_deps = [
 version = "3.4.10"
 backend = "core:ruby"
 
-[tools.ruby.options]
-compile = "true"
-ruby_build_repo = "https://github.com/rbenv/ruby-build.git"
-ruby_install = "false"
-
-[tools.ruby."platforms.linux-arm64"]
-checksum = "sha256:ecee2d072a14f2d14347dd56dfd8fe5c3130abf5117bfaacbda0f4ef9cc429ec"
-url = "https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.10.tar.gz"
-
-[tools.ruby."platforms.linux-arm64-musl"]
-checksum = "sha256:ecee2d072a14f2d14347dd56dfd8fe5c3130abf5117bfaacbda0f4ef9cc429ec"
-url = "https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.10.tar.gz"
-
-[tools.ruby."platforms.linux-x64"]
-checksum = "sha256:ecee2d072a14f2d14347dd56dfd8fe5c3130abf5117bfaacbda0f4ef9cc429ec"
-url = "https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.10.tar.gz"
-
-[tools.ruby."platforms.linux-x64-musl"]
-checksum = "sha256:ecee2d072a14f2d14347dd56dfd8fe5c3130abf5117bfaacbda0f4ef9cc429ec"
-url = "https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.10.tar.gz"
-
-[tools.ruby."platforms.macos-arm64"]
-checksum = "sha256:ecee2d072a14f2d14347dd56dfd8fe5c3130abf5117bfaacbda0f4ef9cc429ec"
-url = "https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.10.tar.gz"
-
-[tools.ruby."platforms.macos-x64"]
-checksum = "sha256:ecee2d072a14f2d14347dd56dfd8fe5c3130abf5117bfaacbda0f4ef9cc429ec"
-url = "https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.10.tar.gz"
+[tools.ruby."platforms.windows-x64"]
+checksum = "sha256:89e3c5e235ac88b9b7e8daaf639eaaab74d7c470667354f6bf0f7432f3191ebb"
+url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.4.10-1/rubyinstaller-3.4.10-1-x64.7z"
 
 [[tools.ruby]]
 version = "3.4.10"
 backend = "core:ruby"
 
-[tools.ruby."platforms.windows-x64"]
-checksum = "sha256:89e3c5e235ac88b9b7e8daaf639eaaab74d7c470667354f6bf0f7432f3191ebb"
-url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.4.10-1/rubyinstaller-3.4.10-1-x64.7z"
+[tools.ruby.options]
+compile = "false"
+precompiled_url = "jdx/ruby"
+ruby_build_repo = "https://github.com/rbenv/ruby-build.git"
+ruby_install = "false"

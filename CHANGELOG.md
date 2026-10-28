@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Update the pinned toolchain to Flutter 3.47.7 / Dart 3.13.5, Java 17.0.20, AGP 9.4.1, Gradle 9.6.1, and Kotlin 2.4.21.
+- Run validation CI for `main` and use a portable Pub cache without rewriting the template version.
+
 - Preserve shimmer State when moving between standalone and shared animation scopes.
 - Add UI lifecycle, controller ownership, keyboard layout, and native form/picker regression coverage.
 

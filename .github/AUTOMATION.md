@@ -73,8 +73,9 @@ the action. Delivery uses a 10-second per-request timeout and at most five
 attempts for retryable failures. Logs and outputs contain neither credentials,
 target identifiers, nor rendered message bodies.
 
-## Existing CI limitations
+## Validation CI
 
 The test-artifact upload condition is a complete GitHub expression and skips
-Dependabot. Build triggers still target `master`, while the default branch is
-`main`; the existing CI trigger policy is preserved.
+Dependabot. Pushes to `main` and pull requests targeting `main` run formatting,
+analysis, and app/package tests. Setup uses the tools pinned by Mise and a
+runner-local Pub cache without changing the template version on tags.

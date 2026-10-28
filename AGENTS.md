@@ -8,7 +8,7 @@ Configure application identifiers, service integrations, and signing before publ
 
 ## Environment setup
 
-- **Flutter version**: managed via [Mise](https://mise.jdx.dev/); pinned to `3.47.2` in `mise.toml`. Use `mise exec -- make <target>`.
+- **Flutter version**: managed via [Mise](https://mise.jdx.dev/); pinned to `3.47.7` in `mise.toml`. Use `mise exec -- make <target>`.
 - **Dart SDK**: `>=3.13.2`, Flutter `>=3.47.2`.
 - **Line length**: `120` (enforced by `make format`).
 - **Monorepo workspaces**: root `pubspec.yaml` declares `workspace:` with all packages.

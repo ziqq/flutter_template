@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "master"
+      - "main"
   #    - "develop"
   #    - "feature/**"
   #    - "bugfix/**"
@@ -26,7 +26,7 @@ on:
   #    - "macos/**"
   pull_request:
     branches:
-      - "master"
+      - "main"
       - "develop"
       - "feature/**"
       - "bugfix/**"
@@ -65,11 +65,8 @@ jobs:
       run:
         working-directory: ./
     steps:
-      - name: 📦 Get the .github actions
+      - name: 📦 Checkout the repo
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            .github
 
       - name: 🚂 Setup Flutter and dependencies
         uses: ./.github/actions/setup
